@@ -1,206 +1,289 @@
-import React, { Component } from 'react';
-import './BoardFilling.scss';
-// Importing packages that will help us to transfrom a div into a pdf ,  Div --> Canvas(jpeg) --> Pdf
-import jsPDF from 'jspdf';
-import conf from '../../../conf/configuration';
-import Ad728x90 from '../../../assets/ads/728x90.png';
-import Ad300x50 from '../../../assets/ads/300x50.png';
-import MenuImg from '../../../assets/menu.png';
-import Canvas from '../canvas/Canvas';
-// Toasts
-import Toasts from '../../Toasts/Toats'
-import { setResumePropertyPerUser, addEmployments, addEducations, addSkills } from '../../../firestore/dbOperations';
-import { IncrementDownloads } from '../../../firestore/dbOperations'
-// Animation Library
-import { motion, AnimatePresence } from "framer-motion"
-class BoardFilling extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      triggerDownload: false,
-      page: 1,
-      currentPage: 1,
-      isSuccessToastVisible: false,
-      isDownloadToastVisible: false,
-      count: 0
-    }
-    this.addPage = this.addPage.bind(this);
-    this.nextPage = this.nextPage.bind(this);
-    this.previousPage = this.previousPage.bind(this);
-    this.downloadEnded = this.downloadEnded.bind(this);
-    this.ShowToast = this.ShowToast.bind(this);
-    this.saveToDatabase = this.saveToDatabase.bind(this);
-  }
-  addPage() {
-    this.setState((prevState, props) => ({
-      page: prevState.page + 1
-    }))
-  }
-  nextPage() {
-    this.setState((prevState, props) => ({
-      currentPage: prevState.currentPage + 1
-    }));
-  }
-  previousPage() {
-    this.setState((prevState, props) => ({
-      currentPage: prevState.currentPage - 1
-    }));
-  }
-  componentDidMount() {
-    for (let index = 0; index < 2; index++) {
-      setTimeout(() => {
-        if (this.state.count < 2) {
-          this.setState({ count: this.state.count })
-        }
-      }, 1000);
-    }
-  }
-  downloadEnded() {
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/alt-text */
+import React, { useState } from "react";
+import "./BoardFilling.scss";
+import MenuImg from "../../../assets/menu.png";
+import Canvas from "../canvas/Canvas";
+import Toasts from "../../Toasts/Toats";
+import {
+  setResumePropertyPerUser,
+  addEmployments,
+  addEducations,
+  addSkills,
+} from "../../../firestore/dbOperations";
+import { IncrementDownloads } from "../../../firestore/dbOperations";
+import { motion, AnimatePresence } from "framer-motion";
+
+function BoardFilling({ values, stepBack, currentResumeName }) {
+  const [triggerDownload, settriggerDownload] = useState(false);
+  const [page, setpage] = useState(1);
+  const [currentPage, setcurrentPage] = useState(1);
+  const [isSuccessToastVisible, setisSuccessToastVisible] = useState(false);
+  const [isDownloadToastVisible, setisDownloadToastVisible] = useState(false);
+
+  const addPage = () => setpage(page + 1);
+  const nextPage = () => setcurrentPage(currentPage + 1);
+  const previousPage = () => setcurrentPage(currentPage - 1);
+
+  const downloadEnded = () => {
     IncrementDownloads();
-    this.setState({ triggerDownload: false })
-  }
-  // Showing  Toast
-  ShowToast(type) {
+    settriggerDownload(false);
+  };
+
+  const ShowToast = (type) => {
     if (type == "Success") {
       setTimeout(() => {
-        this.setState((prevState, props) => ({
-          isSuccessToastVisible: !prevState.isSuccessToastVisible
-        }));
+        setisSuccessToastVisible(!isSuccessToastVisible);
       }, 3000);
-      this.setState((prevState, props) => ({
-        isSuccessToastVisible: !prevState.isSuccessToastVisible
-      }));
+      setisSuccessToastVisible(!isSuccessToastVisible);
     }
     if (type == "Download") {
       setTimeout(() => {
-        this.setState((prevState, props) => ({
-          triggerDownload: true,
-          isDownloadToastVisible: !prevState.isDownloadToastVisible
-        }));
+        setisDownloadToastVisible(!isDownloadToastVisible);
+        settriggerDownload(true);
       }, 8000);
-      this.setState((prevState, props) => ({
-        isDownloadToastVisible: !prevState.isDownloadToastVisible
-      }));
+      setisDownloadToastVisible(!isDownloadToastVisible);
     }
-  }
-  // Saving into database But first we check which field has been edited to avoid unecessary writes in  database
-  saveToDatabase() {
-    var numberOfInputs = 0;
+  };
+
+  const saveToDatabase = () => {
+    let currentResume = {};
     if (!localStorage.getItem("currentResumeItem")) {
-      this.currentResume = {}
+      currentResume = {};
     } else {
-      this.currentResume = JSON.parse(localStorage.getItem("currentResumeItem"));
+      currentResume = JSON.parse(localStorage.getItem("currentResumeItem"));
     }
-    if (this.currentResume.firstname !== this.props.values.firstname || this.currentResume.firstname == undefined) {
-      console.log("Firstname need to be changed in database")
-      setResumePropertyPerUser(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), "firstname", this.props.values.firstname)
+    if (
+      currentResume.firstname !== values.firstname ||
+      currentResume.firstname == undefined
+    ) {
+      setResumePropertyPerUser(
+        localStorage.getItem("user"),
+        localStorage.getItem("currentResumeId"),
+        "firstname",
+        values.firstname
+      );
     }
-    if (this.currentResume.lastname !== this.props.values.lastname || this.currentResume.lastname == undefined) {
-      console.log("Firstname need to be changed in database")
-      setResumePropertyPerUser(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), "lastname", this.props.values.lastname)
+    if (
+      currentResume.lastname !== values.lastname ||
+      currentResume.lastname == undefined
+    ) {
+      setResumePropertyPerUser(
+        localStorage.getItem("user"),
+        localStorage.getItem("currentResumeId"),
+        "lastname",
+        values.lastname
+      );
     }
-    if (this.currentResume.email !== this.props.values.email || this.currentResume.email == undefined) {
-      console.log("Firstname need to be changed in database")
-      setResumePropertyPerUser(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), "email", this.props.values.email)
+    if (
+      currentResume.email !== values.email ||
+      currentResume.email == undefined
+    ) {
+      setResumePropertyPerUser(
+        localStorage.getItem("user"),
+        localStorage.getItem("currentResumeId"),
+        "email",
+        values.email
+      );
     }
-    if (this.currentResume.phone !== this.props.values.phone || this.currentResume.phone == undefined) {
-      console.log("Firstname need to be changed in database")
-      setResumePropertyPerUser(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), "phone", this.props.values.phone)
+    if (
+      currentResume.phone !== values.phone ||
+      currentResume.phone == undefined
+    ) {
+      setResumePropertyPerUser(
+        localStorage.getItem("user"),
+        localStorage.getItem("currentResumeId"),
+        "phone",
+        values.phone
+      );
     }
-    if (this.currentResume.occupation !== this.props.values.occupation || this.currentResume.occupation == undefined) {
-      console.log("Firstname need to be changed in database")
-      setResumePropertyPerUser(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), "occupation", this.props.values.occupation)
+    if (
+      currentResume.occupation !== values.occupation ||
+      currentResume.occupation == undefined
+    ) {
+      setResumePropertyPerUser(
+        localStorage.getItem("user"),
+        localStorage.getItem("currentResumeId"),
+        "occupation",
+        values.occupation
+      );
     }
-    if (this.currentResume.country !== this.props.values.country || this.currentResume.country == undefined) {
-      console.log("Firstname need to be changed in database")
-      setResumePropertyPerUser(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), "country", this.props.values.country)
+    if (
+      currentResume.country !== values.country ||
+      currentResume.country == undefined
+    ) {
+      setResumePropertyPerUser(
+        localStorage.getItem("user"),
+        localStorage.getItem("currentResumeId"),
+        "country",
+        values.country
+      );
     }
-    if (this.currentResume.city !== this.props.values.city || this.currentResume.city == undefined) {
-      console.log("Firstname need to be changed in database")
-      setResumePropertyPerUser(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), "city", this.props.values.city)
+    if (currentResume.city !== values.city || currentResume.city == undefined) {
+      setResumePropertyPerUser(
+        localStorage.getItem("user"),
+        localStorage.getItem("currentResumeId"),
+        "city",
+        values.city
+      );
     }
-    if (this.currentResume.address !== this.props.values.address || this.currentResume.address == undefined) {
-      console.log("Firstname need to be changed in database")
-      setResumePropertyPerUser(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), "address", this.props.values.address)
+    if (
+      currentResume.address !== values.address ||
+      currentResume.address == undefined
+    ) {
+      setResumePropertyPerUser(
+        localStorage.getItem("user"),
+        localStorage.getItem("currentResumeId"),
+        "address",
+        values.address
+      );
     }
-    if (this.currentResume.postalcode !== this.props.values.postalcode || this.currentResume.postalcode == undefined) {
-      console.log("Firstname need to be changed in database")
-      setResumePropertyPerUser(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), "postalcode", this.props.values.postalcode)
+    if (
+      currentResume.postalcode !== values.postalcode ||
+      currentResume.postalcode == undefined
+    ) {
+      setResumePropertyPerUser(
+        localStorage.getItem("user"),
+        localStorage.getItem("currentResumeId"),
+        "postalcode",
+        values.postalcode
+      );
     }
-    if (this.currentResume.dateofbirth !== this.props.values.dateofbirth || this.currentResume.dateofbirth == undefined) {
-      console.log("dateofbirth need to be changed in database")
-      setResumePropertyPerUser(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), "dateofbirth", this.props.values.dateofbirth)
+    if (
+      currentResume.dateofbirth !== values.dateofbirth ||
+      currentResume.dateofbirth == undefined
+    ) {
+      setResumePropertyPerUser(
+        localStorage.getItem("user"),
+        localStorage.getItem("currentResumeId"),
+        "dateofbirth",
+        values.dateofbirth
+      );
     }
-    if (this.currentResume.drivinglicense !== this.props.values.drivinglicense || this.currentResume.drivinglicense == undefined) {
-      console.log("Firstname need to be changed in database")
-      setResumePropertyPerUser(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), "drivinglicense", this.props.values.drivinglicense)
+    if (
+      currentResume.drivinglicense !== values.drivinglicense ||
+      currentResume.drivinglicense == undefined
+    ) {
+      setResumePropertyPerUser(
+        localStorage.getItem("user"),
+        localStorage.getItem("currentResumeId"),
+        "drivinglicense",
+        values.drivinglicense
+      );
     }
-    if (this.currentResume.nationality !== this.props.values.nationality || this.currentResume.nationality == undefined) {
-      console.log("Firstname need to be changed in database")
-      setResumePropertyPerUser(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), "nationality", this.props.values.nationality)
+    if (
+      currentResume.nationality !== values.nationality ||
+      currentResume.nationality == undefined
+    ) {
+      setResumePropertyPerUser(
+        localStorage.getItem("user"),
+        localStorage.getItem("currentResumeId"),
+        "nationality",
+        values.nationality
+      );
     }
-    if (this.currentResume.summary !== this.props.values.summary || this.currentResume.summary == undefined) {
-      console.log("Firstname need to be changed in database")
-      setResumePropertyPerUser(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), "summary", this.props.values.summary)
+    if (
+      currentResume.summary !== values.summary ||
+      currentResume.summary == undefined
+    ) {
+      setResumePropertyPerUser(
+        localStorage.getItem("user"),
+        localStorage.getItem("currentResumeId"),
+        "summary",
+        values.summary
+      );
     }
     // Adding employments
-    addEmployments(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), this.props.values.employments);
+    addEmployments(
+      localStorage.getItem("user"),
+      localStorage.getItem("currentResumeId"),
+      values.employments
+    );
     // adding educations if presented
-    addEducations(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), this.props.values.educations);
+    addEducations(
+      localStorage.getItem("user"),
+      localStorage.getItem("currentResumeId"),
+      values.educations
+    );
     // adding skills if presented
-    addSkills(localStorage.getItem("user"), localStorage.getItem("currentResumeId"), this.props.values.skills);
-    this.ShowToast("Success");
-  }
-  render() {
-    return (
-      <div className="board">
-        <AnimatePresence>
-          {this.state.isSuccessToastVisible && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <Toasts type="Success" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <AnimatePresence>
-          {this.state.isDownloadToastVisible && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <Toasts type="Download" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <div id="cv" className="cv">
-          <div className="cvWrapper">
-            <ul className="pagination">
-              <li onClick={() => this.previousPage()}> previous </li>
-              <li>1 / {this.state.page}</li>
-              <li onClick={() => this.nextPage()}> next </li>
-            </ul>
-            <div id="Resume">
-              <Canvas currentResumeName={this.props.currentResumeName} initialisePages={this.initialisePages} currentPage={this.state.currentPage} pages={this.state.page} addPage={this.addPage} downloadEnded={this.downloadEnded} triggerDownload={this.state.triggerDownload} values={this.props.values} />
-            </div>
-            {/* The canvas go here with the properties and which cv to render */}
-            {/* <Canvas  triggerDownload={this.state.triggerDownload} values ={this.props.values} /> */}
-            {/* <CvBasic values ={this.props.values} />
-       */}
-            <div className="cvAction">
-              <span onClick={() => this.props.stepBack()} className="selectTemplateLink"> <img src={MenuImg} /> Select Template</span>
-              <div>
-                {localStorage.getItem("user") && <button onClick={() => this.saveToDatabase()} style={{ fontSize: "15px" }} className="btn-default">Save as draft</button>}
-                <button onClick={() => this.ShowToast("Download")} style={{ fontSize: "15px" }} className="btn-default">Download</button>
-              </div>
+    addSkills(
+      localStorage.getItem("user"),
+      localStorage.getItem("currentResumeId"),
+      values.skills
+    );
+    ShowToast("Success");
+  };
+
+  return (
+    <div className="board">
+      <AnimatePresence>
+        {isSuccessToastVisible && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <Toasts type="Success" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {isDownloadToastVisible && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <Toasts type="Download" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div id="cv" className="cv">
+        <div className="cvWrapper">
+          <ul className="pagination">
+            <li onClick={previousPage}> previous </li>
+            <li>1 / {page}</li>
+            <li onClick={nextPage}> next </li>
+          </ul>
+          <div id="Resume">
+            <Canvas
+              currentResumeName={currentResumeName}
+              currentPage={currentPage}
+              pages={page}
+              addPage={addPage}
+              downloadEnded={downloadEnded}
+              triggerDownload={triggerDownload}
+              values={values}
+            />
+          </div>
+
+          <div className="cvAction">
+            <span onClick={stepBack} className="selectTemplateLink">
+              <img src={MenuImg} /> Select Template
+            </span>
+            <div>
+              {localStorage.getItem("user") && (
+                <button
+                  onClick={saveToDatabase}
+                  style={{ fontSize: "15px" }}
+                  className="btn-default"
+                >
+                  Save as draft
+                </button>
+              )}
+              <button
+                onClick={() => ShowToast("Download")}
+                style={{ fontSize: "15px" }}
+                className="btn-default"
+              >
+                Download
+              </button>
             </div>
           </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 }
+
 export default BoardFilling;
