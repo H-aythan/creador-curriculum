@@ -1,31 +1,30 @@
-import React, { Component } from 'react';
-import './SimpleTextarea.scss';
-class SimpleTextarea extends Component {
-    constructor(props) {
-        super(props);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.adjustTextarea = this.adjustTextarea.bind(this);
+import React from "react";
+import "./SimpleTextarea.scss";
+
+function SimpleTextarea({ handleInputs, title, value }) {
+  const handleInputChange = (e) => handleInputs(title, e.target.value);
+
+  const adjustTextarea = (event) => {
+    var windowHeight = window.innerHeight;
+    var elementHeight = event.target.getBoundingClientRect().top;
+
+    if (elementHeight + 100 > windowHeight) {
+      document.getElementById("introd").scrollBy(0, 150);
     }
-    handleInputChange(e) {
-        this.props.handleInputs(this.props.title, e.target.value);
-    }
-    adjustTextarea(event){
-      var windowHeight =window.innerHeight;
-      var elementHeight = event.target.getBoundingClientRect().top;
-      console.log(windowHeight)
-      console.log(elementHeight+100)
-      if( elementHeight +100 > windowHeight ){
-          document.getElementById("introd").scrollBy(0,150);
-      }
-    }
-    render() {
-        return (
-            <div className="simpleTextArea">
-                <span className="inputTitle">{this.props.title}</span>
-                <textarea onClick={(event)=>this.adjustTextarea(event)} style={{overflow:"auto"}} value={this.props.value} onChange={(event) => this.handleInputChange(event)} />
-                <span className="border"></span>
-            </div>
-        );
-    }
+  };
+
+  return (
+    <div className="simpleTextArea">
+      <span className="inputTitle">{title}</span>
+      <textarea
+        onClick={adjustTextarea}
+        style={{ overflow: "auto" }}
+        value={value}
+        onChange={handleInputChange}
+      />
+      <span className="border"></span>
+    </div>
+  );
 }
+
 export default SimpleTextarea;

@@ -9,7 +9,12 @@ import fire from "../../../conf/fire";
 import firebase from "firebase";
 import addUser from "../../../firestore/auth";
 
-function Login({ closeModal, handleNavigationClick, showPasswordRecovery }) {
+function Login({
+  closeModal,
+  handleNavigationClick,
+  showPasswordRecovery,
+  throwError,
+}) {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
 
@@ -20,7 +25,7 @@ function Login({ closeModal, handleNavigationClick, showPasswordRecovery }) {
       .signInWithEmailAndPassword(email, password)
       .then(closeModal)
       .catch((error) => {
-        this.props.throwError(error.message);
+        throwError(error.message);
         console.log(error);
       });
   };
@@ -62,7 +67,6 @@ function Login({ closeModal, handleNavigationClick, showPasswordRecovery }) {
       </div>
       <div className="body">
         <div className="socialAuth">
-          {/* Google */}
           <div
             onClick={() => {
               signInWithGoogle();
@@ -72,7 +76,6 @@ function Login({ closeModal, handleNavigationClick, showPasswordRecovery }) {
             <img src={GoogleImage} />
             <span>Login with Google</span>
           </div>
-          {/* Facebook */}
           <div
             onClick={() => {
               signInWithFacebook();
@@ -82,12 +85,10 @@ function Login({ closeModal, handleNavigationClick, showPasswordRecovery }) {
             <img src={FacebookImage} />
             <span>Login with Facebook</span>
           </div>
-          {/* Devider */}
           <div className="devider">
             <hr />
             <span>Or</span>
           </div>
-          {/* Login Form  */}
           <form onSubmit={login}>
             <div>
               <Input title="Email" handleInputs={handleInputs} />
@@ -103,7 +104,6 @@ function Login({ closeModal, handleNavigationClick, showPasswordRecovery }) {
           </form>
         </div>
       </div>
-      {/* Modal Footer */}
       <div className="modalFooter">
         <span>
           Don't have and account?{" "}

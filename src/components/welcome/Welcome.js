@@ -1,291 +1,263 @@
-import React, { Component } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { Component, useState, useEffect } from "react";
 import "./Welcome.scss";
 import Board from "../Boards/board/board";
 import Action from "../Actions/action/Action";
 import { CSSTransition } from "react-transition-group";
 import { Analytics } from "../Analytics";
-// Models
 import EmploymentModel from "../../models/Employment";
 import EducationModel from "../../models/Education";
 import LanguageModel from "../../models/Language";
 import SkillModel from "../../models/Skills";
-// Images
 import PreviewImg from "../../assets/preview.png";
 import NextImg from "../../assets/next.png";
-// Firebase
 import fire from "../../conf/fire";
 import { InitialisationCheck } from "../../firestore/dbOperations";
-// Initialisation Component
 import InitialisationWrapper from "../initailisation/initialisationWrapper/initialisationWrapper";
-/// Animation Library
 import { motion, AnimatePresence } from "framer-motion";
-// This class is the source of truth. means that we will hold input states here
-class Welcome extends Component {
-  constructor(props) {
-    super(props);
-    // This is the Parent Component that will contains all the data ( state )  of all its child component
-    // From Here we will pass data to our Board Component ( Where resume is)
-    this.steps = ["Introduction", "Template Selection", "Adding Data"];
-    this.currentResume = JSON.parse(localStorage.getItem("currentResumeItem"));
-    /// Removing any nulls in the arrays of current resume
-    if (this.currentResume !== null) {
-      this.currentResume.employments = this.checkForNullsInArray(
-        this.currentResume.employments,
-        null
-      );
-      this.currentResume.educations = this.checkForNullsInArray(
-        this.currentResume.educations,
-        null
-      );
-      this.currentResume.skills = this.checkForNullsInArray(
-        this.currentResume.skills,
-        null
-      );
+
+function Welcome(props) {
+  const steps = ["Introduction", "Template Selection", "Adding Data"];
+  let currentResumeNotState = JSON.parse(
+    localStorage.getItem("currentResumeItem")
+  );
+
+  currentResumeNotState.employments = checkForNullsInArray(
+    currentResumeNotState.employments,
+    null
+  );
+  currentResumeNotState.educations = checkForNullsInArray(
+    currentResumeNotState.educations,
+    null
+  );
+  currentResumeNotState.skills = checkForNullsInArray(
+    currentResumeNotState.skills,
+    null
+  );
+
+  var AnalyticsObject = Analytics;
+  AnalyticsObject("Homepage");
+
+  const [mobilePreviewOn, setmobilePreviewOn] = useState(true);
+  const [isMobileTogglerShowed, setisMobileTogglerShowed] = useState(true);
+  const [stepIndex, setstepIndex] = useState(0);
+  const [currentStep, setcurrentStep] = useState(steps[0]);
+  const [user, setuser] = useState(null);
+  const [resumeName, setresumeName] = useState("Cv4");
+  const [currentResumeName, setcurrentResumeName] = useState("Cv4");
+  const [currentResume, setcurrentResume] = useState(null);
+  const [title, settitle] = useState("Untitled");
+  const [progress, setprogress] = useState(0);
+  const [firstname, setfirstname] = useState(
+    currentResumeNotState != null &&
+      currentResumeNotState.item.firstname !== undefined
+      ? currentResumeNotState.item.firstname
+      : ""
+  );
+  const [lastname, setlastname] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.item.lastname !== undefined
+      ? currentResumeNotState.item.lastname
+      : ""
+  );
+  const [email, setemail] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.item.email !== undefined
+      ? currentResumeNotState.item.email
+      : ""
+  );
+  const [phone, setphone] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.item.phone !== undefined
+      ? currentResumeNotState.item.phone
+      : ""
+  );
+
+  const [occupation, setoccupation] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.item.occupation !== undefined
+      ? currentResumeNotState.item.occupation
+      : ""
+  );
+  const [country, setcountry] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.item.country !== undefined
+      ? currentResumeNotState.item.country
+      : ""
+  );
+  const [city, setcity] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.item.city !== undefined
+      ? currentResumeNotState.item.city
+      : ""
+  );
+  const [address, setaddress] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.item.address !== undefined
+      ? currentResumeNotState.item.address
+      : ""
+  );
+  const [postalcode, setpostalcode] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.item.postalcode !== undefined
+      ? currentResumeNotState.item.postalcode
+      : ""
+  );
+  const [dateofbirth, setdateofbirth] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.item.dateofbirth !== undefined
+      ? currentResumeNotState.item.dateofbirth
+      : ""
+  );
+  const [drivinglicense, setdrivinglicense] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.item.drivinglicense !== undefined
+      ? currentResumeNotState.item.drivinglicense
+      : ""
+  );
+  const [nationality, setnationality] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.item.nationality !== undefined
+      ? currentResumeNotState.item.nationality
+      : ""
+  );
+  const [summary, setsummary] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.item.summary !== undefined
+      ? currentResumeNotState.item.summary
+      : ""
+  );
+  const [photo, setphoto] = useState(null);
+  const [employments, setemployments] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.employments !== undefined
+      ? currentResumeNotState.employments
+      : []
+  );
+  const [educations, seteducations] = useState(
+    currentResumeNotState !== null &&
+      currentResumeNotState.educations !== undefined
+      ? currentResumeNotState.educations
+      : []
+  );
+  const [languages, setlanguages] = useState([]);
+  const [isInitialisationShowed, setisInitialisationShowed] = useState(false);
+  const [skills, setskills] = useState(
+    currentResumeNotState !== null && currentResumeNotState.skills !== undefined
+      ? currentResumeNotState.skills
+      : []
+  );
+
+  useEffect(() => {
+    authListener();
+    InitialisationCheck().then((value) => {
+      if (value === "none" || value === undefined) {
+        setisInitialisationShowed(true);
+      }
+    });
+    // checking if the user clicked in a resume in dashboard, to set it as the current resume
+    if (localStorage.getItem("currentResumeItem")) {
+      setcurrentResume(JSON.parse(localStorage.getItem("currentResumeItem")));
     }
-    this.state = {
-      mobilePreviewOn: true,
-      isMobileTogglerShowed: true,
-      stepIndex: 0,
-      currentStep: this.steps[0],
-      user: null,
-      redirect: null,
-      resumeName: "Cv4",
-      currentResumeName: "Cv4",
-      currentResume: null,
-      title: "Untitled",
-      progress: 0,
-      firstname:
-        this.currentResume != null &&
-        this.currentResume.item.firstname !== undefined
-          ? this.currentResume.item.firstname
-          : "",
-      lastname:
-        this.currentResume !== null &&
-        this.currentResume.item.lastname !== undefined
-          ? this.currentResume.item.lastname
-          : "",
-      email:
-        this.currentResume !== null &&
-        this.currentResume.item.email !== undefined
-          ? this.currentResume.item.email
-          : "",
-      phone:
-        this.currentResume !== null &&
-        this.currentResume.item.phone !== undefined
-          ? this.currentResume.item.phone
-          : "",
-      occupation:
-        this.currentResume !== null &&
-        this.currentResume.item.occupation !== undefined
-          ? this.currentResume.item.occupation
-          : "",
-      country:
-        this.currentResume !== null &&
-        this.currentResume.item.country !== undefined
-          ? this.currentResume.item.country
-          : "",
-      city:
-        this.currentResume !== null &&
-        this.currentResume.item.city !== undefined
-          ? this.currentResume.item.city
-          : "",
-      address:
-        this.currentResume !== null &&
-        this.currentResume.item.address !== undefined
-          ? this.currentResume.item.address
-          : "",
-      postalcode:
-        this.currentResume !== null &&
-        this.currentResume.item.postalcode !== undefined
-          ? this.currentResume.item.postalcode
-          : "",
-      dateofbirth:
-        this.currentResume !== null &&
-        this.currentResume.item.dateofbirth !== undefined
-          ? this.currentResume.item.dateofbirth
-          : "",
-      drivinglicense:
-        this.currentResume !== null &&
-        this.currentResume.item.drivinglicense !== undefined
-          ? this.currentResume.item.drivinglicense
-          : "",
-      nationality:
-        this.currentResume !== null &&
-        this.currentResume.item.nationality !== undefined
-          ? this.currentResume.item.nationality
-          : "",
-      summary:
-        this.currentResume !== null &&
-        this.currentResume.item.summary !== undefined
-          ? this.currentResume.item.summary
-          : "",
-      photo: null,
-      employments:
-        this.currentResume !== null &&
-        this.currentResume.employments !== undefined
-          ? this.currentResume.employments
-          : [],
-      educations:
-        this.currentResume !== null &&
-        this.currentResume.educations !== undefined
-          ? this.currentResume.educations
-          : [],
-      languages: [],
-      isInitialisationShowed: false,
-      skills:
-        this.currentResume !== null && this.currentResume.skills !== undefined
-          ? this.currentResume.skills
-          : [],
-      filledInputs: [],
-    };
-    this.authListener = this.authListener.bind(this);
-    this.nextStep = this.nextStep.bind(this);
-    this.logout = this.logout.bind(this);
-    this.handleInputs = this.handleInputs.bind(this);
-    this.setCurrentStep = this.setCurrentStep.bind(this);
-    this.handlePreviewToggle = this.handlePreviewToggle.bind(this);
-    this.createNewEmploymentObject = this.createNewEmploymentObject.bind(this);
-    this.createNewEducationObject = this.createNewEducationObject.bind(this);
-    this.createNewSkillObject = this.createNewSkillObject.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.changeSelectedResume = this.changeSelectedResume.bind(this);
-    this.stepBack = this.stepBack.bind(this);
-    this.closeInitialisation = this.closeInitialisation.bind(this);
-    this.checkForNullsInArray = this.checkForNullsInArray.bind(this);
-    this.wrapper = React.createRef();
-    this.goThirdStep = this.goThirdStep.bind(this);
-    // Triggering analytics initializer with the page the visitor is in
-    var AnalyticsObject = Analytics;
-    AnalyticsObject("Homepage");
-  }
-  /// Checking if  user is singed in
-  authListener() {
+    /// check if the user comming from dashboard with specefic resume click
+    props.match !== undefined &&
+      props.match.params.step !== undefined &&
+      setcurrentStep(steps[2]);
+  }, []);
+
+  const authListener = () => {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ user: user });
+        setuser(user);
         localStorage.setItem("user", user.uid);
       } else {
-        this.setState({ user: null });
+        setuser(null);
         localStorage.removeItem("user");
       }
     });
-  }
-  // Logout
-  logout() {
+  };
+
+  const logout = () => {
     fire.auth().signOut();
     localStorage.removeItem("currentResumeId");
     localStorage.removeItem("currentResumeItem");
-    this.currentResume = null;
-  }
-  // Setting the current step
-  setCurrentStep(step, isLoginModalShowed) {
-    this.setState({
-      currentStep: this.steps[0],
-      stepIndex: 0,
-    });
-  }
-  // go to third step
-  goThirdStep() {
-    this.setState({
-      currentStep: this.steps[2],
-      stepIndex: 2,
-    });
-  }
-  // Removing any null in employments
-  checkForNullsInArray(array, elem) {
+    currentResumeNotState = null;
+  };
+
+  const setCurrentStep = (step, isLoginModalShowed) => {
+    setcurrentStep(steps[0]);
+    setstepIndex(0);
+  };
+
+  const goThirdStep = () => {
+    setcurrentStep(steps[2]);
+    setstepIndex(2);
+  };
+
+  const checkForNullsInArray = (array, elem) => {
     var nullIndex = array.indexOf(elem);
     while (nullIndex > -1) {
       array.splice(nullIndex, 1);
       nullIndex = array.indexOf(elem);
     }
     return array;
-  }
-  componentDidMount() {}
-  componentWillMount() {
-    this.authListener();
-    InitialisationCheck().then((value) => {
-      if (value === "none" || value === undefined) {
-        this.setState({ isInitialisationShowed: true });
-      }
-    });
-    // checking if the user clicked in a resume in dashboard, to set it as the current resume
-    if (localStorage.getItem("currentResumeItem")) {
-      this.setState({
-        currentResume: JSON.parse(localStorage.getItem("currentResumeItem")),
-      });
-    }
-    /// check if the user comming from dashboard with specefic resume click
-    this.props.match !== undefined &&
-      this.props.match.params.step !== undefined &&
-      this.setState({ currentStep: this.steps[2] });
-  }
-  // Basic Function to remove value from array
-  arrayRemove(arr, value) {
+  };
+
+  const arrayRemove = (arr, value) => {
     return arr.filter(function (ele) {
       return ele !== value;
     });
-  }
-  // Handling navigation between Board steps
-  nextStep() {
-    this.setState((state) => {
-      return {
-        stepIndex: state.stepIndex + 1,
-        currentStep: this.steps[state.stepIndex + 1],
-        mobilePreviewOn: false,
-      };
-    });
-  }
-  closeInitialisation() {
-    this.setState((prevState, props) => ({ isInitialisationShowed: false }));
-  }
-  // stepBack
-  stepBack() {
-    this.setState((state) => {
-      return {
-        stepIndex: state.stepIndex - 1,
-        currentStep: this.steps[state.stepIndex - 1],
-        mobilePreviewOn: true,
-      };
-    });
-  }
-  // Create new employment object
-  createNewEmploymentObject(id) {
+  };
+
+  const nextStep = () => {
+    setstepIndex(stepIndex + 1);
+    setcurrentStep(steps[stepIndex + 1]);
+    setmobilePreviewOn(false);
+  };
+  const closeInitialisation = () => setisInitialisationShowed(false);
+
+  const stepBack = () => {
+    setstepIndex(stepIndex - 1);
+    setcurrentStep(steps[stepIndex - 1]);
+    setmobilePreviewOn(true);
+  };
+
+  const createNewEmploymentObject = (id) => {
     var employment = new EmploymentModel(id);
-    this.state.employments.push(employment);
-    this.setState({ employments: this.state.employments });
-  }
-  // Create new education object
-  createNewEducationObject(id) {
+    setemployments([...employments, employment]);
+  };
+
+  const createNewEducationObject = (id) => {
     var education = new EducationModel(id);
-    this.state.educations.push(education);
-    this.setState({ educations: this.state.educations });
-  }
-  // Create new education object
-  createNewLanguageObject(id) {
-    var language = new LanguageModel(id);
-    this.state.languages.push(language);
-    this.setState({ languages: this.state.languages });
-  }
-  // Create new skill object
-  createNewSkillObject(id) {
+    seteducations([...educations, education]);
+  };
+
+  const createNewLanguageObject = (id) => {
+    const language = new LanguageModel(id);
+    setlanguages([...languages, language]);
+  };
+
+  const createNewSkillObject = (id) => {
     var skill = new SkillModel(id);
-    this.state.skills.push(skill);
-    this.setState({ skills: this.state.skills });
-  }
-  // Handling Delete of a components/object Employment,Language,Education etc
-  handleDelete(inputType, id) {
+    setskills([...skills, skill]);
+  };
+
+  const handleDelete = (inputType) => {
     switch (inputType) {
       case "Skills":
-        this.setState({
-          skills: [],
-        });
+        setskills([]);
         break;
       default:
         break;
     }
-  }
-  // Handling Inputs change from childs
-  handleInputs(inputName, inputValue, idOptional, typeOptional) {
+  };
+
+  const handleInputs = (inputName, inputValue, idOptional, typeOptional) => {
+    let found = false;
+    let newemployments = [...employments];
+    let neweducations = [...educations];
+    let newlanguages = [...languages];
+    let newskills = [...skills];
     // switching between which input is passed to the function
     // typeOptional if the input was in employment or education or langauge
     // idOptional is an optional id when an input is inside another component like employments
@@ -293,74 +265,73 @@ class Welcome extends Component {
     // know the id of that specefic employment to change it in here  same applicable for educations languages
     switch (inputName) {
       case "Title":
-        this.setState({ title: inputValue });
+        settitle(inputValue);
         break;
       case "First Name":
-        this.setState({ firstname: inputValue });
+        setfirstname(inputValue);
         break;
       case "Last Name":
-        this.setState({ lastname: inputValue });
+        setlastname(inputValue);
+
         break;
       case "Email":
-        this.setState({ email: inputValue });
+        setemail(inputValue);
         break;
       case "Phone":
-        this.setState({ phone: inputValue });
+        setphone(inputValue);
         break;
       case "Photo":
         const image = new window.Image();
         image.src = inputValue;
-        image.onload = () => {
-          this.setState({ photo: image });
-        };
+        image.onload = () => setphoto(image);
         break;
       case "Occupation":
-        this.setState({ occupation: inputValue });
+        setoccupation(inputValue);
         break;
       case "Country":
-        this.setState({ country: inputValue });
+        setcountry(inputValue);
         break;
       case "City":
-        this.setState({ city: inputValue });
+        setcity(inputValue);
         break;
       case "Address":
-        this.setState({ address: inputValue });
+        setaddress(inputValue);
         break;
       case "Postal Code":
-        this.setState({ postalcode: inputValue });
+        setpostalcode(inputValue);
         break;
       case "Date Of Birth":
-        this.setState({ dateofbirth: inputValue });
+        setdateofbirth(inputValue);
         break;
       case "Driving License":
-        this.setState({ drivinglicense: inputValue });
+        setdrivinglicense(inputValue);
         break;
       case "Nationality":
-        this.setState({ nationality: inputValue });
+        setnationality(inputValue);
         break;
       case "Professional Summary":
-        this.setState({ summary: inputValue });
+        setsummary(inputValue);
         break;
       case "Job Title":
         /// Check if we have any employment with th id
         // Boolean to check if the employment is already in state
-        var found = false;
+
         // looping in state to see if its found based on the id raised from the components
-        for (var i = 0; i < this.state.employments.length; i++) {
+        for (var i = 0; i < newemployments.length; i++) {
           if (
-            this.state.employments[i] !== null &&
-            this.state.employments[i].id === idOptional &&
+            newemployments[i] !== null &&
+            newemployments[i].id === idOptional &&
             typeOptional === "Employment"
           ) {
             found = true;
-            this.state.employments[i].jobTitle = inputValue;
-            this.setState({ employments: this.state.employments });
+            newemployments[i].jobTitle = inputValue;
+            setemployments([...newemployments]);
             break;
           }
         }
         if (found === false) {
           // create new employment
-          this.createNewEmploymentObject(idOptional);
+          createNewEmploymentObject(idOptional);
         }
         found = false;
         break;
@@ -368,22 +339,23 @@ class Welcome extends Component {
         /// Check if we have any employment with th id
         // Boolean to check if the employment is already in state
         found = false;
+
         // looping in state to see if its found based on the id raised from the components
-        for (i = 0; i < this.state.employments.length; i++) {
+        for (i = 0; i < newemployments.length; i++) {
           if (
-            this.state.employments[i] !== null &&
-            this.state.employments[i].id === idOptional &&
+            newemployments[i] !== null &&
+            newemployments[i].id === idOptional &&
             typeOptional === "Employment"
           ) {
             found = true;
-            this.state.employments[i].begin = inputValue;
-            this.setState({ employments: this.state.employments });
+            newemployments[i].begin = inputValue;
+            setemployments([...newemployments]);
             break;
           }
         }
         if (found === false) {
           // create new employment
-          this.createNewEmploymentObject(idOptional);
+          createNewEmploymentObject(idOptional);
         }
         found = false;
         break;
@@ -392,21 +364,20 @@ class Welcome extends Component {
         // Boolean to check if the employment is already in state
         found = false;
         // looping in state to see if its found based on the id raised from the components
-        for (i = 0; i < this.state.employments.length; i++) {
+        for (i = 0; i < newemployments.length; i++) {
           if (
-            this.state.employments[i] !== null &&
-            this.state.employments[i].id === idOptional &&
+            newemployments[i] !== null &&
+            newemployments[i].id === idOptional &&
             typeOptional === "Employment"
           ) {
             found = true;
-            this.state.employments[i].end = inputValue;
-            this.setState({ employments: this.state.employments });
+            newemployments[i].end = inputValue;
+            setemployments([...newemployments]);
             break;
           }
         }
         if (found === false) {
-          // create new employment
-          this.createNewEmploymentObject(idOptional);
+          createNewEmploymentObject(idOptional);
         }
         found = false;
         break;
@@ -415,21 +386,21 @@ class Welcome extends Component {
         // Boolean to check if the employment is already in state
         found = false;
         // looping in state to see if its found based on the id raised from the components
-        for (i = 0; i < this.state.employments.length; i++) {
+        for (i = 0; i < newemployments.length; i++) {
           if (
-            this.state.employments[i] !== null &&
-            this.state.employments[i].id === idOptional &&
+            newemployments[i] !== null &&
+            newemployments[i].id === idOptional &&
             typeOptional === "Employment"
           ) {
             found = true;
-            this.state.employments[i].employer = inputValue;
-            this.setState({ employments: this.state.employments });
+            newemployments[i].employer = inputValue;
+            setemployments([...newemployments]);
             break;
           }
         }
         if (found === false) {
           // create new employment
-          this.createNewEmploymentObject(idOptional);
+          createNewEmploymentObject(idOptional);
         }
         found = false;
         break;
@@ -438,21 +409,20 @@ class Welcome extends Component {
         // Boolean to check if the employment is already in state
         found = false;
         // looping in state to see if its found based on the id raised from the components
-        for (i = 0; i < this.state.employments.length; i++) {
+        for (i = 0; i < newemployments.length; i++) {
           if (
-            this.state.employments[i] !== null &&
-            this.state.employments[i].id === idOptional &&
+            newemployments[i] !== null &&
+            newemployments[i].id === idOptional &&
             typeOptional === "Employment"
           ) {
             found = true;
-            this.state.employments[i].description = inputValue;
-            this.setState({ employments: this.state.employments });
+            newemployments[i].description = inputValue;
+            setemployments([...newemployments]);
             break;
           }
         }
         if (found === false) {
-          // create new employment
-          this.createNewEmploymentObject(idOptional);
+          createNewEmploymentObject(idOptional);
         }
         found = false;
         break;
@@ -461,21 +431,20 @@ class Welcome extends Component {
         // Boolean to check if the employment is already in state
         found = false;
         // looping in state to see if its found based on the id raised from the components
-        for (i = 0; i < this.state.educations.length; i++) {
+        for (i = 0; i < neweducations.length; i++) {
           if (
-            this.state.educations[i] !== null &&
-            this.state.educations[i].id === idOptional &&
+            neweducations[i] !== null &&
+            neweducations[i].id === idOptional &&
             typeOptional === "Education"
           ) {
             found = true;
-            this.state.educations[i].school = inputValue;
-            this.setState({ educations: this.state.educations });
+            neweducations[i].school = inputValue;
+            seteducations([...neweducations]);
             break;
           }
         }
         if (found === false) {
-          // create new employment
-          this.createNewEducationObject(idOptional);
+          createNewEducationObject(idOptional);
         }
         found = false;
         break;
@@ -484,21 +453,20 @@ class Welcome extends Component {
         // Boolean to check if the employment is already in state
         found = false;
         // looping in state to see if its found based on the id raised from the components
-        for (i = 0; i < this.state.educations.length; i++) {
+        for (i = 0; i < neweducations.length; i++) {
           if (
-            this.state.educations[i] !== null &&
-            this.state.educations[i].id === idOptional &&
+            neweducations[i] !== null &&
+            neweducations[i].id === idOptional &&
             typeOptional === "Education"
           ) {
             found = true;
-            this.state.educations[i].degree = inputValue;
-            this.setState({ educations: this.state.educations });
+            neweducations[i].degree = inputValue;
+            seteducations([...neweducations]);
             break;
           }
         }
         if (found === false) {
-          // create new employment
-          this.createNewEducationObject(idOptional);
+          createNewEducationObject(idOptional);
         }
         found = false;
         break;
@@ -507,20 +475,20 @@ class Welcome extends Component {
         // Boolean to check if the employment is already in state
         found = false;
         // looping in state to see if its found based on the id raised from the components
-        for (i = 0; i < this.state.educations.length; i++) {
+        for (i = 0; i < neweducations.length; i++) {
           if (
-            this.state.educations[i].id === idOptional &&
+            neweducations[i].id === idOptional &&
             typeOptional === "Education"
           ) {
             found = true;
-            this.state.educations[i].started = inputValue;
-            this.setState({ educations: this.state.educations });
+            neweducations[i].started = inputValue;
+            seteducations([...neweducations]);
             break;
           }
         }
         if (found === false) {
           // create new employment
-          this.createNewEducationObject(idOptional);
+          createNewEducationObject(idOptional);
         }
         found = false;
         break;
@@ -529,20 +497,19 @@ class Welcome extends Component {
         // Boolean to check if the employment is already in state
         found = false;
         // looping in state to see if its found based on the id raised from the components
-        for (i = 0; i < this.state.educations.length; i++) {
+        for (i = 0; i < neweducations.length; i++) {
           if (
-            this.state.educations[i].id === idOptional &&
+            neweducations[i].id === idOptional &&
             typeOptional === "Education"
           ) {
             found = true;
-            this.state.educations[i].finished = inputValue;
-            this.setState({ educations: this.state.educations });
+            neweducations[i].finished = inputValue;
+            seteducations([...neweducations]);
             break;
           }
         }
         if (found === false) {
-          // create new employment
-          this.createNewEducationObject(idOptional);
+          createNewEducationObject(idOptional);
         }
         found = false;
         break;
@@ -551,20 +518,19 @@ class Welcome extends Component {
         // Boolean to check if the employment is already in state
         found = false;
         // looping in state to see if its found based on the id raised from the components
-        for (i = 0; i < this.state.educations.length; i++) {
+        for (i = 0; i < neweducations.length; i++) {
           if (
-            this.state.educations[i].id === idOptional &&
+            neweducations[i].id === idOptional &&
             typeOptional === "Education"
           ) {
             found = true;
-            this.state.educations[i].description = inputValue;
-            this.setState({ educations: this.state.educations });
+            neweducations[i].description = inputValue;
+            seteducations([...neweducations]);
             break;
           }
         }
         if (found === false) {
-          // create new employment
-          this.createNewEducationObject(idOptional);
+          createNewEducationObject(idOptional);
         }
         found = false;
         break;
@@ -573,20 +539,19 @@ class Welcome extends Component {
         // Boolean to check if the employment is already in state
         found = false;
         // looping in state to see if its found based on the id raised from the components
-        for (i = 0; i < this.state.languages.length; i++) {
+        for (i = 0; i < newlanguages.length; i++) {
           if (
-            this.state.languages[i].id === idOptional &&
+            newlanguages[i].id === idOptional &&
             typeOptional === "Languages"
           ) {
             found = true;
-            this.state.languages[i].name = inputValue;
-            this.setState({ languages: this.state.languages });
+            newlanguages[i].name = inputValue;
+            setlanguages([...newlanguages]);
             break;
           }
         }
         if (found === false) {
-          // create new Language
-          this.createNewLanguageObject(idOptional);
+          createNewLanguageObject(idOptional);
         }
         found = false;
         break;
@@ -595,20 +560,19 @@ class Welcome extends Component {
         // Boolean to check if the employment is already in state
         found = false;
         // looping in state to see if its found based on the id raised from the components
-        for (i = 0; i < this.state.languages.length; i++) {
+        for (i = 0; i < newlanguages.length; i++) {
           if (
-            this.state.languages[i].id === idOptional &&
+            newlanguages[i].id === idOptional &&
             typeOptional === "Languages"
           ) {
             found = true;
-            this.state.languages[i].level = inputValue;
-            this.setState({ languages: this.state.languages });
+            newlanguages[i].level = inputValue;
+            setlanguages([...newlanguages]);
             break;
           }
         }
         if (found === false) {
-          // create new Language
-          this.createNewLanguageObject(idOptional);
+          createNewLanguageObject(idOptional);
         }
         found = false;
         break;
@@ -617,20 +581,16 @@ class Welcome extends Component {
         // Boolean to check if the employment is already in state
         found = false;
         // looping in state to see if its found based on the id raised from the components
-        for (i = 0; i < this.state.skills.length; i++) {
-          if (
-            this.state.skills[i].id === idOptional &&
-            typeOptional === "Skills"
-          ) {
+        for (i = 0; i < newskills.length; i++) {
+          if (newskills[i].id === idOptional && typeOptional === "Skills") {
             found = true;
-            this.state.skills[i].name = inputValue;
-            this.setState({ skills: this.state.skills });
+            newskills[i].name = inputValue;
+            setskills([...newskills]);
             break;
           }
         }
         if (found === false) {
-          // create new Language
-          this.createNewSkillObject(idOptional);
+          createNewSkillObject(idOptional);
         }
         found = false;
         break;
@@ -639,163 +599,139 @@ class Welcome extends Component {
         // Boolean to check if the employment is already in state
         found = false;
         // looping in state to see if its found based on the id raised from the components
-        for (i = 0; i < this.state.skills.length; i++) {
-          if (
-            this.state.skills[i].id === idOptional &&
-            typeOptional === "Skills"
-          ) {
+        for (i = 0; i < newskills.length; i++) {
+          if (newskills[i].id === idOptional && typeOptional === "Skills") {
             found = true;
-            this.state.skills[i].rating = inputValue;
-            this.setState({ skills: this.state.skills });
+            newskills[i].rating = inputValue;
+            setskills([...newskills]);
             break;
           }
         }
         if (found === false) {
-          // create new Language
-          this.createNewSkillObject(idOptional);
+          createNewSkillObject(idOptional);
         }
         found = false;
         break;
       default:
         break;
     }
-  }
-  // Handling Preview Button
-  handlePreviewToggle() {
-    this.state.mobilePreviewOn
-      ? this.setState({ mobilePreviewOn: false })
-      : this.setState({ mobilePreviewOn: true });
-    this.state.currentStep == "Introduction"
-      ? this.setState({ isMobileTogglerShowed: false })
-      : this.setState({ isMobileTogglerShowed: true });
-  }
-  // Changing the selected resume
-  changeSelectedResume(resumeName) {
-    this.setState({
-      resumeName: resumeName, // Propertie
-      currentResumeName: resumeName,
-    });
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.location !== this.props.location) {
-      // alert(nextProps.location);
-    }
-  }
-  render() {
-    return (
-      <div className="wrapper">
-        <AnimatePresence>
-          {this.state.isInitialisationShowed && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <InitialisationWrapper
-                closeInitialisation={this.closeInitialisation}
-              />{" "}
-            </motion.div>
-          )}
-        </AnimatePresence>
-        {/* {this.props.match.params.step != undefined && alert(this.props.match.params.step)} */}
-        <div className="actions">
-          <Action
-            goThirdStep={this.goThirdStep}
-            values={{
-              user: this.state.user,
-              resumeName: this.state.resumeName,
-              title: this.state.title,
-              firstname: this.state.firstname,
-              lastname: this.state.lastname,
-              summary: this.state.summary,
-              occupation: this.state.occupation,
-              address: this.state.address,
-              postalcode: this.state.postalcode,
-              country: this.state.country,
-              dateofbirth: this.state.dateofbirth,
-              city: this.state.city,
-              email: this.state.email,
-              phone: this.state.phone,
-              employments: this.state.employments,
-              drivinglicense: this.state.drivinglicense,
-              nationality: this.state.nationality,
-              educations: this.state.educations,
-              languages: this.state.languages,
-              skills: this.state.skills,
-              photo: this.state.photo,
-            }}
-            setCurrentStep={this.setCurrentStep}
-            redirectToDashboard={this.redirectToDashboard}
-            logout={this.logout}
-            user={this.state.user}
-            handlePreviewToggle={this.handlePreviewToggle}
-            handleDelete={this.handleDelete}
-            progress={this.state.progress}
-            currentStep={this.state.currentStep}
-            handleInputs={this.handleInputs}
-          />
-        </div>
-        <div
-          className={
-            this.state.mobilePreviewOn
-              ? " right-panel  boardShowed"
-              : "right-panel "
-          }
-        >
-          <Board
-            nextStep={this.nextStep}
-            stepBack={this.stepBack}
-            changeResumeName={this.changeSelectedResume}
-            currentResumeName={this.state.resumeName}
-            values={{
-              resumeName: this.state.resumeName,
-              title: this.state.title,
-              firstname: this.state.firstname,
-              lastname: this.state.lastname,
-              summary: this.state.summary,
-              occupation: this.state.occupation,
-              address: this.state.address,
-              postalcode: this.state.postalcode,
-              country: this.state.country,
-              city: this.state.city,
-              dateofbirth: this.state.dateofbirth,
-              drivinglicense: this.state.drivinglicense,
-              email: this.state.email,
-              nationality: this.state.nationality,
-              phone: this.state.phone,
-              employments: this.state.employments,
-              educations: this.state.educations,
-              languages: this.state.languages,
-              skills: this.state.skills,
-              photo: this.state.photo,
-            }}
-            currentStep={this.state.currentStep}
-          />
-        </div>
-        <CSSTransition
-          appear={true}
-          in={true}
-          timeout={100}
-          classNames="previewfade"
-        >
-          {this.state.isMobileTogglerShowed ? (
-            <div onClick={this.handlePreviewToggle} className="previewButton">
-              <img
-                className="previewImg"
-                src={
-                  this.state.currentStep == "Introduction"
-                    ? NextImg
-                    : PreviewImg
-                }
-                alt="Preview"
-              />
-            </div>
-          ) : (
-            <div></div>
-          )}
-        </CSSTransition>
+  };
+
+  const handlePreviewToggle = () => {
+    setmobilePreviewOn(!mobilePreviewOn);
+    setisMobileTogglerShowed(currentStep != "Introduction");
+  };
+
+  const changeSelectedResume = (resumeName) => {
+    setresumeName(resumeName);
+    setcurrentResumeName(resumeName);
+  };
+
+  return (
+    <div className="wrapper">
+      <AnimatePresence>
+        {isInitialisationShowed && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <InitialisationWrapper closeInitialisation={closeInitialisation} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className="actions">
+        <Action
+          goThirdStep={goThirdStep}
+          values={{
+            user: user,
+            resumeName: resumeName,
+            title: title,
+            firstname: firstname,
+            lastname: lastname,
+            summary: summary,
+            occupation: occupation,
+            address: address,
+            postalcode: postalcode,
+            country: country,
+            dateofbirth: dateofbirth,
+            city: city,
+            email: email,
+            phone: phone,
+            employments: employments,
+            drivinglicense: drivinglicense,
+            nationality: nationality,
+            educations: educations,
+            languages: languages,
+            skills: skills,
+            photo: photo,
+          }}
+          setCurrentStep={setCurrentStep}
+          redirectToDashboard={redirectToDashboard}
+          logout={logout}
+          user={user}
+          handlePreviewToggle={handlePreviewToggle}
+          handleDelete={handleDelete}
+          progress={progress}
+          currentStep={currentStep}
+          handleInputs={handleInputs}
+        />
       </div>
-    );
-  }
+      <div
+        className={
+          mobilePreviewOn ? " right-panel  boardShowed" : "right-panel "
+        }
+      >
+        <Board
+          nextStep={nextStep}
+          stepBack={stepBack}
+          changeResumeName={changeSelectedResume}
+          currentResumeName={resumeName}
+          values={{
+            resumeName: resumeName,
+            title: title,
+            firstname: firstname,
+            lastname: lastname,
+            summary: summary,
+            occupation: occupation,
+            address: address,
+            postalcode: postalcode,
+            country: country,
+            city: city,
+            dateofbirth: dateofbirth,
+            drivinglicense: drivinglicense,
+            email: email,
+            nationality: nationality,
+            phone: phone,
+            employments: employments,
+            educations: educations,
+            languages: languages,
+            skills: skills,
+            photo: photo,
+          }}
+          currentStep={currentStep}
+        />
+      </div>
+      <CSSTransition
+        appear={true}
+        in={true}
+        timeout={100}
+        classNames="previewfade"
+      >
+        {isMobileTogglerShowed ? (
+          <div onClick={handlePreviewToggle} className="previewButton">
+            <img
+              className="previewImg"
+              src={currentStep == "Introduction" ? NextImg : PreviewImg}
+              alt="Preview"
+            />
+          </div>
+        ) : (
+          <div></div>
+        )}
+      </CSSTransition>
+    </div>
+  );
 }
+
 export default Welcome;
