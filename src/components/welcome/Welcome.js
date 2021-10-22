@@ -667,7 +667,6 @@ function Welcome(props) {
             photo: photo,
           }}
           setCurrentStep={setCurrentStep}
-          redirectToDashboard={redirectToDashboard}
           logout={logout}
           user={user}
           handlePreviewToggle={handlePreviewToggle}
