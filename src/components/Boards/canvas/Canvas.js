@@ -4,6 +4,7 @@
      Please take a look in their documentation where you will understand all the code bellow and how the templates are made
 */
 import React from "react";
+import { useForm } from "../../../hooks/useForm";
 
 import Cv1 from "./resumes/cv-1/Cv1";
 import Cv2 from "./resumes/cv-2/Cv2";
@@ -20,6 +21,10 @@ function Canvas({
   values,
   initialisePages,
 }) {
+  const [form, { setForm }] = useForm();
+
+  // console.log("Canvas", form);
+
   return (
     <div>
       {currentResumeName === "Cv1" ? (
@@ -30,6 +35,7 @@ function Canvas({
           downloadEnded={downloadEnded}
           triggerDownload={triggerDownload}
           values={values}
+          form={form}
         />
       ) : currentResumeName === "Cv2" ? (
         <Cv2

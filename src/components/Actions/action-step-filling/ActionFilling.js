@@ -16,7 +16,7 @@ import PlusIcon from "../../../assets/plus.png";
 import MinusIcon from "../../../assets/minus.png";
 
 const ActionFilling = (props) => {
-  const { values, progress, handleInputs, handleDelete } = props;
+  const { values, handleInputs, handleDelete } = props;
   const [additionalDetailsShowed, setadditionalDetailsShowed] = useState(false);
   const [employments, setemployments] = useState([]);
   const [educations, seteducations] = useState([]);
@@ -189,7 +189,7 @@ const ActionFilling = (props) => {
         </div>
         <LanguagePicker />
       </div>
-      <ProgressBar textHidden={false} values={values} progress={progress} />
+      <ProgressBar textHidden={false} values={values} />
       <form>
         <div className="sectionHeading">
           <span className="sectionTitle">Personal Details</span>
@@ -199,26 +199,31 @@ const ActionFilling = (props) => {
             handleInputs={handleInputs}
             value={values.firstname}
             title="First Name"
+            param="firstName"
           />
           <SimpleInput
             handleInputs={handleInputs}
             value={values.lastname}
             title="Last Name"
+            param="lastName"
           />
           <SimpleInput
             handleInputs={handleInputs}
             value={values.email}
             title="Email"
+            param="email"
           />
           <SimpleInput
             handleInputs={handleInputs}
             value={values.phone}
             title="Phone"
+            param="phone"
           />
           <SimpleInput
             handleInputs={handleInputs}
             value={values.occupation}
             title="Occupation"
+            param="occupation"
             description="In here you add description about hosmas ins the  tahts why you have to add it here"
           />
           <ImgUploadInput handleInputs={handleInputs} title="Photo" />
@@ -235,36 +240,43 @@ const ActionFilling = (props) => {
             handleInputs={handleInputs}
             value={values.country}
             title="Country"
+            param="country"
           />
           <SimpleInput
             handleInputs={handleInputs}
             value={values.city}
             title="City"
+            param="city"
           />
           <SimpleInput
             handleInputs={handleInputs}
             value={values.address}
             title="Address"
+            param="address"
           />
           <SimpleInput
             handleInputs={handleInputs}
             value={values.postalcode}
             title="Postal Code"
+            param="postalCode"
           />
           <SimpleInput
             handleInputs={handleInputs}
             value={values.dateofbirth}
             title="Date Of Birth"
+            param="dateOfBirth"
           />
           <SimpleInput
             handleInputs={handleInputs}
             value={values.drivinglicense}
             title="Driving License"
+            param="drivingLicense"
           />
           <SimpleInput
             handleInputs={handleInputs}
             value={values.nationality}
             title="Nationality"
+            param="nationality"
           />
         </div>
         {/* on click hide or show additional details base on the previous state*/}
@@ -275,7 +287,6 @@ const ActionFilling = (props) => {
             <img src={PlusIcon} alt="icon" />
           )}
           <span onClick={aditionalDetailHandler}>
-            {" "}
             {additionalDetailsShowed
               ? "Hide additional details"
               : "Show additional details"}
@@ -292,6 +303,7 @@ const ActionFilling = (props) => {
           value={values.summary}
           handleInputs={handleInputs}
           title="Professional Summary"
+          param="professionalSummary"
         />
         <div className="componentsWrapper">
           {/* Employment History */}
@@ -324,7 +336,6 @@ const ActionFilling = (props) => {
           <div className="sectionHeading">
             <span className="sectionTitle">Languages </span>
             <p className="sectionDescription">
-              {" "}
               Please enter the languages you are able to work with.
             </p>
           </div>
@@ -337,7 +348,6 @@ const ActionFilling = (props) => {
           <div className="sectionHeading">
             <span className="sectionTitle">Skills </span>
             <p className="sectionDescription">
-              {" "}
               Please enter your skills. and give each one a rating.{" "}
             </p>
           </div>

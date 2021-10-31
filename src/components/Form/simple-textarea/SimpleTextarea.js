@@ -1,8 +1,14 @@
 import React from "react";
+import { useForm } from "../../../hooks/useForm";
 import "./SimpleTextarea.scss";
 
-function SimpleTextarea({ handleInputs, title, value }) {
-  const handleInputChange = (e) => handleInputs(title, e.target.value);
+function SimpleTextarea({ handleInputs, title, value, param }) {
+  const [form, { setForm }] = useForm();
+
+  const handleInputChange = (e) => {
+    //handleInputs(title, e.target.value);
+    param && setForm(e.target.value, param);
+  };
 
   const adjustTextarea = (event) => {
     var windowHeight = window.innerHeight;
@@ -19,7 +25,7 @@ function SimpleTextarea({ handleInputs, title, value }) {
       <textarea
         onClick={adjustTextarea}
         style={{ overflow: "auto" }}
-        value={value}
+        value={param ? form[param] : value}
         onChange={handleInputChange}
       />
       <span className="border"></span>

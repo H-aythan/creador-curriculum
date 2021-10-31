@@ -370,9 +370,7 @@ class Cv1 extends Component {
             width={300}
             fontFamily="Poppins"
             fontStyle="bold"
-            text={
-              this.props.values.firstname + " " + this.props.values.lastname
-            }
+            text={this.props.form.firstName + " " + this.props.form.lastName}
             y={50}
             x={130}
             fontSize={20}
@@ -384,7 +382,7 @@ class Cv1 extends Component {
             width={260}
             height={200}
             fontFamily="Poppins"
-            text={this.props.values.occupation}
+            text={this.props.form.occupation}
             y={
               this.firstnameRef
                 ? 60 + this.firstnameRef.getClientRect().height
@@ -413,7 +411,7 @@ class Cv1 extends Component {
               this.summaryRef = node;
             }}
             fontFamily="Poppins"
-            text={this.props.values.summary}
+            text={this.props.form.professionalSummary}
             y={200}
             x={125}
             lineHeight="1.2"
@@ -454,7 +452,7 @@ class Cv1 extends Component {
                 this.addressRef = node;
               }}
               fontFamily="Poppins"
-              text={this.props.values.address}
+              text={this.props.form.address}
               lineHeight="1.2"
               y={217}
               x={30}
@@ -481,7 +479,7 @@ class Cv1 extends Component {
               }}
               width={82}
               fontFamily="Poppins"
-              text={this.props.values.phone}
+              text={this.props.form.phone}
               lineHeight="1.2"
               x={30}
               y={
@@ -525,7 +523,7 @@ class Cv1 extends Component {
             <Text
               width={90}
               fontFamily="Poppins"
-              text={this.props.values.email}
+              text={this.props.form.email}
               lineHeight="1.2"
               x={30}
               y={

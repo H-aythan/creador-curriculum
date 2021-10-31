@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Action.scss";
 import ActionIntroduction from "../action-step-introduction/ActionIntroduction";
 import ActionStepSelection from "../action-step-selection/ActionSelection";
@@ -13,7 +13,6 @@ function Action({
   handlePreviewToggle,
   values,
   handleDelete,
-  progress,
   handleInputs,
 }) {
   const [isAuthShowed, setAuthShowed] = useState(false);
@@ -50,7 +49,6 @@ function Action({
           logout={logout}
           user={user}
           handleDelete={handleDelete}
-          progress={progress}
           handleInputs={handleInputs}
         />
       );

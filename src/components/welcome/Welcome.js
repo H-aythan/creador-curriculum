@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./Welcome.scss";
 import Board from "../Boards/board/board";
 import Action from "../Actions/action/Action";
@@ -15,25 +15,42 @@ import fire from "../../conf/fire";
 import { InitialisationCheck } from "../../firestore/dbOperations";
 import InitialisationWrapper from "../initailisation/initialisationWrapper/initialisationWrapper";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCounter, useForm } from "../../hooks/useForm";
+
+const checkForNullsInArray = (array, elem) => {
+  if (!array) {
+    return array;
+  }
+  var nullIndex = array.indexOf(elem);
+  while (nullIndex > -1) {
+    array.splice(nullIndex, 1);
+    nullIndex = array.indexOf(elem);
+  }
+  return array;
+};
 
 function Welcome(props) {
   const steps = ["Introduction", "Template Selection", "Adding Data"];
+  const [form, { setForm }] = useForm();
+
   let currentResumeNotState = JSON.parse(
     localStorage.getItem("currentResumeItem")
   );
 
-  currentResumeNotState.employments = checkForNullsInArray(
-    currentResumeNotState.employments,
-    null
-  );
-  currentResumeNotState.educations = checkForNullsInArray(
-    currentResumeNotState.educations,
-    null
-  );
-  currentResumeNotState.skills = checkForNullsInArray(
-    currentResumeNotState.skills,
-    null
-  );
+  if (currentResumeNotState) {
+    currentResumeNotState.employments = checkForNullsInArray(
+      currentResumeNotState?.employments,
+      null
+    );
+    currentResumeNotState.educations = checkForNullsInArray(
+      currentResumeNotState?.educations,
+      null
+    );
+    currentResumeNotState.skills = checkForNullsInArray(
+      currentResumeNotState?.skills,
+      null
+    );
+  }
 
   var AnalyticsObject = Analytics;
   AnalyticsObject("Homepage");
@@ -44,10 +61,7 @@ function Welcome(props) {
   const [currentStep, setcurrentStep] = useState(steps[0]);
   const [user, setuser] = useState(null);
   const [resumeName, setresumeName] = useState("Cv4");
-  const [currentResumeName, setcurrentResumeName] = useState("Cv4");
-  const [currentResume, setcurrentResume] = useState(null);
   const [title, settitle] = useState("Untitled");
-  const [progress, setprogress] = useState(0);
   const [firstname, setfirstname] = useState(
     currentResumeNotState != null &&
       currentResumeNotState.item.firstname !== undefined
@@ -155,10 +169,7 @@ function Welcome(props) {
         setisInitialisationShowed(true);
       }
     });
-    // checking if the user clicked in a resume in dashboard, to set it as the current resume
-    if (localStorage.getItem("currentResumeItem")) {
-      setcurrentResume(JSON.parse(localStorage.getItem("currentResumeItem")));
-    }
+
     /// check if the user comming from dashboard with specefic resume click
     props.match !== undefined &&
       props.match.params.step !== undefined &&
@@ -184,7 +195,7 @@ function Welcome(props) {
     currentResumeNotState = null;
   };
 
-  const setCurrentStep = (step, isLoginModalShowed) => {
+  const setCurrentStep = () => {
     setcurrentStep(steps[0]);
     setstepIndex(0);
   };
@@ -192,21 +203,6 @@ function Welcome(props) {
   const goThirdStep = () => {
     setcurrentStep(steps[2]);
     setstepIndex(2);
-  };
-
-  const checkForNullsInArray = (array, elem) => {
-    var nullIndex = array.indexOf(elem);
-    while (nullIndex > -1) {
-      array.splice(nullIndex, 1);
-      nullIndex = array.indexOf(elem);
-    }
-    return array;
-  };
-
-  const arrayRemove = (arr, value) => {
-    return arr.filter(function (ele) {
-      return ele !== value;
-    });
   };
 
   const nextStep = () => {
@@ -624,8 +620,9 @@ function Welcome(props) {
 
   const changeSelectedResume = (resumeName) => {
     setresumeName(resumeName);
-    setcurrentResumeName(resumeName);
   };
+
+  console.log("Welcome", form);
 
   return (
     <div className="wrapper">
@@ -671,7 +668,6 @@ function Welcome(props) {
           user={user}
           handlePreviewToggle={handlePreviewToggle}
           handleDelete={handleDelete}
-          progress={progress}
           currentStep={currentStep}
           handleInputs={handleInputs}
         />
