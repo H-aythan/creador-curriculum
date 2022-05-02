@@ -2,12 +2,20 @@ import React from "react";
 import { useForm } from "../../../hooks/useForm";
 import "./SimpleTextarea.scss";
 
-function SimpleTextarea({ handleInputs, title, value, param }) {
+function SimpleTextarea({ handleInputs, title, value, param,index,nameInput,name }) {
   const [form, { setForm }] = useForm();
 
   const handleInputChange = (e) => {
     //handleInputs(title, e.target.value);
-    param && setForm(e.target.value, param);
+    
+    if(nameInput){
+      let newArray=[];
+      newArray=[...form[nameInput]];
+      newArray[index][name]=e.target.value;
+      setForm(newArray,nameInput);
+    }else{
+      setForm(e.target.value,param)  
+    }
   };
 
   const adjustTextarea = (event) => {

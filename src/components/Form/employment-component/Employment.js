@@ -13,8 +13,10 @@ function Employment(props) {
   const [description, setdescription] = useState("(not-set)");
 
   const toggleHandle = () => setisOpened(!isOpened);
-
+  
   const handleInputs = (inputName, inputValue) => {
+    
+    
     switch (inputName) {
       case "Job Title":
         setjobTitle(inputValue);
@@ -63,14 +65,20 @@ function Employment(props) {
         <div className="grid-2-col">
           {/* Passing handleInputs to get user text from input and handle it in parent ( this one ) */}
           <SimpleInput
-            value={jobTitle == "(not-set)" ? props.jobTitle : jobTitle}
+            value={jobTitle == "(not-set)" ? props.jobTitle: jobTitle}
             handleInputs={handleInputs}
             title="Job Title"
+            index={props.index}
+            nameInput="employmentHistory"
+            name="jobTitle"
           />
           <SimpleInput
             value={employer == "(not-set)" ? props.employer : employer}
             handleInputs={handleInputs}
             title="Employer"
+            index={props.index}
+            nameInput="employmentHistory"
+            name="employer"
           />
           <div className=" grid-2-col">
             <SimpleInput
@@ -78,12 +86,18 @@ function Employment(props) {
               value={begin == "(not-set)" ? props.begin : begin}
               handleInputs={handleInputs}
               title="Begin"
+              index={props.index}
+              nameInput="employmentHistory"
+              name="begin"
             />
             <SimpleInput
               placeholder="ex : Jan 2021"
               value={end == "(not-set)" ? props.end : end}
               handleInputs={handleInputs}
               title="End"
+              index={props.index}
+              nameInput="employmentHistory"
+              name="end"
             />
           </div>
         </div>
@@ -91,6 +105,9 @@ function Employment(props) {
           value={description == "(not-set)" ? props.description : description}
           handleInputs={handleInputs}
           title="Description"
+          index={props.index}
+          nameInput="employmentHistory"
+          name="description"
         />
       </div>
     </div>

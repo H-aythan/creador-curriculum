@@ -6,12 +6,13 @@ function BoardSelection({ nextStep, changeResumeName }) {
   const handleResumeClick = (resumeName) => {
     changeResumeName(resumeName);
     nextStep();
+    console.log(resumeName)
   };
 
   return (
     <div className="board">
       <CSSTransition appear={true} in={true} classNames="fade" timeout={1000}>
-        <div className="templateSelection">
+        <div style={{background:"red"}} className="templateSelection">
           <h3>Templates</h3>
           <div className="templatesList">
             <div className="template">

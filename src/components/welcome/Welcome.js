@@ -32,11 +32,11 @@ const checkForNullsInArray = (array, elem) => {
 function Welcome(props) {
   const steps = ["Introduction", "Template Selection", "Adding Data"];
   const [form, { setForm }] = useForm();
-
+  
   let currentResumeNotState = JSON.parse(
     localStorage.getItem("currentResumeItem")
   );
-
+  
   if (currentResumeNotState) {
     currentResumeNotState.employments = checkForNullsInArray(
       currentResumeNotState?.employments,
@@ -51,7 +51,7 @@ function Welcome(props) {
       null
     );
   }
-
+  
   var AnalyticsObject = Analytics;
   AnalyticsObject("Homepage");
 
@@ -161,9 +161,10 @@ function Welcome(props) {
       ? currentResumeNotState.skills
       : []
   );
-
+  
   useEffect(() => {
     authListener();
+    
     InitialisationCheck().then((value) => {
       if (value === "none" || value === undefined) {
         setisInitialisationShowed(true);
@@ -522,6 +523,7 @@ function Welcome(props) {
             found = true;
             neweducations[i].description = inputValue;
             seteducations([...neweducations]);
+            
             break;
           }
         }
@@ -622,10 +624,11 @@ function Welcome(props) {
     setresumeName(resumeName);
   };
 
-  console.log("Welcome", form);
+console.log("Welcome", form);
 
   return (
-    <div className="wrapper">
+    <div className="wrapper" >
+      
       <AnimatePresence>
         {isInitialisationShowed && (
           <motion.div
@@ -637,7 +640,7 @@ function Welcome(props) {
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="actions">
+      <div className="actions" >
         <Action
           goThirdStep={goThirdStep}
           values={{
@@ -655,12 +658,12 @@ function Welcome(props) {
             city: city,
             email: email,
             phone: phone,
-            employments: employments,
+            employments:  form.employmentHistory,
             drivinglicense: drivinglicense,
             nationality: nationality,
-            educations: educations,
-            languages: languages,
-            skills: skills,
+            educations: form.educations,
+            languages: form.languages,
+            skills: form.skills,
             photo: photo,
           }}
           setCurrentStep={setCurrentStep}
@@ -677,7 +680,7 @@ function Welcome(props) {
           mobilePreviewOn ? " right-panel  boardShowed" : "right-panel "
         }
       >
-        <Board
+        <Board 
           nextStep={nextStep}
           stepBack={stepBack}
           changeResumeName={changeSelectedResume}
@@ -685,7 +688,7 @@ function Welcome(props) {
           values={{
             resumeName: resumeName,
             title: title,
-            firstname: firstname,
+            firstname: firstname ,
             lastname: lastname,
             summary: summary,
             occupation: occupation,
@@ -698,7 +701,7 @@ function Welcome(props) {
             email: email,
             nationality: nationality,
             phone: phone,
-            employments: employments,
+            employments: form.employmentHistory,
             educations: educations,
             languages: languages,
             skills: skills,

@@ -238,14 +238,14 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
           </motion.div>
         )}
       </AnimatePresence>
-      <div id="cv" className="cv">
-        <div className="cvWrapper">
+      <div id="cv" className="cv" >
+        <div className="cvWrapper" >
           <ul className="pagination">
-            <li onClick={previousPage}> previous </li>
+            <li onClick={previousPage} > previous </li>
             <li>1 / {page}</li>
             <li onClick={nextPage}> next </li>
           </ul>
-          <div id="Resume">
+          <div id="Resume" >
             <Canvas
               currentResumeName={currentResumeName}
               currentPage={currentPage}

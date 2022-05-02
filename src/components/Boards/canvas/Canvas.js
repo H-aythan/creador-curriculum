@@ -26,7 +26,7 @@ function Canvas({
   // console.log("Canvas", form);
 
   return (
-    <div>
+    <div >
       {currentResumeName === "Cv1" ? (
         <Cv1
           currentPage={currentPage}

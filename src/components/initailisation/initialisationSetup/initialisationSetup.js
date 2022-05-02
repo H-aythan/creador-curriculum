@@ -44,7 +44,7 @@ function InitialisationSetup() {
   };
 
   return (
-    <div className="instalationSuccess">
+    <div className="instalationSuccess" >
       <form onSubmit={signUp} className="registerForm">
         <Input
           disabled={true}

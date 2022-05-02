@@ -10,15 +10,27 @@ function SimpleInput({
   bg,
   disabled,
   placeholder,
+  nameInput,
   handleInputs,
+  index,
+  name
 }) {
   const [form, { setForm }] = useForm();
-
+ 
   const handleInputChange = (e) => {
     // handleInputs(title, e.target.value);
-    param && setForm(e.target.value, param);
+    if (param){
+      setForm(e.target.value, param)
+    }
+    else{
+      let newArray=[];
+      newArray=[...form[nameInput]];
+      newArray[index][name]=e.target.value;
+      setForm(newArray,nameInput)
+    }
+  
   };
-
+  
   return (
     <div className="simpleInput">
       <span className="inputTitle">{title}</span>
@@ -26,7 +38,7 @@ function SimpleInput({
         type={type === "Password" ? "password" : ""}
         style={{ backgroundColor: bg ? bg : "" }}
         disabled={disabled ? true : false}
-        value={param ? form[param] : value}
+        value={param? form[param] : value}
         placeholder={placeholder ? placeholder : ""}
         onChange={handleInputChange}
       />

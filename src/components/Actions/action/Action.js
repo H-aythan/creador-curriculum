@@ -16,14 +16,14 @@ function Action({
   handleInputs,
 }) {
   const [isAuthShowed, setAuthShowed] = useState(false);
-
+  console.log(values)
   const authBtnHandler = () =>
     user == null ? setAuthShowed(!isAuthShowed) : setAuthShowed(false);
-
+  
   switch (currentStep) {
     case "Introduction":
       return (
-        <ActionIntroduction
+        <ActionIntroduction 
           goThirdStep={goThirdStep}
           isAuthShowed={isAuthShowed}
           authBtnHandler={authBtnHandler}

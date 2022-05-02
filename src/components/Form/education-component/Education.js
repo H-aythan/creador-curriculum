@@ -13,7 +13,7 @@ function Education(props) {
   const [description, setdescription] = useState("(not-set)");
 
   const toggleHandle = () => setisOpened(!isOpened);
-
+  
   const handleInputs = (inputName, inputValue) => {
     switch (inputName) {
       case "School":
@@ -66,11 +66,17 @@ function Education(props) {
             value={school === "(not-set)" ? props.school : school}
             handleInputs={handleInputs}
             title="School"
+            index={props.index}
+            nameInput="educations"
+            name="school"
           />
           <SimpleInput
             value={degree === "(not-set)" ? props.degree : degree}
             handleInputs={handleInputs}
             title="Degree"
+            index={props.index}
+            nameInput="educations"
+            name="degree"
           />
           <div className=" grid-2-col">
             <SimpleInput
@@ -78,12 +84,18 @@ function Education(props) {
               value={started === "(not-set)" ? props.started : started}
               handleInputs={handleInputs}
               title="Started"
+              index={props.index}
+              nameInput="educations"
+              name="start"
             />
             <SimpleInput
               placeholder="ex : aug 2021"
               value={finished === "(not-set)" ? props.finished : finished}
               handleInputs={handleInputs}
               title="Finished"
+              index={props.index}
+              nameInput="educations"
+              name="finish"
             />
           </div>
         </div>
@@ -91,6 +103,10 @@ function Education(props) {
           value={description === "(not-set)" ? props.description : description}
           handleInputs={handleInputs}
           title="Course Description"
+          index={props.index}
+          nameInput="educations"
+          name="description"
+          
         />
       </div>
     </div>

@@ -8,17 +8,18 @@ function Languages(props) {
   const [isOpened, setisOpened] = useState(false);
   const [title, settitle] = useState("");
   const [level, setlevel] = useState("");
-
+  
   const toggleHandle = () => setisOpened(!isOpened);
   // Handling toggle click
   const handleInputs = (input, value) => {
-    if (input === "Language") {
-      settitle(value);
-      props.handleInputs(input, value, props.id, "Languages");
-    } else if (input === "Level") {
-      setlevel(value);
-      props.handleInputs(input, value, props.id, "Languages");
-    }
+    // if (input === "Language") {
+    //   settitle(value);
+    //   console.log(value)
+    //   props.handleInputs(input, value, props.id, "Languages");
+    // } else if (input === "Level") {
+    //   setlevel(value);
+    //   props.handleInputs(input, value, props.id, "Languages");
+    // }
   };
 
   return (
@@ -41,11 +42,18 @@ function Languages(props) {
             handleInputs={handleInputs}
             placeholder="Ex: Spanish"
             title="Language"
+            value={props.language}
+            nameInput={"languages"}
+            name="language"
+            index={props.index}
+            
           />
           <DropdownInput
             options={["Elementary", "Intermediate", "Advanced", "Proficient"]}
             handleInputs={handleInputs}
             title="Level"
+            nameInput={"languages"}
+            index={props.index}
           />
         </div>
       </div>

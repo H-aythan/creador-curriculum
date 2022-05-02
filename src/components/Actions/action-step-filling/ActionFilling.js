@@ -11,7 +11,7 @@ import Skill from "../../Form/skill-component/Skill";
 import SimpleInput from "../../Form/simple-input/SimpleInput";
 import ImgUploadInput from "../../Form/img-upload-input/ImgUploadInput";
 import SimpleTextArea from "../../Form/simple-textarea/SimpleTextarea";
-
+import { useForm } from "../../../hooks/useForm";
 import PlusIcon from "../../../assets/plus.png";
 import MinusIcon from "../../../assets/minus.png";
 
@@ -22,10 +22,12 @@ const ActionFilling = (props) => {
   const [educations, seteducations] = useState([]);
   const [languages, setlanguages] = useState([]);
   const [skills, setskills] = useState([]);
-
+  const [form, { setForm }] = useForm();
+  
   useEffect(() => {
     checkComplexFields();
-  }, []);
+    console.log(form)
+  }, [form]);
 
   const checkComplexFields = () => {
     if (values.employments.length > 0) {
@@ -42,6 +44,7 @@ const ActionFilling = (props) => {
               handleInputs={handleInputs}
               id={value.id}
               key={index}
+              index={index}
             />
           );
       });
@@ -50,17 +53,19 @@ const ActionFilling = (props) => {
     if (values.educations.length > 0) {
       var educations = [];
       values.educations.map((value, index) => {
+        console.log(value);
         value != null &&
           educations.push(
             <Education
               school={value.school}
               degree={value.degree}
-              started={value.started}
+              started={value.start}
               description={value.description}
-              finished={value.finished}
+              finished={value.finish}
               id={value.id}
               handleInputs={handleInputs}
               key={index}
+              index={index}
             />
           );
       });
@@ -69,21 +74,39 @@ const ActionFilling = (props) => {
     if (values.skills.length > 0) {
       var skills = [];
       values.skills.map((value, index) => {
+        
         value != null &&
           skills.push(
             <Skill
-              skillName={value.name}
+              skillName={value.skill}
               rating={value.rating}
               handleComponentDelete={handleComponentDelete}
               handleDelete={handleDelete}
               id={value.id}
               handleInputs={handleInputs}
               key={index}
+              index={index}
             />
           );
+          
       });
       setskills(skills);
     }
+    if (values.languages.length > 0) {
+      let lenguaje=[];
+      values.languages.map((value,index)=>{
+        value!=null &&
+        lenguaje.push(
+          <Language
+            key={index}
+            language={value.language}
+            index={index}
+          />
+        )
+      })
+      setlanguages(lenguaje);
+    }
+
   };
   const aditionalDetailHandler = () =>
     setadditionalDetailsShowed(!additionalDetailsShowed);
@@ -91,29 +114,34 @@ const ActionFilling = (props) => {
   const employmentHistory = () => {
     let jobs = [];
     employments.map((value, index) => {
+      
       jobs.push(value);
     });
     return jobs;
   };
   const newEmploymentField = () => {
     let randomId = Math.floor(Math.random() * 9000);
+    setForm([...form.employmentHistory,{jobTitle:"",employer:"",begin:"",end:"",description:""}],"employmentHistory")
 
     setemployments(
       employments.concat([
         <Employment handleInputs={handleInputs} id={randomId} key={randomId} />,
       ])
+      
     );
+    
   };
   const educationHistory = () => {
-    let educations = [];
+    let newEducations = [];
     educations.map((value, index) => {
-      educations.push(value);
+      newEducations.push(value);
     });
-    return educations;
+    return newEducations;
   };
   const newEducationField = () => {
     let randomId = Math.floor(Math.random() * 100);
-
+    setForm([...form.educations,{school:"",degree:"",start:"",finish:"",description:""}],"educations")
+    
     seteducations(
       educations.concat([
         <Education
@@ -126,7 +154,8 @@ const ActionFilling = (props) => {
   };
   const newSkillField = () => {
     let randomId = Math.floor(Math.random() * 300);
-
+    setForm([...form.skills,{skill:"",rating:""}],"skills")
+    
     setskills(
       skills.concat([
         <Skill
@@ -135,6 +164,7 @@ const ActionFilling = (props) => {
           id={randomId}
           handleInputs={handleInputs}
           key={randomId}
+          param="skills"
         />,
       ])
     );
@@ -151,13 +181,15 @@ const ActionFilling = (props) => {
   };
   const newLanguageField = () => {
     let randomId = Math.floor(Math.random() * 900);
-
+    setForm([...form.languages,{language:"",rating:""}],"languages")
+    
     setlanguages(
       languages.concat([
         <Language
           id={languages.length}
           handleInputs={handleInputs}
           key={randomId}
+          
         />,
       ])
     );
@@ -175,7 +207,7 @@ const ActionFilling = (props) => {
   };
 
   return (
-    <div id="introd" className="action-introWrapper filling">
+    <div id="introd" className="action-introWrapper filling" >
       <div className="formHead">
         <div className="cvTitle">
           <span
@@ -305,17 +337,20 @@ const ActionFilling = (props) => {
           title="Professional Summary"
           param="professionalSummary"
         />
-        <div className="componentsWrapper">
+        <div className="componentsWrapper" >
           {/* Employment History */}
-          <div className="sectionHeading">
+          <div className="sectionHeading" style={{background:"red"}}>
             <span className="sectionTitle">Employment History</span>
             <p className="sectionDescription">
               Include you 10 last year relevant experience and dates in this
               section. List your most recent position first .{" "}
             </p>
           </div>
-          {employmentHistory()}
-          <div className="additionalDetailsToggle">
+          <div>
+          
+            {employmentHistory()}
+          </div> 
+          <div className="additionalDetailsToggle" >
             <img src={PlusIcon} alt="icon" />
             <span onClick={newEmploymentField}> Add job </span>
           </div>
@@ -328,6 +363,7 @@ const ActionFilling = (props) => {
             </p>
           </div>
           {educationHistory()}
+          
           <div className="additionalDetailsToggle">
             <img src={PlusIcon} alt="icon" />
             <span onClick={newEducationField}> Add Education </span>

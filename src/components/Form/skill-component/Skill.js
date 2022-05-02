@@ -23,7 +23,7 @@ function Skill(props) {
   };
 
   const toggleHandle = () => setisOpened(!isOpened);
-
+  
   return (
     <div className="panel">
       <div className="panel-heading">
@@ -46,11 +46,22 @@ function Skill(props) {
       </div>
       <div className={!isOpened ? "panel-body hidden" : "panel-body"}>
         <div className="grid-2-col">
-          <SimpleInput handleInputs={handleInputs} title="Skill Name" />
+          <SimpleInput 
+            handleInputs={handleInputs} 
+            title="Skill Name" index={props.index} 
+            value={props.skillName} 
+            nameInput="skills"
+            name="skill"
+          />
           <Dropdown
             handleInputs={handleInputs}
             options={[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
             title="Rating"
+            rating={props.rating}
+            indexArr={props.index} 
+            nameInput="skills"
+            index={props.index}
+            
           />
         </div>
       </div>
