@@ -245,7 +245,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
             <li>1 / {page}</li>
             <li onClick={nextPage}> next </li>
           </ul>
-          <div id="Resume" >
+          <div id="Resume"  >
             <Canvas
               currentResumeName={currentResumeName}
               currentPage={currentPage}

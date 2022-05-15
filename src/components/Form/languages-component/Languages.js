@@ -53,6 +53,7 @@ function Languages(props) {
             handleInputs={handleInputs}
             title="Level"
             nameInput={"languages"}
+            rating={props.rating}
             index={props.index}
           />
         </div>

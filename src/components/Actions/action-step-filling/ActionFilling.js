@@ -100,6 +100,7 @@ const ActionFilling = (props) => {
           <Language
             key={index}
             language={value.language}
+            rating={value.rating}
             index={index}
           />
         )

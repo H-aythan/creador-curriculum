@@ -19,7 +19,7 @@ const Store = createStore({
     nationality: "",
     professionalSummary:"",
     employmentHistory:[{jobTitle:"titulo del trabajo",employer:"empleo",begin:"begin",end:"end",description:"descripcion"},{jobTitle:"titulo del trabajo2",employer:"empleo",begin:"begin",end:"end",description:"descripcion2"}],
-    languages:[{language:"ingles",rating:"Elementary"},{language:"español"}],
+    languages:[{language:"ingles",rating:"Elementary"},{language:"español",rating:"Elementary"}],
     skills:[{skill:"artes",rating:"20"},{skill:"economia",rating:"30"}],
     educations:[{school:"institucion",degree:"tecnico superior",start:"incio",finish:"fin",description:"descripcion"}]
   },
