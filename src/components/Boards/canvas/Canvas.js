@@ -3,9 +3,9 @@
      In order to build templates fast we used KonvaJS Library.
      Please take a look in their documentation where you will understand all the code bellow and how the templates are made
 */
-import React from "react";
+import React, { useState,useEffect } from "react";
 import { useForm } from "../../../hooks/useForm";
-import {PDFViewer}from '@react-pdf/renderer'
+import {PDFViewer,usePDF}from '@react-pdf/renderer';
 import Cv1 from "./resumes/cv-1/Cv1";
 import Cv2 from "./resumes/cv-2/Cv2";
 import Cv3 from "./resumes/cv-3/Cv3";
@@ -22,54 +22,72 @@ function Canvas({
   initialisePages,
 }) {
   const [form, { setForm }] = useForm();
-
-  // console.log("Canvas", form);
-
+  const [instance,updateInstance]=usePDF({document:<Cv1 form={form}/>})
+  const [cargado,setCargado]=useState("0")
+  
+  useEffect(()=>{
+    instance.loading&&setCargado("1")
+    setTimeout(() => {
+      setCargado("0")
+      
+    },1500);
+  },[instance.loading])
   return (
-    <div >
+    
+    <div style={{position:"relative"}}>
+    
+    {cargado&&<div style={{width:"102%",height:"99%",borderRadius:"10px",position:"absolute",top:"0",transition:"0.5s",opacity:cargado,background:"gray"}}>
+      loading...</div>}
+    <PDFViewer style={{width:"100%",height:"630px",borderRadius:"10px"} }showToolbar={false}>
       {currentResumeName === "Cv1" ? (
+        
         <Cv1
-          currentPage={currentPage}
-          pages={pages}
+        currentPage={currentPage}
+        pages={pages}
           addPage={addPage}
           downloadEnded={downloadEnded}
           triggerDownload={triggerDownload}
           values={values}
           form={form}
-         />
+        />
+       
       ) : currentResumeName === "Cv2" ? (
-        <Cv2
-          initialisePages={initialisePages}
-          pages={pages}
-          addPage={addPage}
-          downloadEnded={downloadEnded}
-          triggerDownload={triggerDownload}
-          currentPage={currentPage}
-          values={values}
-        />
+        // <Cv2
+        //   initialisePages={initialisePages}
+        //   pages={pages}
+        //   addPage={addPage}
+        //   downloadEnded={downloadEnded}
+        //   triggerDownload={triggerDownload}
+        //   currentPage={currentPage}
+        //   values={values}
+        // />
+        <></>
       ) : currentResumeName === "Cv3" ? (
-        <Cv3
-          initialisePages={initialisePages}
-          pages={pages}
-          addPage={addPage}
-          downloadEnded={downloadEnded}
-          triggerDownload={triggerDownload}
-          currentPage={currentPage}
-          values={values}
-        />
-      ) : (
+        // <Cv3
+        //   initialisePages={initialisePages}
+        //   pages={pages}
+        //   addPage={addPage}
+        //   downloadEnded={downloadEnded}
+        //   triggerDownload={triggerDownload}
+        //   currentPage={currentPage}
+        //   values={values}
+        // />
+        <></>
+        ) : (
         currentResumeName === "Cv4" && (
-          <Cv4
-            initialisePages={initialisePages}
-            pages={pages}
-            addPage={addPage}
-            downloadEnded={downloadEnded}
-            triggerDownload={triggerDownload}
-            currentPage={currentPage}
-            values={values}
-          />
-        )
-      )}
+          // <Cv4
+          //   initialisePages={initialisePages}
+          //   pages={pages}
+          //   addPage={addPage}
+          //   downloadEnded={downloadEnded}
+          //   triggerDownload={triggerDownload}
+          //   currentPage={currentPage}
+          //   values={values}
+          // />
+          <></>
+          )
+          )}
+    </PDFViewer>
     </div>
   );
 }

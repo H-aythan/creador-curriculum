@@ -13,8 +13,13 @@ import {
 } from "../../../firestore/dbOperations";
 import { IncrementDownloads } from "../../../firestore/dbOperations";
 import { motion, AnimatePresence } from "framer-motion";
+import {PDFDownloadLink}from '@react-pdf/renderer'
+import Cv1 from "../canvas/resumes/cv-1/Cv1";
+import { useForm } from "../../../hooks/useForm";
+
 
 function BoardFilling({ values, stepBack, currentResumeName }) {
+  const [form, { setForm }] = useForm();
   const [triggerDownload, settriggerDownload] = useState(false);
   const [page, setpage] = useState(1);
   const [currentPage, setcurrentPage] = useState(1);
@@ -39,8 +44,8 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
     if (type == "Download") {
       setTimeout(() => {
-        setisDownloadToastVisible(!isDownloadToastVisible);
-        settriggerDownload(true);
+        // setisDownloadToastVisible(!isDownloadToastVisible);
+        // settriggerDownload(true);
       }, 8000);
       setisDownloadToastVisible(!isDownloadToastVisible);
     }
@@ -271,13 +276,15 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
                   Save as draft
                 </button>
               )}
+              <PDFDownloadLink fileName="Resume.pdf" document={<Cv1 form={form} />}>
               <button
-                onClick={() => ShowToast("Download")}
+                // onClick={() => ShowToast("Download")}
                 style={{ fontSize: "15px" }}
                 className="btn-default"
-              >
+                >
                 Download
               </button>
+              </PDFDownloadLink>
             </div>
           </div>
         </div>
