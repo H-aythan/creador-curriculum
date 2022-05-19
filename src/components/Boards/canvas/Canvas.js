@@ -5,11 +5,13 @@
 */
 import React, { useState,useEffect } from "react";
 import { useForm } from "../../../hooks/useForm";
-import {PDFViewer,usePDF}from '@react-pdf/renderer';
+
 import Cv1 from "./resumes/cv-1/Cv1";
 import Cv2 from "./resumes/cv-2/Cv2";
 import Cv3 from "./resumes/cv-3/Cv3";
 import Cv4 from "./resumes/cv-4/Cv4";
+import {Text,View,StyleSheet,Image}from 'react-native-web'
+//import {Text,View,StyleSheet,Image} from '@react-pdf/renderer';
 
 function Canvas({
   currentResumeName,
@@ -22,33 +24,28 @@ function Canvas({
   initialisePages,
 }) {
   const [form, { setForm }] = useForm();
-  const [instance,updateInstance]=usePDF({document:<Cv1 form={form}/>})
-  const [cargado,setCargado]=useState("0")
   
-  useEffect(()=>{
-    instance.loading&&setCargado("1")
-    setTimeout(() => {
-      setCargado("0")
-      
-    },1500);
-  },[instance.loading])
+ 
   return (
+    <>
     
-    <div style={{position:"relative"}}>
-    
-    {cargado&&<div style={{width:"102%",height:"99%",borderRadius:"10px",position:"absolute",top:"0",transition:"0.5s",opacity:cargado,background:"gray"}}>
-      loading...</div>}
-    <PDFViewer style={{width:"100%",height:"630px",borderRadius:"10px"} }showToolbar={false}>
+    {/* {cargado&&<div style={{width:"102%",height:"99%",borderRadius:"10px",position:"absolute",top:"0",transition:"0.5s",opacity:cargado,background:"gray"}}>
+      loading...</div>} */}
+    {/* <PDFViewer style={{width:"100%",height:"630px",borderRadius:"10px"} }showToolbar={false}> */}
       {currentResumeName === "Cv1" ? (
-        
-        <Cv1
-        currentPage={currentPage}
-        pages={pages}
+       <Cv1
+          currentPage={currentPage}
+          pages={pages}
           addPage={addPage}
           downloadEnded={downloadEnded}
           triggerDownload={triggerDownload}
           values={values}
           form={form}
+          View={View}
+          StyleSheet={StyleSheet}
+          Text={Text}
+          Image={Image}
+          web={true}
         />
        
       ) : currentResumeName === "Cv2" ? (
@@ -87,8 +84,8 @@ function Canvas({
           <></>
           )
           )}
-    </PDFViewer>
-    </div>
+    {/* </PDFViewer> */}
+    </>
   );
 }
 
