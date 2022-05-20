@@ -1,8 +1,10 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 
 const Cv1 =({form,Text,View,StyleSheet,web})=>{
   const {firstName,lastName,address,phone,email,languages,
     skills,professionalSummary,employmentHistory,educations,occupation}=form;
+  const [bar,setBar]=useState([])
+  
   
   const styles = StyleSheet.create({
     page:{height:"100%",color:"black",padding:"15px 0px 15px",flexDirection:"column",alignItems:"center",display:"flex"
@@ -66,13 +68,18 @@ const Cv1 =({form,Text,View,StyleSheet,web})=>{
               })}
             </View>
             <Text style={{fontSize:"14px",borderBottom:"4px solid black",paddingBottom:"5px",width:"32px"}}>Skills</Text>
-            <View style={{width:"100%",wordBreak:"break-all"}}>
+            <View style={{width:"100%"}}>
               {skills.map(item=>{
+                 let array=[] 
+                 for (let index = 0; index < parseInt(item.rating)/10; index++) {
+                   array.push(index)
+                }
                 return<View style={{justifyContent:"space-between",flexDirection:"column",marginTop:"5px",marginBottom:"5px",opacity:"0.8"} }>
-                  <Text style={{fontSize:web?"9px":"10px"}}>{item.skill}</Text>
-                  <Text style={{fontSize:web?"9px":"10px"}}>{item.rating}</Text> 
-                  <View>
-                    {/* {skillsBar()} */}
+                  <Text style={{fontSize:web?"9px":"10px"}}>{item.skill}</Text> 
+                  <View style={{border:"2px solid black",height:"15px",flexDirection:"row",padding:"2px"}}>
+                    {array.map(()=>{
+                      return <View style={{backgroundColor:"black", width:"10%",marginLeft:"0.5px",marginRight:"0.5px"}}></View>
+                    })}
                   </View> 
                 
                 </View>

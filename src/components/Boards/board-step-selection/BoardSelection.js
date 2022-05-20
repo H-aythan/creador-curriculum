@@ -12,7 +12,7 @@ function BoardSelection({ nextStep, changeResumeName }) {
   return (
     <div className="board">
       <CSSTransition appear={true} in={true} classNames="fade" timeout={1000}>
-        <div style={{background:"red"}} className="templateSelection">
+        <div className="templateSelection">
           <h3>Templates</h3>
           <div className="templatesList">
             <div className="template">

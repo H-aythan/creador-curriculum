@@ -340,7 +340,7 @@ const ActionFilling = (props) => {
         />
         <div className="componentsWrapper" >
           {/* Employment History */}
-          <div className="sectionHeading" style={{background:"red"}}>
+          <div className="sectionHeading" >
             <span className="sectionTitle">Employment History</span>
             <p className="sectionDescription">
               Include you 10 last year relevant experience and dates in this

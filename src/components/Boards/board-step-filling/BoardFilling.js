@@ -13,7 +13,7 @@ import {
 } from "../../../firestore/dbOperations";
 import { IncrementDownloads } from "../../../firestore/dbOperations";
 import { motion, AnimatePresence } from "framer-motion";
-import {PDFDownloadLink,Text,View,StyleSheet,Imag,Document,Page}from '@react-pdf/renderer'
+import {PDFDownloadLink,Text,View,StyleSheet,Imag,Document,Page,Rect, Svg}from '@react-pdf/renderer'
 import Cv1 from "../canvas/resumes/cv-1/Cv1";
 import { useForm } from "../../../hooks/useForm";
 
@@ -279,7 +279,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
               <PDFDownloadLink fileName="Resume.pdf" document={
                 <Document>
                   <Page >
-                    <Cv1 form={form} Text={Text} Image={Image} StyleSheet={StyleSheet} View={View} />
+                    <Cv1 form={form} Text={Text} Image={Image} StyleSheet={StyleSheet} View={View} Rect={Rect} Svg={Svg}/>
                   </Page>
                 </Document>
                 }>
