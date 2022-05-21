@@ -13,13 +13,13 @@ import {
 } from "../../../firestore/dbOperations";
 import { IncrementDownloads } from "../../../firestore/dbOperations";
 import { motion, AnimatePresence } from "framer-motion";
-import {PDFDownloadLink,Text,View,StyleSheet,Imag,Document,Page,Rect, Svg}from '@react-pdf/renderer'
+import {PDFDownloadLink,Text,View,StyleSheet,Image,Document,Page}from '@react-pdf/renderer'
 import Cv1 from "../canvas/resumes/cv-1/Cv1";
 import { useForm } from "../../../hooks/useForm";
 
 
 function BoardFilling({ values, stepBack, currentResumeName }) {
-  const [form, { setForm }] = useForm();
+  const [form] = useForm();
   const [triggerDownload, settriggerDownload] = useState(false);
   const [page, setpage] = useState(1);
   const [currentPage, setcurrentPage] = useState(1);
@@ -36,13 +36,13 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
   };
 
   const ShowToast = (type) => {
-    if (type == "Success") {
+    if (type === "Success") {
       setTimeout(() => {
         setisSuccessToastVisible(!isSuccessToastVisible);
       }, 3000);
       setisSuccessToastVisible(!isSuccessToastVisible);
     }
-    if (type == "Download") {
+    if (type === "Download") {
       setTimeout(() => {
         // setisDownloadToastVisible(!isDownloadToastVisible);
         // settriggerDownload(true);
@@ -60,7 +60,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
     if (
       currentResume.firstname !== values.firstname ||
-      currentResume.firstname == undefined
+      currentResume.firstname === undefined
     ) {
       setResumePropertyPerUser(
         localStorage.getItem("user"),
@@ -71,7 +71,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
     if (
       currentResume.lastname !== values.lastname ||
-      currentResume.lastname == undefined
+      currentResume.lastname === undefined
     ) {
       setResumePropertyPerUser(
         localStorage.getItem("user"),
@@ -82,7 +82,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
     if (
       currentResume.email !== values.email ||
-      currentResume.email == undefined
+      currentResume.email === undefined
     ) {
       setResumePropertyPerUser(
         localStorage.getItem("user"),
@@ -93,7 +93,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
     if (
       currentResume.phone !== values.phone ||
-      currentResume.phone == undefined
+      currentResume.phone === undefined
     ) {
       setResumePropertyPerUser(
         localStorage.getItem("user"),
@@ -104,7 +104,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
     if (
       currentResume.occupation !== values.occupation ||
-      currentResume.occupation == undefined
+      currentResume.occupation === undefined
     ) {
       setResumePropertyPerUser(
         localStorage.getItem("user"),
@@ -115,7 +115,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
     if (
       currentResume.country !== values.country ||
-      currentResume.country == undefined
+      currentResume.country === undefined
     ) {
       setResumePropertyPerUser(
         localStorage.getItem("user"),
@@ -124,7 +124,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
         values.country
       );
     }
-    if (currentResume.city !== values.city || currentResume.city == undefined) {
+    if (currentResume.city !== values.city || currentResume.city === undefined) {
       setResumePropertyPerUser(
         localStorage.getItem("user"),
         localStorage.getItem("currentResumeId"),
@@ -134,7 +134,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
     if (
       currentResume.address !== values.address ||
-      currentResume.address == undefined
+      currentResume.address === undefined
     ) {
       setResumePropertyPerUser(
         localStorage.getItem("user"),
@@ -145,7 +145,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
     if (
       currentResume.postalcode !== values.postalcode ||
-      currentResume.postalcode == undefined
+      currentResume.postalcode === undefined
     ) {
       setResumePropertyPerUser(
         localStorage.getItem("user"),
@@ -156,7 +156,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
     if (
       currentResume.dateofbirth !== values.dateofbirth ||
-      currentResume.dateofbirth == undefined
+      currentResume.dateofbirth === undefined
     ) {
       setResumePropertyPerUser(
         localStorage.getItem("user"),
@@ -167,7 +167,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
     if (
       currentResume.drivinglicense !== values.drivinglicense ||
-      currentResume.drivinglicense == undefined
+      currentResume.drivinglicense === undefined
     ) {
       setResumePropertyPerUser(
         localStorage.getItem("user"),
@@ -178,7 +178,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
     if (
       currentResume.nationality !== values.nationality ||
-      currentResume.nationality == undefined
+      currentResume.nationality === undefined
     ) {
       setResumePropertyPerUser(
         localStorage.getItem("user"),
@@ -189,7 +189,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
     if (
       currentResume.summary !== values.summary ||
-      currentResume.summary == undefined
+      currentResume.summary === undefined
     ) {
       setResumePropertyPerUser(
         localStorage.getItem("user"),
@@ -264,7 +264,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
 
           <div className="cvAction">
             <span onClick={stepBack} className="selectTemplateLink">
-              <img src={MenuImg} /> Select Template
+              <img src={MenuImg} alt=""/> Select Template
             </span>
             <div>
               {localStorage.getItem("user") && (
@@ -279,7 +279,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
               <PDFDownloadLink fileName="Resume.pdf" document={
                 <Document>
                   <Page >
-                    <Cv1 form={form} Text={Text} Image={Image} StyleSheet={StyleSheet} View={View} Rect={Rect} Svg={Svg}/>
+                    <Cv1 form={form} Text={Text} Image={Image} StyleSheet={StyleSheet} View={View}/>
                   </Page>
                 </Document>
                 }>

@@ -15,7 +15,7 @@ import fire from "../../conf/fire";
 import { InitialisationCheck } from "../../firestore/dbOperations";
 import InitialisationWrapper from "../initailisation/initialisationWrapper/initialisationWrapper";
 import { motion, AnimatePresence } from "framer-motion";
-import { useCounter, useForm } from "../../hooks/useForm";
+import { useForm } from "../../hooks/useForm";
 
 const checkForNullsInArray = (array, elem) => {
   if (!array) {
@@ -31,7 +31,7 @@ const checkForNullsInArray = (array, elem) => {
 
 function Welcome(props) {
   const steps = ["Introduction", "Template Selection", "Adding Data"];
-  const [form, { setForm }] = useForm();
+  const [form] = useForm();
   
   let currentResumeNotState = JSON.parse(
     localStorage.getItem("currentResumeItem")
@@ -617,14 +617,14 @@ function Welcome(props) {
 
   const handlePreviewToggle = () => {
     setmobilePreviewOn(!mobilePreviewOn);
-    setisMobileTogglerShowed(currentStep != "Introduction");
+    setisMobileTogglerShowed(currentStep !== "Introduction");
   };
 
   const changeSelectedResume = (resumeName) => {
     setresumeName(resumeName);
   };
 
-console.log("Welcome", form);
+
 
   return (
     <div className="wrapper" >
@@ -720,7 +720,7 @@ console.log("Welcome", form);
           <div onClick={handlePreviewToggle} className="previewButton">
             <img
               className="previewImg"
-              src={currentStep == "Introduction" ? NextImg : PreviewImg}
+              src={currentStep === "Introduction" ? NextImg : PreviewImg}
               alt="Preview"
             />
           </div>

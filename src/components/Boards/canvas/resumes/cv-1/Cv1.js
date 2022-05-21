@@ -1,11 +1,8 @@
-import React,{useEffect, useState} from "react";
+import React from "react";
 
 const Cv1 =({form,Text,View,StyleSheet,web})=>{
   const {firstName,lastName,address,phone,email,languages,
     skills,professionalSummary,employmentHistory,educations,occupation}=form;
-  const [bar,setBar]=useState([])
-  
-  
   const styles = StyleSheet.create({
     page:{height:"100%",color:"black",padding:"15px 0px 15px",flexDirection:"column",alignItems:"center",display:"flex"
       
@@ -13,7 +10,7 @@ const Cv1 =({form,Text,View,StyleSheet,web})=>{
     sectionNames:{width:"90%",height:"18%",lineHeight:"1",textAlign:"justify",
       fontSize:"20px",display:"flex",paddingTop:"12px",marginBottom:"10px",flexWrap:"wrap",
     },
-    image:{border:"solid black 2px",width:"100px",height:"100px",padding:"15px",fontSize:"10px",textAlign:"center",marginRight:"10px",border:"2px solid black",},
+    image:{border:"2px solid black",width:"100px",height:"100px",padding:"15px",fontSize:"10px",textAlign:"center",marginRight:"10px"},
     names:{overflow:"hidden",width:"70%",flexWrap:"wrap",
       height:"120px",margin:"10px",
     },

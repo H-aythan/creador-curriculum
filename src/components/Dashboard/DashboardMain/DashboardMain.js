@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, {useState, useEffect } from "react";
 import "./DashboardMain.scss";
 import conf from "../../../conf/configuration";
 import logo from "../../../assets/logo/logo.png";

@@ -26,15 +26,15 @@ const ActionFilling = (props) => {
   
   useEffect(() => {
     checkComplexFields();
-    console.log(form)
+    
   }, [form]);
 
   const checkComplexFields = () => {
     if (values.employments.length > 0) {
       var jobs = [];
-      values.employments.map((value, index) => {
-        value != null &&
-          jobs.push(
+      jobs=values.employments.map((value, index) => {
+        return (
+          value != null &&
             <Employment
               jobTitle={value.jobTitle}
               employer={value.employer}
@@ -46,16 +46,16 @@ const ActionFilling = (props) => {
               key={index}
               index={index}
             />
-          );
+        );
       });
       setemployments(jobs);
     }
     if (values.educations.length > 0) {
       var educations = [];
-      values.educations.map((value, index) => {
-        console.log(value);
-        value != null &&
-          educations.push(
+      educations=values.educations.map((value, index) => {
+        
+        return(
+          value != null &&
             <Education
               school={value.school}
               degree={value.degree}
@@ -73,10 +73,9 @@ const ActionFilling = (props) => {
     }
     if (values.skills.length > 0) {
       var skills = [];
-      values.skills.map((value, index) => {
-        
-        value != null &&
-          skills.push(
+      skills=values.skills.map((value, index) => {
+        return(
+          value != null &&
             <Skill
               skillName={value.skill}
               rating={value.rating}
@@ -94,9 +93,9 @@ const ActionFilling = (props) => {
     }
     if (values.languages.length > 0) {
       let lenguaje=[];
-      values.languages.map((value,index)=>{
-        value!=null &&
-        lenguaje.push(
+      lenguaje=values.languages.map((value,index)=>{
+        return(
+          value!=null &&
           <Language
             key={index}
             language={value.language}
@@ -114,9 +113,9 @@ const ActionFilling = (props) => {
 
   const employmentHistory = () => {
     let jobs = [];
-    employments.map((value, index) => {
+    jobs=employments.map((value, index) => {
       
-      jobs.push(value);
+      return value
     });
     return jobs;
   };
@@ -134,8 +133,8 @@ const ActionFilling = (props) => {
   };
   const educationHistory = () => {
     let newEducations = [];
-    educations.map((value, index) => {
-      newEducations.push(value);
+    newEducations=educations.map((value, index) => {
+      return value
     });
     return newEducations;
   };
@@ -175,8 +174,8 @@ const ActionFilling = (props) => {
 
   const skillsAdded = () => {
     let newskills = [];
-    skills.map((value, index) => {
-      newskills.push(value);
+    newskills=skills.map((value, index) => {
+      return value
     });
     return newskills;
   };
@@ -198,8 +197,8 @@ const ActionFilling = (props) => {
 
   const languagesAdded = () => {
     let newlanguages = [];
-    languages.map((value, index) => {
-      newlanguages.push(value);
+    newlanguages=languages.map((value, index) => {
+      return value
     });
     return newlanguages;
   };

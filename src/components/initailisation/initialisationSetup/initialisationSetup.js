@@ -13,7 +13,7 @@ function InitialisationSetup() {
   const signUp = (event) => {
     event.preventDefault();
 
-    if (passwordRepeat == password && email == conf.adminEmail) {
+    if (passwordRepeat === password && email === conf.adminEmail) {
       fire
         .auth()
         .createUserWithEmailAndPassword(email, password)

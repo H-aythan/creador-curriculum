@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./DropdownInput.scss";
 import { useForm } from "../../../hooks/useForm";
-function DropdownInput({ handleInputs, title, options,rating,nameInput,index,name }) {
+function DropdownInput({ title, options,rating,nameInput,index }) {
   const [form, { setForm }] = useForm();
   
   const [isShowed, setisShowed] = useState(false);
@@ -19,8 +19,9 @@ function DropdownInput({ handleInputs, title, options,rating,nameInput,index,nam
   };
   const onOptions = () => {
     let optionsList = [];
-    options.map((value, index) => {
-      optionsList.push(
+    
+    optionsList=options.map((value, index) => {
+      return(
         <div
           key={index}
           onClick={(event) => optionHandler(event)}
@@ -30,6 +31,7 @@ function DropdownInput({ handleInputs, title, options,rating,nameInput,index,nam
         </div>
       );
     });
+    
     return optionsList;
   };
 

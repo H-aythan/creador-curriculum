@@ -38,10 +38,10 @@ function ActionIntroduction({
       </AnimatePresence>
       <div className="head">
         <div className="brand">
-          {conf.brand.useImg == false ? (
+          {conf.brand.useImg === false ? (
             <span>{conf.brand.name}</span>
           ) : (
-            <img className="logo" src={logo} />
+            <img className="logo" src={logo} alt=""/>
           )}
         </div>
         <div className="authentication">

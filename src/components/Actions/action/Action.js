@@ -16,7 +16,7 @@ function Action({
   handleInputs,
 }) {
   const [isAuthShowed, setAuthShowed] = useState(false);
-  console.log(values)
+  
   const authBtnHandler = () =>
     user == null ? setAuthShowed(!isAuthShowed) : setAuthShowed(false);
   

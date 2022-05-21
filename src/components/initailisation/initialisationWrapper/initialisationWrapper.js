@@ -17,7 +17,7 @@ function InitialisationWrapper(props) {
         className="authModal"
       >
         <AnimatePresence>
-          {step == 0 && (
+          {step === 0 && (
             <motion.div
               style={{ position: "absolute", height: "100%", width: "100%" }}
               initial={{ opacity: 0 }}
@@ -30,7 +30,7 @@ function InitialisationWrapper(props) {
           )}
         </AnimatePresence>
         <AnimatePresence>
-          {step == 1 && (
+          {step === 1 && (
             <motion.div
               style={{ position: "absolute", height: "100%", width: "70%" }}
               initial={{ opacity: 0 }}

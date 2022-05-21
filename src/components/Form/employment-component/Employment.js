@@ -47,7 +47,7 @@ function Employment(props) {
     <div className="panel">
       <div className="panel-heading">
         <span className="panel-title">
-          {jobTitle == "(not-set)" ? props.jobTitle : jobTitle}
+          {jobTitle === "(not-set)" ? props.jobTitle : jobTitle}
         </span>
         <span className="panel-subtitle">
           {begin} - {end}
@@ -65,7 +65,7 @@ function Employment(props) {
         <div className="grid-2-col">
           {/* Passing handleInputs to get user text from input and handle it in parent ( this one ) */}
           <SimpleInput
-            value={jobTitle == "(not-set)" ? props.jobTitle: jobTitle}
+            value={jobTitle === "(not-set)" ? props.jobTitle: jobTitle}
             handleInputs={handleInputs}
             title="Job Title"
             index={props.index}
@@ -73,7 +73,7 @@ function Employment(props) {
             name="jobTitle"
           />
           <SimpleInput
-            value={employer == "(not-set)" ? props.employer : employer}
+            value={employer === "(not-set)" ? props.employer : employer}
             handleInputs={handleInputs}
             title="Employer"
             index={props.index}
@@ -83,7 +83,7 @@ function Employment(props) {
           <div className=" grid-2-col">
             <SimpleInput
               placeholder="ex : aug 2020"
-              value={begin == "(not-set)" ? props.begin : begin}
+              value={begin === "(not-set)" ? props.begin : begin}
               handleInputs={handleInputs}
               title="Begin"
               index={props.index}
@@ -92,7 +92,7 @@ function Employment(props) {
             />
             <SimpleInput
               placeholder="ex : Jan 2021"
-              value={end == "(not-set)" ? props.end : end}
+              value={end === "(not-set)" ? props.end : end}
               handleInputs={handleInputs}
               title="End"
               index={props.index}
@@ -102,7 +102,7 @@ function Employment(props) {
           </div>
         </div>
         <SimpleTextArea
-          value={description == "(not-set)" ? props.description : description}
+          value={description === "(not-set)" ? props.description : description}
           handleInputs={handleInputs}
           title="Description"
           index={props.index}

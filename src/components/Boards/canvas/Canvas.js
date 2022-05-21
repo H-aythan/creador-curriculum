@@ -3,7 +3,7 @@
      In order to build templates fast we used KonvaJS Library.
      Please take a look in their documentation where you will understand all the code bellow and how the templates are made
 */
-import React, { useState,useEffect } from "react";
+import React from "react";
 import { useForm } from "../../../hooks/useForm";
 
 import Cv1 from "./resumes/cv-1/Cv1";
@@ -23,7 +23,7 @@ function Canvas({
   values,
   initialisePages,
 }) {
-  const [form, { setForm }] = useForm();
+  const [form] = useForm();
   
  
   return (

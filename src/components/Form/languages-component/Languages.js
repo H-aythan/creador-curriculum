@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import "./Languages.scss";
 import Arrow from "../../../assets/arrow.png";
 import SimpleInput from "../simple-input/SimpleInput";
@@ -11,16 +11,7 @@ function Languages(props) {
   
   const toggleHandle = () => setisOpened(!isOpened);
   // Handling toggle click
-  const handleInputs = (input, value) => {
-    // if (input === "Language") {
-    //   settitle(value);
-    //   console.log(value)
-    //   props.handleInputs(input, value, props.id, "Languages");
-    // } else if (input === "Level") {
-    //   setlevel(value);
-    //   props.handleInputs(input, value, props.id, "Languages");
-    // }
-  };
+
 
   return (
     <div className="panel">
@@ -39,7 +30,7 @@ function Languages(props) {
       <div className={!isOpened ? "panel-body hidden" : "panel-body"}>
         <div className="grid-2-col">
           <SimpleInput
-            handleInputs={handleInputs}
+            
             placeholder="Ex: Spanish"
             title="Language"
             value={props.language}
@@ -50,7 +41,7 @@ function Languages(props) {
           />
           <DropdownInput
             options={["Elementary", "Intermediate", "Advanced", "Proficient"]}
-            handleInputs={handleInputs}
+            
             title="Level"
             nameInput={"languages"}
             rating={props.rating}

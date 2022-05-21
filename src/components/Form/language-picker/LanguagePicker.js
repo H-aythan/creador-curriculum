@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import "./LanguagePicker.scss";
 import UsFlag from "../../../assets/countries/united-states.png";
 import DenmarkFlag from "../../../assets/countries/denmark.png";

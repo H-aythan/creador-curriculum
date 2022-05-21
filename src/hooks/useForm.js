@@ -1,6 +1,5 @@
 import { createStore, createHook } from "react-sweet-state";
-import Education from "../models/Education";
-import Language from "../models/Language";
+
 
 const Store = createStore({
   // value of the store on initialisation

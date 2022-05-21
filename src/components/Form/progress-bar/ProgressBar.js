@@ -35,7 +35,7 @@ function ProgressBar(props) {
     if (props.values.educations !== 0) {
       fieldsFull++;
     }
-    if (props.values.skills != 0) {
+    if (props.values.skills !== 0) {
       fieldsFull++;
     }
 
@@ -71,7 +71,7 @@ function ProgressBar(props) {
 
   return (
     <div>
-      {props.textHidden == false && (
+      {props.textHidden === false && (
         <div className="progressLabel">
           <span className="title">Profile Completness</span>{" "}
           <span

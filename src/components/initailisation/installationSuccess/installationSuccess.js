@@ -18,7 +18,7 @@ class InstallationSuccess extends Component {
         <span className="successMessage">
           Almost there, Lets setup your admin account
         </span>
-        <a onClick={() => this.props.nextStep()} className="btn-default">
+        <a onClick={() => this.props.nextStep()} className="btn-default" href="/#">
           Setup
         </a>
       </div>

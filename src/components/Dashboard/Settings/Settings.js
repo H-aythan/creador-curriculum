@@ -32,7 +32,7 @@ function Settings({ uid }) {
 
   const personalInfoFormHandler = (event) => {
     event.preventDefault();
-    if (firstname != "" && lastname != "") {
+    if (firstname !== "" && lastname !== "") {
       addUser(uid, firstname, lastname);
       setisPersonalSuccessToastShowed(true);
       setTimeout(() => {

@@ -121,7 +121,7 @@ function ResumesList({ showDeletedToast }) {
                 flexDirection: "column",
               }}
             >
-              <img className="noResumesImage" src={addResumesImage} />
+              <img className="noResumesImage" src={addResumesImage} alt=""/>
               <Link
                 onClick={() => addResume(localStorage.getItem("user"))}
                 style={{ textDecoration: "none " }}
