@@ -26,6 +26,7 @@ function Languages(props) {
           }
           src={Arrow}
         />
+        <span onClick={()=>props.actionDelete(props.index,"languages")} className="button">x</span>
       </div>
       <div className={!isOpened ? "panel-body hidden" : "panel-body"}>
         <div className="grid-2-col">

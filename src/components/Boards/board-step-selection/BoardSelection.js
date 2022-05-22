@@ -6,7 +6,7 @@ function BoardSelection({ nextStep, changeResumeName }) {
   const handleResumeClick = (resumeName) => {
     changeResumeName(resumeName);
     nextStep();
-    console.log(resumeName)
+    
   };
 
   return (

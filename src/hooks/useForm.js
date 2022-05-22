@@ -6,6 +6,7 @@ const Store = createStore({
   initialState: {
     firstName:"Anthony",
     lastName: "romero",
+    photo:{},
     phone: "0414-29292992",
     email: "",
     occupation: "web developer",
@@ -33,6 +34,7 @@ const Store = createStore({
           [param]: value,
         });
       },
+      
   },
   // optional, mostly used for easy debugging
   name: "form",

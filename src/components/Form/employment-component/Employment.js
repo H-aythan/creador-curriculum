@@ -52,14 +52,18 @@ function Employment(props) {
         <span className="panel-subtitle">
           {begin} - {end}
         </span>
-        <img
-          alt="more"
-          onClick={toggleHandle}
-          className={
-            !isOpened ? "panel-toggler " : "panel-toggler panel-toggler-opened"
-          }
-          src={Arrow}
-        />
+        
+          <img
+            alt="more"
+            onClick={toggleHandle}
+            className={
+              !isOpened ? "panel-toggler " : "panel-toggler panel-toggler-opened"
+            }
+            src={Arrow}
+          
+          />
+           <span onClick={()=>props.actionDelete(props.index,"employmentHistory")} className="button">x</span>
+        
       </div>
       <div className={!isOpened ? "panel-body hidden" : "panel-body"}>
         <div className="grid-2-col">

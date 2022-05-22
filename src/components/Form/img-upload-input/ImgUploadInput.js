@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import "./ImgUploadInput.scss";
 import ImageUploader from "react-images-upload";
-
+import { useForm } from "../../../hooks/useForm";
 function ImgUploadInput({ handleInputs, title }) {
-  const [picture, setpicture] = useState("");
-
+  
+  const [form,{setForm}]=useForm()
+  
   const onDrop = (pictureFiles, pictureDataURL) => {
-    setpicture(pictureDataURL[pictureDataURL.length - 1]);
-    setTimeout(() => {
-      handleInputs(title, picture);
-    }, 300);
+    setForm({img:pictureDataURL[pictureDataURL.length - 1],cargado:true},"photo");
+    // setTimeout(() => {
+    //   handleInputs(title, picture);
+    // }, 300);
   };
-
+  
   return (
     <div className="imageInputUpload">
       <div className="imageInputTitle"> Image</div>
@@ -22,6 +23,7 @@ function ImgUploadInput({ handleInputs, title }) {
         imgExtension={[".jpg", ".gif", ".png", ".gif"]}
         maxFileSize={5242880}
       />
+      
     </div>
   );
 }

@@ -59,6 +59,7 @@ function Education(props) {
           }
           src={Arrow}
         />
+        <span onClick={()=>props.actionDelete(props.index,"educations")} className="button">x</span>
       </div>
       <div className={!isOpened ? "panel-body hidden" : "panel-body"}>
         <div className="grid-2-col">

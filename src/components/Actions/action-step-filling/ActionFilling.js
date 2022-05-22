@@ -28,9 +28,15 @@ const ActionFilling = (props) => {
     checkComplexFields();
     
   }, [form]);
-
+  
+  const actionDelete=(id,nameInput)=>{
+    let newArray=[];
+    newArray=[...form[nameInput]];
+    newArray.splice(id,1)
+    setForm(newArray,nameInput)
+  }
   const checkComplexFields = () => {
-    if (values.employments.length > 0) {
+    if (values.employments.length > -1) {
       var jobs = [];
       jobs=values.employments.map((value, index) => {
         return (
@@ -41,7 +47,7 @@ const ActionFilling = (props) => {
               description={value.description}
               begin={value.begin}
               end={value.end}
-              handleInputs={handleInputs}
+              actionDelete={actionDelete}
               id={value.id}
               key={index}
               index={index}
@@ -50,7 +56,7 @@ const ActionFilling = (props) => {
       });
       setemployments(jobs);
     }
-    if (values.educations.length > 0) {
+    if (values.educations.length > -1) {
       var educations = [];
       educations=values.educations.map((value, index) => {
         
@@ -63,7 +69,7 @@ const ActionFilling = (props) => {
               description={value.description}
               finished={value.finish}
               id={value.id}
-              handleInputs={handleInputs}
+              actionDelete={actionDelete}
               key={index}
               index={index}
             />
@@ -71,7 +77,7 @@ const ActionFilling = (props) => {
       });
       seteducations(educations);
     }
-    if (values.skills.length > 0) {
+    if (values.skills.length > -1) {
       var skills = [];
       skills=values.skills.map((value, index) => {
         return(
@@ -82,7 +88,7 @@ const ActionFilling = (props) => {
               handleComponentDelete={handleComponentDelete}
               handleDelete={handleDelete}
               id={value.id}
-              handleInputs={handleInputs}
+              actionDelete={actionDelete}
               key={index}
               index={index}
             />
@@ -91,7 +97,7 @@ const ActionFilling = (props) => {
       });
       setskills(skills);
     }
-    if (values.languages.length > 0) {
+    if (values.languages.length > -1) {
       let lenguaje=[];
       lenguaje=values.languages.map((value,index)=>{
         return(
@@ -101,6 +107,7 @@ const ActionFilling = (props) => {
             language={value.language}
             rating={value.rating}
             index={index}
+            actionDelete={actionDelete}
           />
         )
       })

@@ -42,6 +42,7 @@ function Skill(props) {
             }
             src={Arrow}
           />
+          <span onClick={()=>props.actionDelete(props.index,"skills")} className="button">x</span>
         </span>
       </div>
       <div className={!isOpened ? "panel-body hidden" : "panel-body"}>

@@ -1,20 +1,20 @@
 import React from "react";
 
-const Cv1 =({form,Text,View,StyleSheet,web})=>{
+const Cv1 =({form,Text,View,StyleSheet,web,Image})=>{
   const {firstName,lastName,address,phone,email,languages,
-    skills,professionalSummary,employmentHistory,educations,occupation}=form;
+    skills,professionalSummary,employmentHistory,educations,occupation,photo}=form;
   const styles = StyleSheet.create({
     page:{height:"100%",color:"black",padding:"15px 0px 15px",flexDirection:"column",alignItems:"center",display:"flex"
       
     },
-    sectionNames:{width:"90%",height:"18%",lineHeight:"1",textAlign:"justify",
-      fontSize:"20px",display:"flex",paddingTop:"12px",marginBottom:"10px",flexWrap:"wrap",
+    sectionNames:{width:"90%",height:"18%",lineHeight:"1",textAlign:"justify",textAlign:"justify",
+      fontSize:"20px",display:"flex",paddingTop:"20px",marginBottom:"10px",flexWrap:"wrap",
     },
-    image:{border:"2px solid black",width:"100px",height:"100px",padding:"15px",fontSize:"10px",textAlign:"center",marginRight:"10px"},
+    img:{width:"25%",height:"100%"},
     names:{overflow:"hidden",width:"70%",flexWrap:"wrap",
       height:"120px",margin:"10px",
     },
-    sectionData:{width:"90%",flexGrow:"10",flexWrap:"wrap",flexDirection:"row",justifyContent:"space-around"},
+    sectionData:{width:"90%",flexGrow:"10",flexWrap:"wrap",flexDirection:"row",justifyContent:"space-around",marginTop:"10px"},
     aside:{flexBasis:"20%",textAlign:"left",display:"flex",flexDirection:"column",},
     sectionInfo:{flexBasis:"70%",textAlign:"left",display:"flex",flexDirection:"column"},
     SectionsGenerics:{display:"flex",flexDirection:"column",overflow:"hidden",width:"100%",
@@ -28,7 +28,10 @@ const Cv1 =({form,Text,View,StyleSheet,web})=>{
 <View style={styles.page}>
         <View style={styles.sectionNames}>
         {/* firstname lastName photo occupation*/}
-          <Text style={styles.image}>photo</Text>
+          <View style={styles.img}>
+            {photo.cargado&&<Image source={photo.img}  style={{with:"100%",height:"100%",objectFit:"cover"}}/>}
+          </View>
+         
           <View style={styles.names}>
             <View style={{width:"100%",flexDirection:"row",flexWrap:"wrap"}}>
               <Text style={{marginRight:"5px",fontSize:web?"20px":"25px"}}>{firstName}</Text>
@@ -57,25 +60,25 @@ const Cv1 =({form,Text,View,StyleSheet,web})=>{
             {/* language skills */}
             <Text style={{fontSize:"14px",marginTop:"10px",borderBottom:"4px solid black",paddingBottom:"5px",width:"70px"}}>Languages</Text>
             <View style={{width:"100%"}}>
-              {languages.map(item=>{
-                return<View style={{justifyContent:"space-between",marginTop:"5px",marginBottom:"5px" ,flexDirection:"row",opacity:"0.8"}}>
-                  <Text style={{fontSize:web?"9px":"10px"}}>{item.language}</Text>
+              {languages.map((item,i)=>{
+                return<View key={i} style={{justifyContent:"space-between",marginTop:"5px",marginBottom:"5px" ,flexDirection:"row",opacity:"0.8"}}>
+                  <Text style={{fontSize:web?"9px":"10px",width:"45%"}}>{item.language}</Text>
                   <Text style={{fontSize:web?"9px":"10px"}}>{item.rating}</Text>  
                 </View>
               })}
             </View>
             <Text style={{fontSize:"14px",borderBottom:"4px solid black",paddingBottom:"5px",width:"32px"}}>Skills</Text>
             <View style={{width:"100%"}}>
-              {skills.map(item=>{
+              {skills.map((item,i)=>{
                  let array=[] 
                  for (let index = 0; index < parseInt(item.rating)/10; index++) {
                    array.push(index)
                 }
-                return<View style={{justifyContent:"space-between",flexDirection:"column",marginTop:"5px",marginBottom:"5px",opacity:"0.8"} }>
+                return<View key={i} style={{justifyContent:"space-between",flexDirection:"column",marginTop:"5px",marginBottom:"5px",opacity:"0.8"} }>
                   <Text style={{fontSize:web?"9px":"10px"}}>{item.skill}</Text> 
                   <View style={{border:"2px solid black",height:"15px",flexDirection:"row",padding:"2px"}}>
-                    {array.map(()=>{
-                      return <View style={{backgroundColor:"black", width:"10%",marginLeft:"0.5px",marginRight:"0.5px"}}></View>
+                    {array.map((item,i)=>{
+                      return <View key={i} style={{backgroundColor:"black", width:"10%",marginLeft:"0.5px",marginRight:"0.5px"}}></View>
                     })}
                   </View> 
                 
@@ -89,8 +92,8 @@ const Cv1 =({form,Text,View,StyleSheet,web})=>{
             <Text style={{fontSize:"12px",margin:"10px 0px 10px",opacity:"0.7"}}>{professionalSummary}</Text>
             
             <Text style={{fontSize:"18px",borderBottom:"4px solid black",paddingBottom:"5px",marginTop:"10px"}}>Employment History</Text>
-            {employmentHistory.map(item=>{
-              return <View style={{flexDirection:"column",marginTop:"10px"}}>
+            {employmentHistory.map((item,i)=>{
+              return <View key={i} style={{flexDirection:"column",marginTop:"10px"}}>
                   <View style={{justifyContent:"space-between",flexDirection:"row"}}>
                     <Text style={{fontSize:web?"8px":"10px"}}>{item.jobTitle}, {item.employer}</Text>
                     <Text style={{marginRight:"10px",fontSize:web?"9px":"10px"}}>{item.begin}-{item.end}</Text>
@@ -101,8 +104,8 @@ const Cv1 =({form,Text,View,StyleSheet,web})=>{
               </View>
               })}
             <Text style={{fontSize:"18px",borderBottom:"4px solid black",paddingBottom:"5px",marginTop:"10px"}}>Education History</Text>
-            {educations.map(item=>{
-              return <View style={{flexDirection:"column",marginTop:"10px"}}>
+            {educations.map((item,i)=>{
+              return <View key={i} style={{flexDirection:"column",marginTop:"10px"}}>
                 <View style={{flexDirection:"row",justifyContent:"space-between"}}>
                     <Text  style={{fontSize:web?"8px":"10px"}}>{item.school}, {item.degree}</Text>
                     <Text style={{marginRight:"10px",fontSize:web?"9px":"10px"}}>{item.start}-{item.finish}</Text>

@@ -25,11 +25,23 @@
         align-self: center;
         cursor: pointer;
         transition: all 0.4s ease-in-out;
+        
     }
     .panel-toggler-opened{
         transform: rotate(180deg);
     }
-
+    .button{
+        background-color: rgba(250, 0, 0, 0.8);
+        color: #F8FAFE;
+        margin-left: 10px;
+        border-radius: 2px;
+        min-width: 20px;
+        min-height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
             
 }
 .panel-body{
