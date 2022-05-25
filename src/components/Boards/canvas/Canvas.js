@@ -3,15 +3,14 @@
      In order to build templates fast we used KonvaJS Library.
      Please take a look in their documentation where you will understand all the code bellow and how the templates are made
 */
-import React from "react";
+import React,{useEffect} from "react";
 import { useForm } from "../../../hooks/useForm";
 
-import Cv1 from "./resumes/cv-1/Cv1";
-import Cv2 from "./resumes/cv-2/Cv2";
-import Cv3 from "./resumes/cv-3/Cv3";
-import Cv4 from "./resumes/cv-4/Cv4";
+
+
+import Assets,{Cv1,Cv2,Cv3,Cv4}from './resumes/ExportsCvs';
 import {Text,View,StyleSheet,Image}from 'react-native-web'
-//import {Text,View,StyleSheet,Image} from '@react-pdf/renderer';
+
 
 function Canvas({
   currentResumeName,
@@ -22,18 +21,18 @@ function Canvas({
   triggerDownload,
   values,
   initialisePages,
+  setPla
 }) {
   const [form] = useForm();
-  
  
+  
   return (
     <>
     
-    {/* {cargado&&<div style={{width:"102%",height:"99%",borderRadius:"10px",position:"absolute",top:"0",transition:"0.5s",opacity:cargado,background:"gray"}}>
-      loading...</div>} */}
+    
     {/* <PDFViewer style={{width:"100%",height:"630px",borderRadius:"10px"} }showToolbar={false}> */}
       {currentResumeName === "Cv1" ? (
-       <Cv1
+        <Cv1
           currentPage={currentPage}
           pages={pages}
           addPage={addPage}
@@ -46,20 +45,31 @@ function Canvas({
           Text={Text}
           Image={Image}
           web={true}
-        />
-       
+          
+          />
+          
       ) : currentResumeName === "Cv2" ? (
-        // <Cv2
-        //   initialisePages={initialisePages}
-        //   pages={pages}
-        //   addPage={addPage}
-        //   downloadEnded={downloadEnded}
-        //   triggerDownload={triggerDownload}
-        //   currentPage={currentPage}
-        //   values={values}
-        // />
-        <></>
-      ) : currentResumeName === "Cv3" ? (
+        <Cv2
+          initialisePages={initialisePages}
+          pages={pages}
+          addPage={addPage}
+          downloadEnded={downloadEnded}
+          triggerDownload={triggerDownload}
+          currentPage={currentPage}
+          values={values}
+          form={form}
+          View={View}
+          StyleSheet={StyleSheet}
+          Text={Text}
+          Image={Image}
+          web={true}
+          imgs={Assets.imgsCv2}
+          ImagEmail={Assets.imgsCv2.ImagEmail}
+          ImageAddress={Assets.imgsCv2.ImageAddress}
+          ImageCall={Assets.imgsCv2.ImageCall}
+        />
+        
+        ) : currentResumeName === "Cv3" ? (
         // <Cv3
         //   initialisePages={initialisePages}
         //   pages={pages}
@@ -83,7 +93,8 @@ function Canvas({
           // />
           <></>
           )
-          )}
+          )
+          }
     {/* </PDFViewer> */}
     </>
   );

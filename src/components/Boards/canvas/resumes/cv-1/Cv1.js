@@ -29,7 +29,7 @@ const Cv1 =({form,Text,View,StyleSheet,web,Image})=>{
         <View style={styles.sectionNames}>
         {/* firstname lastName photo occupation*/}
           <View style={styles.img}>
-            {photo.cargado&&<Image source={photo.img}  style={{with:"100%",height:"100%",objectFit:"cover"}}/>}
+            {photo?.cargado&&<Image source={photo.img}  style={{with:"100%",height:"100%",objectFit:"cover"}}/>}
           </View>
          
           <View style={styles.names}>
@@ -60,7 +60,7 @@ const Cv1 =({form,Text,View,StyleSheet,web,Image})=>{
             {/* language skills */}
             <Text style={{fontSize:"14px",marginTop:"10px",borderBottom:"4px solid black",paddingBottom:"5px",width:"70px"}}>Languages</Text>
             <View style={{width:"100%"}}>
-              {languages.map((item,i)=>{
+              {languages?.map((item,i)=>{
                 return<View key={i} style={{justifyContent:"space-between",marginTop:"5px",marginBottom:"5px" ,flexDirection:"row",opacity:"0.8"}}>
                   <Text style={{fontSize:web?"9px":"10px",width:"45%"}}>{item.language}</Text>
                   <Text style={{fontSize:web?"9px":"10px"}}>{item.rating}</Text>  
@@ -69,7 +69,7 @@ const Cv1 =({form,Text,View,StyleSheet,web,Image})=>{
             </View>
             <Text style={{fontSize:"14px",borderBottom:"4px solid black",paddingBottom:"5px",width:"32px"}}>Skills</Text>
             <View style={{width:"100%"}}>
-              {skills.map((item,i)=>{
+              {skills?.map((item,i)=>{
                  let array=[] 
                  for (let index = 0; index < parseInt(item.rating)/10; index++) {
                    array.push(index)
@@ -77,7 +77,7 @@ const Cv1 =({form,Text,View,StyleSheet,web,Image})=>{
                 return<View key={i} style={{justifyContent:"space-between",flexDirection:"column",marginTop:"5px",marginBottom:"5px",opacity:"0.8"} }>
                   <Text style={{fontSize:web?"9px":"10px"}}>{item.skill}</Text> 
                   <View style={{border:"2px solid black",height:"15px",flexDirection:"row",padding:"2px"}}>
-                    {array.map((item,i)=>{
+                    {array?.map((item,i)=>{
                       return <View key={i} style={{backgroundColor:"black", width:"10%",marginLeft:"0.5px",marginRight:"0.5px"}}></View>
                     })}
                   </View> 
@@ -92,7 +92,7 @@ const Cv1 =({form,Text,View,StyleSheet,web,Image})=>{
             <Text style={{fontSize:"12px",margin:"10px 0px 10px",opacity:"0.7"}}>{professionalSummary}</Text>
             
             <Text style={{fontSize:"18px",borderBottom:"4px solid black",paddingBottom:"5px",marginTop:"10px"}}>Employment History</Text>
-            {employmentHistory.map((item,i)=>{
+            {employmentHistory?.map((item,i)=>{
               return <View key={i} style={{flexDirection:"column",marginTop:"10px"}}>
                   <View style={{justifyContent:"space-between",flexDirection:"row"}}>
                     <Text style={{fontSize:web?"8px":"10px"}}>{item.jobTitle}, {item.employer}</Text>
@@ -104,7 +104,7 @@ const Cv1 =({form,Text,View,StyleSheet,web,Image})=>{
               </View>
               })}
             <Text style={{fontSize:"18px",borderBottom:"4px solid black",paddingBottom:"5px",marginTop:"10px"}}>Education History</Text>
-            {educations.map((item,i)=>{
+            {educations?.map((item,i)=>{
               return <View key={i} style={{flexDirection:"column",marginTop:"10px"}}>
                 <View style={{flexDirection:"row",justifyContent:"space-between"}}>
                     <Text  style={{fontSize:web?"8px":"10px"}}>{item.school}, {item.degree}</Text>

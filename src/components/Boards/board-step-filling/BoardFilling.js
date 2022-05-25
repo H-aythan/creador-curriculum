@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./BoardFilling.scss";
 import MenuImg from "../../../assets/menu.png";
 import Canvas from "../canvas/Canvas";
@@ -14,8 +14,8 @@ import {
 import { IncrementDownloads } from "../../../firestore/dbOperations";
 import { motion, AnimatePresence } from "framer-motion";
 import {PDFDownloadLink,Text,View,StyleSheet,Image,Document,Page}from '@react-pdf/renderer'
-import Cv1 from "../canvas/resumes/cv-1/Cv1";
 import { useForm } from "../../../hooks/useForm";
+import Assets,{Cv1,Cv2} from "../canvas/resumes/ExportsCvs";
 
 
 function BoardFilling({ values, stepBack, currentResumeName }) {
@@ -25,32 +25,44 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
   const [currentPage, setcurrentPage] = useState(1);
   const [isSuccessToastVisible, setisSuccessToastVisible] = useState(false);
   const [isDownloadToastVisible, setisDownloadToastVisible] = useState(false);
-
   const addPage = () => setpage(page + 1);
   const nextPage = () => setcurrentPage(currentPage + 1);
   const previousPage = () => setcurrentPage(currentPage - 1);
-
+  const [data,setData]=useState({})
+  const [save,setSave]=useState(false)
   const downloadEnded = () => {
+    
     IncrementDownloads();
     settriggerDownload(false);
   };
-
+  useEffect(()=>{
+    //ddPlantillas(Cv1)
+  },[form])
   const ShowToast = (type) => {
-    if (type === "Success") {
-      setTimeout(() => {
-        setisSuccessToastVisible(!isSuccessToastVisible);
-      }, 3000);
-      setisSuccessToastVisible(!isSuccessToastVisible);
-    }
-    if (type === "Download") {
+    // if (type === "Success") {
+    //   setTimeout(() => {
+    //     setisSuccessToastVisible(!isSuccessToastVisible);
+    //   }, 3000);
+    //   setisSuccessToastVisible(!isSuccessToastVisible);
+    // }
+    if (type === "Download") {    
+      
       setTimeout(() => {
         // setisDownloadToastVisible(!isDownloadToastVisible);
         // settriggerDownload(true);
-      }, 8000);
-      setisDownloadToastVisible(!isDownloadToastVisible);
+        setSave(!save)
+      }, 1000);
+      //setisDownloadToastVisible(!isDownloadToastVisible);
+    }
+    if (type === "Save") {
+      setData(form)
+      setTimeout(() => {
+        
+        setSave(!save)
+      }, 800);
     }
   };
-
+  
   const saveToDatabase = () => {
     let currentResume = {};
     if (!localStorage.getItem("currentResumeItem")) {
@@ -218,10 +230,24 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     );
     ShowToast("Success");
   };
+  console.log(data);
+  const AddPlantillas=(Plantilla)=>{
+    // setTimeout(() => {
+         
+    // }, 3000);
+   return <Document>
+      <Page>
+        <Plantilla form={data} Text={Text} Image={Image} StyleSheet={StyleSheet} View={View} imgs={Assets.imgsCv2}/>
+  
+      </Page>
+    </Document>
+   
+  }
 
+  
   return (
-    <div className="board">
-      <AnimatePresence>
+    <div className="board" >
+    <AnimatePresence>
         {isSuccessToastVisible && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -259,10 +285,13 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
               downloadEnded={downloadEnded}
               triggerDownload={triggerDownload}
               values={values}
+              
             />
           </div>
-
-          <div className="cvAction">
+          <div>
+            
+          </div>
+          <div className="cvAction" >
             <span onClick={stepBack} className="selectTemplateLink">
               <img src={MenuImg} alt=""/> Select Template
             </span>
@@ -276,21 +305,29 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
                   Save as draft
                 </button>
               )}
-              <PDFDownloadLink fileName="Resume.pdf" document={
-                <Document>
-                  <Page >
-                    <Cv1 form={form} Text={Text} Image={Image} StyleSheet={StyleSheet} View={View}/>
-                  </Page>
-                </Document>
-                }>
-                <button
-                  // onClick={() => ShowToast("Download")}
-                  style={{ fontSize: "15px" }}
-                  className="btn-default"
-                  >
-                  Download
-                </button>
-              </PDFDownloadLink>
+                  {save?<PDFDownloadLink fileName="Resume.pdf" document={
+                    currentResumeName==="Cv1"?
+                      AddPlantillas(Cv1) 
+                    :currentResumeName==="Cv2"&&
+                      AddPlantillas(Cv2)
+                   }>
+                      <button
+                        onClick={() => ShowToast("Download")}
+                        style={{ fontSize: "15px" }}
+                        className="btn-default"
+                        
+                        >
+                        Download
+                      </button>
+                    </PDFDownloadLink>
+                  :<button
+                      onClick={() => ShowToast("Save")}
+                      style={{ fontSize: "15px" }}
+                      className="btn-default"
+                      >
+                        save
+                    </button>
+                 }
             </div>
           </div>
         </div>
