@@ -5,7 +5,7 @@ const Store = createStore({
   // value of the store on initialisation
   initialState: {
     firstName:"Anthony",
-    lastName: "romero",
+    lastName: "Romero",
     photo:{},
     phone: "0414-29292992",
     email: "anthonyromeroromero14@gmail.com",

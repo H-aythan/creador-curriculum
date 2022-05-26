@@ -15,7 +15,7 @@ import { IncrementDownloads } from "../../../firestore/dbOperations";
 import { motion, AnimatePresence } from "framer-motion";
 import {PDFDownloadLink,Text,View,StyleSheet,Image,Document,Page}from '@react-pdf/renderer'
 import { useForm } from "../../../hooks/useForm";
-import Assets,{Cv1,Cv2} from "../canvas/resumes/ExportsCvs";
+import Assets,{Cv1,Cv2,Cv3} from "../canvas/resumes/ExportsCvs";
 
 
 function BoardFilling({ values, stepBack, currentResumeName }) {
@@ -54,12 +54,13 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
       }, 1000);
       //setisDownloadToastVisible(!isDownloadToastVisible);
     }
+    setData(form)
     if (type === "Save") {
-      setData(form)
+      
       setTimeout(() => {
         
         setSave(!save)
-      }, 800);
+      }, 1000);
     }
   };
   
@@ -310,7 +311,11 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
                       AddPlantillas(Cv1) 
                     :currentResumeName==="Cv2"&&
                       AddPlantillas(Cv2)
-                   }>
+                    
+                    // :currentResumeName==="Cv3"&&
+                    // AddPlantillas(Cv3)
+                    }>
+                    
                       <button
                         onClick={() => ShowToast("Download")}
                         style={{ fontSize: "15px" }}

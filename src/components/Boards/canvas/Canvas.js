@@ -70,16 +70,21 @@ function Canvas({
         />
         
         ) : currentResumeName === "Cv3" ? (
-        // <Cv3
-        //   initialisePages={initialisePages}
-        //   pages={pages}
-        //   addPage={addPage}
-        //   downloadEnded={downloadEnded}
-        //   triggerDownload={triggerDownload}
-        //   currentPage={currentPage}
-        //   values={values}
-        // />
-        <></>
+        <Cv3
+          initialisePages={initialisePages}
+          pages={pages}
+          addPage={addPage}
+          downloadEnded={downloadEnded}
+          triggerDownload={triggerDownload}
+          currentPage={currentPage}
+          values={values}
+          form={form}
+          View={View}
+          StyleSheet={StyleSheet}
+          Text={Text}
+          web={true}
+        />
+        
         ) : (
         currentResumeName === "Cv4" && (
           // <Cv4
@@ -95,7 +100,7 @@ function Canvas({
           )
           )
           }
-    {/* </PDFViewer> */}
+    
     </>
   );
 }

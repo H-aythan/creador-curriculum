@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 
-
-
-const Cv2 =({form,Text,View,StyleSheet,web,Image,imgs,ImageAddress,ImageCall,ImagEmail})=>{
+const Cv2 =({form,Text,View,StyleSheet,web,Image,imgs})=>{
   const {firstName,lastName,address,phone,email,languages,
     skills,professionalSummary,employmentHistory,educations,occupation}=form;
     
   
   const styles = StyleSheet.create({
-    page:{height:"100%",color:"black",padding:"15px 0px 15px",flexDirection:"column",alignItems:"center",display:"flex",
+    page:{height:"100%",color:"black",padding:"15px 0px 15px",flexDirection:"column",alignItems:"center",
       
     },
     sectionNames:{width:"90%",height:"18%",lineHeight:"1",textAlign:"justify",textAlign:"justify",
@@ -16,7 +14,7 @@ const Cv2 =({form,Text,View,StyleSheet,web,Image,imgs,ImageAddress,ImageCall,Ima
     },
     circle:{width:"130px",height:"130px",backgroundColor:"rgba(240,195,14,255)",borderRadius:"50%",position:"absolute"},
     names:{overflow:"hidden",width:"90%",flexWrap:"wrap",
-      height:"120px",margin:"10px",
+      height:"120px",
     },
     sectionData:{width:"90%",flexWrap:"wrap",flexDirection:"row",marginTop:"10px"},
     contact:{flexBasis:"100%",textAlign:"left",flexDirection:"row",justifyContent:"flex-end",height:"70px",flexWrap:"wrap",
@@ -28,7 +26,9 @@ const Cv2 =({form,Text,View,StyleSheet,web,Image,imgs,ImageAddress,ImageCall,Ima
     },
     occupation:{height:web?"25px":"28px",width:"100%",fontSize:web?"17px":"22px",opacity:"0.8",position:"absolute",top:"45%",left:"10%",
       overflow:"hidden",
-    }
+    },
+    borders:{border:"2px solid black",width:"100%",borderRadius:"10px",height:"0.1px",backgroundColor:"black",marginTop:"10px"}
+
   });
   
   return( 
@@ -79,7 +79,7 @@ const Cv2 =({form,Text,View,StyleSheet,web,Image,imgs,ImageAddress,ImageCall,Ima
               <Text style={{fontSize:"12px",paddingBottom:"5px",width:"20%"}}>PROFESSIONAL DETAILS</Text>
               <View style={{width:"70%"}}>
                 <Text style={{fontSize:"8px",opacity:"0.7"}}>{professionalSummary}</Text>
-                <View style={{border:"2px solid black",width:"100%",borderRadius:"10px",height:"0.1px",backgroundColor:"black",marginTop:"10px"}}></View>
+                <View style={styles.borders}></View>
               </View>
             </View>
             
@@ -97,7 +97,7 @@ const Cv2 =({form,Text,View,StyleSheet,web,Image,imgs,ImageAddress,ImageCall,Ima
                   </View>
               </View>
               })}
-               <View style={{border:"2px solid black",width:"100%",borderRadius:"10px",height:"0.1px",backgroundColor:"black",marginTop:"10px"}}></View>
+               <View style={styles.borders}></View>
             </View>
             <Text style={{fontSize:"12px",paddingBottom:"5px",marginTop:"10px",width:"20%"}}>EDUCATION</Text>
             <View style={{width:"70%"}}>
@@ -113,7 +113,7 @@ const Cv2 =({form,Text,View,StyleSheet,web,Image,imgs,ImageAddress,ImageCall,Ima
                     </View>
                 </View>
                 })}
-                <View style={{border:"2px solid black",width:"100%",borderRadius:"10px",height:"0.1px",backgroundColor:"black",marginTop:"10px",marginBottom:"10px"}}></View>
+                <View style={[styles.borders,{marginBottom:"10px"}]}></View>
             </View>
           <Text style={{fontSize:"14px",paddingBottom:"5px",width:"20%"}}>Skills</Text>
           <View style={{width:"70%",flexDirection:"row",flexWrap:"wrap"}}>
@@ -133,7 +133,7 @@ const Cv2 =({form,Text,View,StyleSheet,web,Image,imgs,ImageAddress,ImageCall,Ima
                 </View>
               })}
             
-            <View style={{border:"2px solid black",width:"100%",borderRadius:"10px",height:"0.1px",backgroundColor:"black",marginTop:"10px"}}></View>
+            <View style={styles.borders}></View>
           </View>
           </View>
 
