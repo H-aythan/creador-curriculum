@@ -89,14 +89,14 @@ const Cv1 =({form,Text,View,StyleSheet,web,Image})=>{
           {/* employment education prfesionalSuumary*/}
           <View style={styles.sectionInfo}>
             <Text style={{fontSize:"18px",borderBottom:"4px solid black",paddingBottom:"5px"}}>Professional Summary</Text>
-            <Text style={{fontSize:"12px",margin:"10px 0px 10px",opacity:"0.7"}}>{professionalSummary}</Text>
+            <Text style={{fontSize:"10px",marginTop:"10px",opacity:"0.7"}}>{professionalSummary}</Text>
             
             <Text style={{fontSize:"18px",borderBottom:"4px solid black",paddingBottom:"5px",marginTop:"10px"}}>Employment History</Text>
             {employmentHistory?.map((item,i)=>{
               return <View key={i} style={{flexDirection:"column",marginTop:"10px"}}>
                   <View style={{justifyContent:"space-between",flexDirection:"row"}}>
-                    <Text style={{fontSize:web?"8px":"10px"}}>{item.jobTitle}, {item.employer}</Text>
-                    <Text style={{marginRight:"10px",fontSize:web?"9px":"10px"}}>{item.begin}-{item.end}</Text>
+                    <Text style={{fontSize:web?"8px":"10px",height:"10px",overflow:"hidden",width:"60%"}}>{item.jobTitle}, {item.employer}</Text>
+                    <Text style={{marginRight:"10px",fontSize:web?"9px":"10px",height:"10px",overflow:"hidden",width:"30%"}}>{item.begin}-{item.end}</Text>
                   </View>
                   <Text style={{fontSize:"9px",lineHeight:"1",opacity:"0.7",marginTop:"5px"}}>
                     {item.description}
@@ -107,8 +107,8 @@ const Cv1 =({form,Text,View,StyleSheet,web,Image})=>{
             {educations?.map((item,i)=>{
               return <View key={i} style={{flexDirection:"column",marginTop:"10px"}}>
                 <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                    <Text  style={{fontSize:web?"8px":"10px"}}>{item.school}, {item.degree}</Text>
-                    <Text style={{marginRight:"10px",fontSize:web?"9px":"10px"}}>{item.start}-{item.finish}</Text>
+                    <Text  style={{fontSize:web?"8px":"10px",height:"10px",overflow:"hidden",width:"60%"}}>{item.school}, {item.degree}</Text>
+                    <Text style={{marginRight:"10px",fontSize:web?"9px":"10px",height:"10px",overflow:"hidden",width:"30%"}}>{item.start}-{item.finish}</Text>
                   </View>
                   <Text style={{fontSize:"9px",lineHeight:"1",opacity:"0.7",marginTop:"5px"}}>
                     {item.description}

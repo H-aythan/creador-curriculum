@@ -15,7 +15,7 @@ import { IncrementDownloads } from "../../../firestore/dbOperations";
 import { motion, AnimatePresence } from "framer-motion";
 import {PDFDownloadLink,Text,View,StyleSheet,Image,Document,Page}from '@react-pdf/renderer'
 import { useForm } from "../../../hooks/useForm";
-import Assets,{Cv1,Cv2,Cv3} from "../canvas/resumes/ExportsCvs";
+import Assets,{Cv1,Cv2,Cv3,Cv4} from "../canvas/resumes/ExportsCvs";
 
 
 function BoardFilling({ values, stepBack, currentResumeName }) {
@@ -309,11 +309,12 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
                   {save?<PDFDownloadLink fileName="Resume.pdf" document={
                     currentResumeName==="Cv1"?
                       AddPlantillas(Cv1) 
-                    :currentResumeName==="Cv2"&&
-                      AddPlantillas(Cv2)
-                    
-                    // :currentResumeName==="Cv3"&&
-                    // AddPlantillas(Cv3)
+                    :currentResumeName==="Cv2"?
+                      AddPlantillas(Cv2)                        
+                    :currentResumeName==="Cv3"?
+                    AddPlantillas(Cv3)
+                    :currentResumeName==="Cv4"&&
+                    AddPlantillas(Cv4)
                     }>
                     
                       <button

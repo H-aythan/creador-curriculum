@@ -87,16 +87,21 @@ function Canvas({
         
         ) : (
         currentResumeName === "Cv4" && (
-          // <Cv4
-          //   initialisePages={initialisePages}
-          //   pages={pages}
-          //   addPage={addPage}
-          //   downloadEnded={downloadEnded}
-          //   triggerDownload={triggerDownload}
-          //   currentPage={currentPage}
-          //   values={values}
-          // />
-          <></>
+          <Cv4
+            initialisePages={initialisePages}
+            pages={pages}
+            addPage={addPage}
+            downloadEnded={downloadEnded}
+            triggerDownload={triggerDownload}
+            currentPage={currentPage}
+            values={values}
+            form={form}
+            View={View}
+            StyleSheet={StyleSheet}
+            Text={Text}
+            web={true}
+          />
+          
           )
           )
           }
