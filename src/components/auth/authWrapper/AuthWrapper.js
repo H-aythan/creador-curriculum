@@ -48,7 +48,7 @@ function AuthWrapper({ closeModal }) {
   };
 
   return (
-    <div id="authWrapper" className="authWrapper">
+    <div id="authWrapper" className="authWrapper" >
       <AnimatePresence>
         {isErrorToastShowed && (
           <motion.div

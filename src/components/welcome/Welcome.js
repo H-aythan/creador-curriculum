@@ -12,10 +12,12 @@ import SkillModel from "../../models/Skills";
 import PreviewImg from "../../assets/preview.png";
 import NextImg from "../../assets/next.png";
 import fire from "../../conf/fire";
-import { InitialisationCheck } from "../../firestore/dbOperations";
+// import { InitialisationCheck } from "../../firestore/dbOperations";
 import InitialisationWrapper from "../initailisation/initialisationWrapper/initialisationWrapper";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "../../hooks/useForm";
+import {onAuthStateChanged,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup}from 'firebase/auth'
+import { auth,db,getDoc,doc,collection ,getDocs,setDoc} from "../../conf/fire";
 
 const checkForNullsInArray = (array, elem) => {
   if (!array) {
@@ -31,7 +33,37 @@ const checkForNullsInArray = (array, elem) => {
 
 function Welcome(props) {
   const steps = ["Introduction", "Template Selection", "Adding Data"];
-  const [form] = useForm();
+  const [form,{setForm}] = useForm();
+  
+  useEffect(()=>{
+    const onSuscribe=onAuthStateChanged(auth,user=>{
+      
+      if(user){
+        setForm({name:user.displayName,email:user.email},"userData")
+        
+        verifyUser(user.email)
+          .then(result=>{
+            !result&&createDataUser(user.email)
+          })
+        
+      }
+    })
+    
+    return onSuscribe;
+  },[])  
+  const createDataUser=async(uid)=>{
+    const docRef=doc(db,"users",uid)
+    console.log("cuenta creada")
+    await setDoc(docRef,{})
+  }
+  
+  const verifyUser=async(uid)=>{
+    const docRef=doc(db,"users",uid);
+    let userExist;
+    userExist=await getDoc(docRef).then(docSnap=>docSnap);
+    
+    return userExist.exists();
+  } 
   
   let currentResumeNotState = JSON.parse(
     localStorage.getItem("currentResumeItem")
@@ -165,11 +197,11 @@ function Welcome(props) {
   useEffect(() => {
     authListener();
     
-    InitialisationCheck().then((value) => {
-      if (value === "none" || value === undefined) {
-        setisInitialisationShowed(true);
-      }
-    });
+    // InitialisationCheck().then((value) => {
+    //   if (value === "none" || value === undefined) {
+    //     setisInitialisationShowed(true);
+    //   }
+    // });
 
     /// check if the user comming from dashboard with specefic resume click
     props.match !== undefined &&
@@ -178,15 +210,15 @@ function Welcome(props) {
   }, []);
 
   const authListener = () => {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setuser(user);
-        localStorage.setItem("user", user.uid);
-      } else {
-        setuser(null);
-        localStorage.removeItem("user");
-      }
-    });
+    // fire.auth().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     setuser(user);
+    //     localStorage.setItem("user", user.uid);
+    //   } else {
+    //     setuser(null);
+    //     localStorage.removeItem("user");
+    //   }
+    // });
   };
 
   const logout = () => {
@@ -628,7 +660,9 @@ function Welcome(props) {
 
   return (
     <div className="wrapper" >
-      
+       <div style={{background:"white",position:"fixed",top:"10px",right:"20px",padding:"5px 5px"}}>
+         <span>{form.userData.name||form.userData.email}</span>
+       </div>
       <AnimatePresence>
         {isInitialisationShowed && (
           <motion.div

@@ -1,14 +1,15 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import "./Login.scss";
 import GoogleImage from "../../../assets/google.png";
 import FacebookImage from "../../../assets/facebook.png";
 import Input from "../../Form/simple-input/SimpleInput";
-import fire from "../../../conf/fire";
-import firebase from "firebase";
-import addUser from "../../../firestore/auth";
-
+import {onAuthStateChanged,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup}from 'firebase/auth'
+import { auth } from "../../../conf/fire";
+import { useForm } from "../../../hooks/useForm";
+import InputAuth from '../InputAuth';
 function Login({
   closeModal,
   handleNavigationClick,
@@ -18,50 +19,54 @@ function Login({
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
 
-  const login = (event) => {
+  const login = async(event) => {
     event.preventDefault();
-    fire
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(closeModal)
-      .catch((error) => {
-        throwError(error.message);
-        console.log(error);
-      });
-  };
-  const handleInputs = (title, value) => {
-    switch (title) {
-      case "Email":
-        setemail(value);
+    try{
+      await signInWithEmailAndPassword(auth,email,password)
+    }catch(error){
+      console.log(error);
+      switch(error.message){
+        case "Firebase: Error (auth/user-not-found).":
+          throwError("user not found")  
         break;
-      case "Password":
-        setpassword(value);
+        case "Firebase: Error (auth/wrong-password).":
+          throwError("wrong password")
         break;
-      default:
+        case "Firebase: Error (auth/invalid-email).":
+          throwError("invalid email")  
         break;
+      }
+      
+      if(error.message===""){
+        
+      }
     }
   };
-  const signInWithGoogle = () => {
-    var providerGoogle = new firebase.auth.GoogleAuthProvider();
-    fire
-      .auth()
-      .signInWithPopup(providerGoogle)
-      .then((result) => addUser(result.user.uid, "Welcome back"))
-      .catch(() => {});
-    closeModal();
+  
+  const signInWithGoogle = async() => {
+    const providerGoogle =new GoogleAuthProvider();
+    try{
+      await signInWithPopup(auth,providerGoogle);    
+    }catch(error){
+      console.log(error);
+    }
+
+    
   };
   const signInWithFacebook = () => {
-    var providerFacebook = new firebase.auth.FacebookAuthProvider();
-    fire
-      .auth()
-      .signInWithPopup(providerFacebook)
-      .then((result) => addUser(result.user.uid, "Welcome", "back"))
-      .catch((error) => {});
-    closeModal();
+    //var providerFacebook = new firebase.auth.FacebookAuthProvider();
+    // fire
+    //   .auth()
+    //   .signInWithPopup(providerFacebook)
+    //   .then((result) => addUser(result.user.uid, "Welcome", "back"))
+    //   .catch((error) => {});
+    //closeModal();
   };
 
   return (
-    <div className="auth">
+    <>
+   
+    <div className="auth" style={{paddingTop:"25%"}}>
       <div className="head">
         <span>Log in</span>
       </div>
@@ -85,26 +90,19 @@ function Login({
             <img src={FacebookImage} />
             <span>Login with Facebook</span>
           </div>
-          <div className="devider">
+          {/* <div className="devider">
             <hr />
             <span>Or</span>
-          </div>
-          <form onSubmit={login}>
-            <div>
-              <Input title="Email" handleInputs={handleInputs} />
-            </div>
-            <div>
-              <Input
-                type="Password"
-                title="Password"
-                handleInputs={handleInputs}
-              />
-            </div>
+          </div> */}
+          {/* form login */}
+          {/* <form onSubmit={login}>
+            <InputAuth title={"Email"} value={email} setValue={setemail}/>
+            <InputAuth title={"Password"} value={password} setValue={setpassword} type="Password"/>
             <input className="inputSubmit" value="Login" type="submit" />
-          </form>
+          </form> */}
         </div>
       </div>
-      <div className="modalFooter">
+      {/* <div className="modalFooter">
         <span>
           Don't have and account?{" "}
           <a onClick={() => handleNavigationClick()}>Sign up</a>
@@ -113,8 +111,9 @@ function Login({
           Lost 't your password?{" "}
           <a onClick={() => showPasswordRecovery()}>Recover password</a>
         </span>
-      </div>
+      </div> */}
     </div>
+    </>
   );
 }
 

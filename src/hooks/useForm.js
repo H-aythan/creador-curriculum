@@ -4,24 +4,25 @@ import { createStore, createHook } from "react-sweet-state";
 const Store = createStore({
   // value of the store on initialisation
   initialState: {
-    firstName:"Anthony",
-    lastName: "Romero",
+    userData:{},
+    firstName:"",
+    lastName: "",
     photo:{},
-    phone: "0414-29292992",
-    email: "anthonyromeroromero14@gmail.com",
-    occupation:"web developer",
+    phone: "",
+    email: "",
+    occupation:"",
     country: "",
     city: "",
-    address: "ciudad guayana estado bolivar",
+    address: "",
     postalCode: "",
     dateOfBirth: "",
     drivingLicense: "",
     nationality: "",
     professionalSummary:"",
-    employmentHistory:[{jobTitle:"titulo del trabajo",employer:"Empleo",begin:"aug 2018",end:"aug 2020",description:"descripcion"},{jobTitle:"titulo del trabajo2",employer:"empleo",begin:"begin",end:"end",description:"descripcion2"}],
-    languages:[{language:"ingles",rating:"Elementary"},{language:"español",rating:"Elementary"}],
-    skills:[{skill:"artes",rating:"20"},{skill:"economia",rating:"30"}],
-    educations:[{school:"institucion",degree:"tecnico superior",start:"incio",finish:"fin",description:"descripcion"},]
+    employmentHistory:[],
+    languages:[],
+    skills:[],
+    educations:[]
   },
   // actions that trigger store mutation
   actions: {
@@ -29,12 +30,13 @@ const Store = createStore({
       (value, param) =>
       ({ setState, getState }) => {
         // mutate state synchronously
-        setState({
+        param!=="all"?setState({
           ...getState,
           [param]: value,
-        });
+        }):setState(value)
       },
       
+    
   },
   // optional, mostly used for easy debugging
   name: "form",

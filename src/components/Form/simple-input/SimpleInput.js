@@ -22,7 +22,7 @@ function SimpleInput({
     if (param){
       setForm(e.target.value, param)
     }
-    else{
+    if(param===undefined){
       let newArray=[];
       newArray=[...form[nameInput]];
       newArray[index][name]=e.target.value;

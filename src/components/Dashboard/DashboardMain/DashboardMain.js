@@ -11,7 +11,7 @@ import ProfileDropDown from "../ProfileDropdown/ProfileDropdown";
 import Settings from "../Settings/Settings";
 import userImage from "../../../assets/user.png";
 import arrow from "../../../assets/arrow.png";
-import { getFullName, getAds } from "../../../firestore/dbOperations";
+//import { getFullName, getAds } from "../../../firestore/dbOperations";
 import { motion, AnimatePresence } from "framer-motion";
 
 function DashboardMain() {
@@ -29,23 +29,23 @@ function DashboardMain() {
   }, []);
 
   const authListener = () => {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setuser(user.uid);
-        getFullName(user.uid).then((value) => {
-          value !== undefined && setfirstname(value.firstname);
-          value !== undefined && setlastname(value.lastname);
-        });
-        localStorage.setItem("user", user.uid);
-        if (user.email === conf.adminEmail) {
-          setrole("admin");
-          getAds();
-        }
-      } else {
-        setuser(null);
-        localStorage.removeItem("user");
-      }
-    });
+    // fire.auth().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     setuser(user.uid);
+    //     getFullName(user.uid).then((value) => {
+    //       value !== undefined && setfirstname(value.firstname);
+    //       value !== undefined && setlastname(value.lastname);
+    //     });
+    //     localStorage.setItem("user", user.uid);
+    //     if (user.email === conf.adminEmail) {
+    //       setrole("admin");
+    //       getAds();
+    //     }
+    //   } else {
+    //     setuser(null);
+    //     localStorage.removeItem("user");
+    //   }
+    // });
   };
 
   const dropdownHandler = () => setisDropdownShowed(!isDropdownShowed);

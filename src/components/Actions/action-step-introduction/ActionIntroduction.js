@@ -6,20 +6,39 @@ import logo from "../../../assets/logo/logo.png";
 import AuthWrapper from "../../auth/authWrapper/AuthWrapper";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import {auth}from '../../../conf/fire'
 
+//import {onAuthStateChanged,signInWithEmailLink,isSignInWithEmailLink}from'firebase/auth'
 function ActionIntroduction({
   goThirdStep,
   isAuthShowed,
   authBtnHandler,
   user,
   logout,
-}) {
+})     {
+  // const emailVerified=async(email)=>{
+  //   console.log()
+  //   if(isSignInWithEmailLink(auth,window.location.href)){
+  //     await signInWithEmailLink(auth,email);
+  //   }
+  // }
   useEffect(() => {
     document.location.search === "?step=3" && goThirdStep();
   }, [goThirdStep]);
+  
+  // useEffect(()=>{
+  //   const email=window.localStorage.getItem('email');
+  //   //console.log(isSignInWithEmailLink(auth,window.location.href))
+  //   emailVerified(email)
+  //   const onSuscribe=onAuthStateChanged(auth,user=>{
+  //     console.log(user)
+  //   })
+  //   return onSuscribe;
+  // },[])
 
+  
   return (
-    <div className="action-introWrapper">
+    <div className="action-introWrapper" >
       <AnimatePresence>
         {isAuthShowed && (
           <motion.div

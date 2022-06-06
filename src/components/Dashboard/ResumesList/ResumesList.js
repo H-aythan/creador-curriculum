@@ -1,28 +1,28 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
-import addResume, {
-  getResumes,
-  removeResume,
-} from "../../../firestore/dbOperations";
+// import addResume, {
+//   getResumes,
+//   removeResume,
+// } from "../../../firestore/dbOperations";
 import { Link } from "react-router-dom";
-import addResumesImage from "../../../assets/undraw_add_document_0hek.svg";
-import fire from "../../../conf/fire";
+//import addResumesImage from "../../../assets/undraw_add_document_0hek.svg";
+//import fire from "../../../conf/fire";
 
 function ResumesList({ showDeletedToast }) {
   const [resumes, setresumes] = useState(null);
 
   useEffect(() => {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        let resumes;
-        resumes = getResumes(user.uid);
-        resumes.then(setresumes);
-      }
-    });
+    // fire.auth().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     let resumes;
+    //     resumes = getResumes(user.uid);
+    //     resumes.then(setresumes);
+    //   }
+    // });
   }, []);
 
   const deleteResume = (userId, resumeId, indexInState) => {
-    removeResume(userId, resumeId);
+    // removeResume(userId, resumeId);
 
     showDeletedToast();
     setTimeout(() => {
@@ -101,7 +101,7 @@ function ResumesList({ showDeletedToast }) {
           <h2>Dashboard </h2>
           {resumes != null && (
             <Link
-              onClick={() => addResume(localStorage.getItem("user"))}
+              // onClick={() => addResume(localStorage.getItem("user"))}
               to="/"
               style={{ fontSize: "17px" }}
               className="btn-default"
@@ -121,9 +121,9 @@ function ResumesList({ showDeletedToast }) {
                 flexDirection: "column",
               }}
             >
-              <img className="noResumesImage" src={addResumesImage} alt=""/>
+              <img className="noResumesImage" src={""} alt="addResumesImage"/>
               <Link
-                onClick={() => addResume(localStorage.getItem("user"))}
+                // onClick={() => addResume(localStorage.getItem("user"))}
                 style={{ textDecoration: "none " }}
                 to="/"
               >

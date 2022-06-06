@@ -3,7 +3,7 @@ import "./initialisationSetup.scss";
 import Input from "../../Form/simple-input/SimpleInput";
 import conf from "../../../conf/configuration";
 import fire from "../../../conf/fire";
-import addUser, { setA } from "../../../firestore/auth";
+//import addUser, { setA } from "../../../firestore/auth";
 
 function InitialisationSetup() {
   const [email, setemail] = useState(conf.adminEmail);
@@ -14,17 +14,17 @@ function InitialisationSetup() {
     event.preventDefault();
 
     if (passwordRepeat === password && email === conf.adminEmail) {
-      fire
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((u) => {
-          this.props.closeInitialisation();
-          addUser(u.user.uid);
-          setA(u.user.uid);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      // fire
+      //   .auth()
+      //   .createUserWithEmailAndPassword(email, password)
+      //   .then((u) => {
+      //     this.props.closeInitialisation();
+      //     addUser(u.user.uid);
+      //     setA(u.user.uid);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
     }
   };
   const handleInputs = (title, value) => {

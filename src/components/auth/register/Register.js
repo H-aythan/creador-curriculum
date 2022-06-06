@@ -1,42 +1,54 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./Register.scss";
+import {createUserWithEmailAndPassword,sendSignInLinkToEmail}from 'firebase/auth'
+import { auth} from "../../../conf/fire";
+import InputAuth from "../InputAuth";
 
-import Input from "../../Form/simple-input/SimpleInput";
-import { IncrementUsers } from "../../../firestore/dbOperations";
-import fire from "../../../conf/fire";
+// import { IncrementUsers } from "../../../firestore/dbOperations";
+// import fire from "../../../conf/fire";
 
 function Register({ closeModal, throwError, handleNavigationClick }) {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [passwordRepeat, setpasswordRepeat] = useState("");
-
-  const handleInputs = (title, value) => {
-    switch (title) {
-      case "Email":
-        setemail(value);
-        break;
-      case "Password":
-        setpassword(value);
-        break;
-      case "Repeat Password":
-        setpasswordRepeat(value);
-        break;
-      default:
-        break;
-    }
-  };
-  const signUp = (event) => {
+  const [message,setMesage]=useState();
+  const signUp = async(event) => {
     event.preventDefault();
+    // const actionCodeSettings={
+    //   url:"http://localhost:3000/",
+    //   handleCodeInApp:true,
+    // }
+    
     if (passwordRepeat === password) {
-      fire
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((u) => IncrementUsers(u.user.uid))
-        .then(closeModal)
-        .catch((error) => {
-          throwError(error.message);
-        });
+     try{
+        await createUserWithEmailAndPassword(auth,email,password) 
+        //localStorage.setItem('email',email)
+        //await sendSignInLinkToEmail(auth,email,actionCodeSettings)
+       
+        setMesage('you were account created successfully')
+        setemail("")
+        setpassword("")
+        setpasswordRepeat("")
+        setTimeout(()=>{
+          setMesage("")
+        },5000)
+      }catch(error){
+        console.log(error.message)
+        
+        switch(error.message){
+          case "Firebase: Error (auth/email-already-in-use)." :
+            throwError("Email already in use")
+          break;
+          case 'Firebase: Error (auth/invalid-email).':
+            throwError("Invalid email")
+          break;
+          case "Firebase: Password should be at least 6 characters (auth/weak-password).":
+            throwError("Password should be at least 6 characters")
+          break;
+        }
+      
+      }
     } else {
       throwError("Passwords does not match");
     }
@@ -45,16 +57,17 @@ function Register({ closeModal, throwError, handleNavigationClick }) {
   return (
     <div className="auth">
       <div className="head">
-        <span>Register</span>
+        <span>Register </span>
       </div>
       <div className="body">
         <form onSubmit={signUp} className="registerForm">
-          <Input title="Email" handleInputs={handleInputs} />
-          <Input type="Password" title="Password" handleInputs={handleInputs} />
-          <Input
+          <InputAuth title="Email" value={email} setValue={setemail} />
+          <InputAuth  title="Password" value={password} setValue={setpassword} type="Password"/>
+          <InputAuth
             type="Password"
             title="Repeat Password"
-            handleInputs={handleInputs}
+            value={passwordRepeat} 
+            setValue={setpasswordRepeat}
           />
           <input className="inputSubmit" value="Register" type="submit" />
         </form>
@@ -63,6 +76,9 @@ function Register({ closeModal, throwError, handleNavigationClick }) {
       <div className="modalFooter">
         <span>
           Already have an account ? <a onClick={handleNavigationClick}>Login</a>
+        </span>
+        <span className="succes">
+          {message}
         </span>
       </div>
     </div>

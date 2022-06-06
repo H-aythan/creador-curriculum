@@ -4,7 +4,7 @@ import "./stats.scss";
 import usersImage from "../../../assets/users.png";
 import resumesImage from "../../../assets/resumes.png";
 import downloadImage from "../../../assets/download.png";
-import { getStats } from "../../../firestore/dbOperations";
+//import { getStats } from "../../../firestore/dbOperations";
 
 function Stats() {
   const [numberOfUsers, setnumberOfUsers] = useState("");
@@ -12,15 +12,15 @@ function Stats() {
   const [numberOfDowloads, setnumberOfDowloads] = useState("");
 
   useEffect(() => {
-    getStats().then((value) => {
-      setnumberOfUsers(value !== undefined ? value.numberOfUsers : 0);
-      setnumberOfResumes(
-        value !== undefined ? value.numberOfResumesCreated : 0
-      );
-      setnumberOfDowloads(
-        value !== undefined ? value.numberOfResumesDownloaded : 0
-      );
-    });
+    // getStats().then((value) => {
+    //   setnumberOfUsers(value !== undefined ? value.numberOfUsers : 0);
+    //   setnumberOfResumes(
+    //     value !== undefined ? value.numberOfResumesCreated : 0
+    //   );
+    //   setnumberOfDowloads(
+    //     value !== undefined ? value.numberOfResumesDownloaded : 0
+    //   );
+    // });
   }, []);
 
   return (

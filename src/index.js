@@ -11,8 +11,8 @@ ReactDOM.render(
   <React.StrictMode>
     <Helmet>
       <meta charSet="utf-8" />
-      {/* <title>{conf.meta.title}</title> */}
-      <title>Resume builder</title>
+      <title>{conf.meta.title}</title>
+      
       <link rel="canonical" href={window.location.href} />
       <meta name="description" content={conf.meta.description} />
       <meta name="keywords" content={conf.meta.keywords} />

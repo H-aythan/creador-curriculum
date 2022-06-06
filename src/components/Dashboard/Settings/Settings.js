@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Settings.scss";
 import Input from "../../Form/simple-input/SimpleInput";
-import { addUser, changePassword } from "../../../firestore/dbOperations";
+//import { addUser, changePassword } from "../../../firestore/dbOperations";
 import { motion, AnimatePresence } from "framer-motion";
 import Toasts from "../../Toasts/Toats";
 
@@ -33,7 +33,7 @@ function Settings({ uid }) {
   const personalInfoFormHandler = (event) => {
     event.preventDefault();
     if (firstname !== "" && lastname !== "") {
-      addUser(uid, firstname, lastname);
+      // addUser(uid, firstname, lastname);
       setisPersonalSuccessToastShowed(true);
       setTimeout(() => {
         document.location.reload();
@@ -44,7 +44,7 @@ function Settings({ uid }) {
   const handleChangePassword = (event) => {
     event.preventDefault();
     if (newPassword.length > 5) {
-      changePassword(newPassword);
+      // changePassword(newPassword);
       setisPasswordChangedToastShowed(true);
       setTimeout(() => {
         setisPasswordChangedToastShowed(false);
