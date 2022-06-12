@@ -5,8 +5,10 @@ import conf from "../../../conf/configuration";
 import logo from "../../../assets/logo/logo.png";
 import AuthWrapper from "../../auth/authWrapper/AuthWrapper";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+
 import {auth}from '../../../conf/fire'
+import { signOut } from "firebase/auth";
+import {useForm}from'../../../hooks/useForm'
 
 //import {onAuthStateChanged,signInWithEmailLink,isSignInWithEmailLink}from'firebase/auth'
 function ActionIntroduction({
@@ -14,7 +16,7 @@ function ActionIntroduction({
   isAuthShowed,
   authBtnHandler,
   user,
-  logout,
+ 
 })     {
   // const emailVerified=async(email)=>{
   //   console.log()
@@ -22,20 +24,21 @@ function ActionIntroduction({
   //     await signInWithEmailLink(auth,email);
   //   }
   // }
+  const [form]=useForm()
   useEffect(() => {
     document.location.search === "?step=3" && goThirdStep();
   }, [goThirdStep]);
   
-  // useEffect(()=>{
-  //   const email=window.localStorage.getItem('email');
-  //   //console.log(isSignInWithEmailLink(auth,window.location.href))
-  //   emailVerified(email)
-  //   const onSuscribe=onAuthStateChanged(auth,user=>{
-  //     console.log(user)
-  //   })
-  //   return onSuscribe;
-  // },[])
-
+  const logout=async()=>{
+    try{
+      await signOut(auth)
+      
+    }catch(error){
+      console.log(error)
+    }
+    
+  }
+  
   
   return (
     <div className="action-introWrapper" >
@@ -64,16 +67,7 @@ function ActionIntroduction({
           )}
         </div>
         <div className="authentication">
-          {user != null ? (
-            <Link
-              style={{ textDecoration: "none" }}
-              to={{ pathname: "/dashboard" }}
-              className="authenticationButton"
-            >
-              {" "}
-              My Account
-            </Link>
-          ) : (
+          {!form.userData.name&&(
             <a
               onClick={() => authBtnHandler()}
               className="authenticationButton"
@@ -82,7 +76,7 @@ function ActionIntroduction({
               Login{" "}
             </a>
           )}
-          {user != null && (
+          {form.userData.name&& (
             <a onClick={() => logout()} className="authenticationButton">
               Logout
             </a>

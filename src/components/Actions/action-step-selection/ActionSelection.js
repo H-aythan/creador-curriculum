@@ -48,30 +48,16 @@ const ActionSelection = ({
             )}
           </div>
           <div className="authentication">
-            {user == null && (
+            
               <Link
                 style={{ textDecoration: "none" }}
                 onClick={() => setCurrentStep(0)}
                 to={{ pathname: "/" }}
                 className="authenticationButton"
               >
-                Login
+                Home
               </Link>
-            )}
-            {user != null && (
-              <Link
-                style={{ textDecoration: "none" }}
-                to={{ pathname: "/dashboard" }}
-                className="authenticationButton"
-              >
-                My Account
-              </Link>
-            )}
-            {user != null && (
-              <a onClick={logout} className="authenticationButton">
-                Logout
-              </a>
-            )}
+            
           </div>
         </div>
         <CSSTransition appear={true} in={true} classNames="fade" timeout={1000}>

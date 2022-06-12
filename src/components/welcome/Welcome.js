@@ -12,12 +12,12 @@ import SkillModel from "../../models/Skills";
 import PreviewImg from "../../assets/preview.png";
 import NextImg from "../../assets/next.png";
 import fire from "../../conf/fire";
-// import { InitialisationCheck } from "../../firestore/dbOperations";
+
 import InitialisationWrapper from "../initailisation/initialisationWrapper/initialisationWrapper";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "../../hooks/useForm";
-import {onAuthStateChanged,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup}from 'firebase/auth'
-import { auth,db,getDoc,doc,collection ,getDocs,setDoc} from "../../conf/fire";
+import {onAuthStateChanged}from 'firebase/auth'
+import { auth,db,getDoc,doc,setDoc} from "../../conf/fire";
 
 const checkForNullsInArray = (array, elem) => {
   if (!array) {
@@ -46,7 +46,10 @@ function Welcome(props) {
             !result&&createDataUser(user.email)
           })
         
+      }else{
+        setForm(null,"delete")
       }
+      
     })
     
     return onSuscribe;
@@ -91,7 +94,7 @@ function Welcome(props) {
   const [isMobileTogglerShowed, setisMobileTogglerShowed] = useState(true);
   const [stepIndex, setstepIndex] = useState(0);
   const [currentStep, setcurrentStep] = useState(steps[0]);
-  const [user, setuser] = useState(null);
+  const [user] = useState(null);
   const [resumeName, setresumeName] = useState("Cv4");
   const [title, settitle] = useState("Untitled");
   const [firstname, setfirstname] = useState(
@@ -661,7 +664,7 @@ function Welcome(props) {
   return (
     <div className="wrapper" >
        <div style={{background:"white",position:"fixed",top:"10px",right:"20px",padding:"5px 5px"}}>
-         <span>{form.userData.name||form.userData.email}</span>
+         <span >{form.userData.name||form.userData.email}</span>
        </div>
       <AnimatePresence>
         {isInitialisationShowed && (
@@ -678,7 +681,7 @@ function Welcome(props) {
         <Action
           goThirdStep={goThirdStep}
           values={{
-            user: user,
+            
             resumeName: resumeName,
             title: title,
             firstname: firstname,

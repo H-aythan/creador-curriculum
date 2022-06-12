@@ -6,8 +6,8 @@ import DropdownInput from "../dropdown-input/DropdownInput";
 
 function Languages(props) {
   const [isOpened, setisOpened] = useState(false);
-  const [title, settitle] = useState("");
-  const [level, setlevel] = useState("");
+  const [title] = useState("");
+  const [level] = useState("");
   
   const toggleHandle = () => setisOpened(!isOpened);
   // Handling toggle click

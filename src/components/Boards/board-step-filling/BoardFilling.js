@@ -5,43 +5,39 @@ import "./BoardFilling.scss";
 import MenuImg from "../../../assets/menu.png";
 import Canvas from "../canvas/Canvas";
 import Toasts from "../../Toasts/Toats";
-// import {
-//   setResumePropertyPerUser,
-//   addEmployments,
-//   addEducations,
-//   addSkills,
-// } from "../../../firestore/dbOperations";
-// import { IncrementDownloads } from "../../../firestore/dbOperations";
+
 import { motion, AnimatePresence } from "framer-motion";
 import {PDFDownloadLink,Text,View,StyleSheet,Image,Document,Page}from '@react-pdf/renderer'
 import { useForm } from "../../../hooks/useForm";
 import Assets,{Cv1,Cv2,Cv3,Cv4} from "../canvas/resumes/ExportsCvs";
 import { db ,setDoc,doc,getDoc} from "../../../conf/fire";
-import { async } from "@firebase/util";
+
 
 function BoardFilling({ values, stepBack, currentResumeName }) {
   const [form,{setForm}] = useForm();
   const [triggerDownload, settriggerDownload] = useState(false);
   const [page, setpage] = useState(1);
   const [currentPage, setcurrentPage] = useState(1);
-  const [isSuccessToastVisible, setisSuccessToastVisible] = useState(false);
-  const [isDownloadToastVisible, setisDownloadToastVisible] = useState(false);
+  const [isSuccessToastVisible] = useState(false);
+  const [isDownloadToastVisible] = useState(false);
   const addPage = () => setpage(page + 1);
   const nextPage = () => setcurrentPage(currentPage + 1);
   const previousPage = () => setcurrentPage(currentPage - 1);
   const [data,setData]=useState({})
   const [save,setSave]=useState(false)
+ 
   const downloadEnded = () => {
     
     // IncrementDownloads();
     settriggerDownload(false);
   };
   useEffect(()=>{
-    
-    getData()
+   getData()
+      
   },[])
   const getData=async()=>{
     const docRef=doc(db,`users/${form.userData.email}`)  
+    
     try{
       const info= await getDoc(docRef)
       setForm(info.data(),"all")
@@ -49,6 +45,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }catch(error){
       console.log(error)
     }
+    
   }
   const ShowToast = async(type) => {
     // if (type === "Success") {
@@ -71,7 +68,26 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
       if(form.userData.email){
         const docRef=doc(db,"users",form.userData.email)
         try{
-          await setDoc(docRef,form)
+          await setDoc(docRef,{
+            firstName:form.firstName,
+            lastName:form.lastName,
+            photo:form.photo,
+            phone: form.phone,
+            email: form.email,
+            occupation:form.occupation,
+            country: form.country,
+            city: form.city,
+            address: form.address,
+            postalCode: form.postalCode,
+            dateOfBirth: form.dateOfBirth,
+            drivingLicense: form.drivingLicense,
+            nationality: form.nationality,
+            professionalSummary:form.professionalSummary,
+            employmentHistory:form.employmentHistory,
+            languages:form.languages,
+            skills:form.skills,
+            educations:form.educations
+        })
         }catch(error){
           console.log(error)
         }
@@ -86,173 +102,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     }
   };
   
-  const saveToDatabase = () => {
-    let currentResume = {};
-    if (!localStorage.getItem("currentResumeItem")) {
-      currentResume = {};
-    } else {
-      currentResume = JSON.parse(localStorage.getItem("currentResumeItem"));
-    }
-    if (
-      currentResume.firstname !== values.firstname ||
-      currentResume.firstname === undefined
-    ) {
-      // setResumePropertyPerUser(
-      //   localStorage.getItem("user"),
-      //   localStorage.getItem("currentResumeId"),
-      //   "firstname",
-      //   values.firstname
-      // );
-    }
-    if (
-      currentResume.lastname !== values.lastname ||
-      currentResume.lastname === undefined
-    ) {
-      // setResumePropertyPerUser(
-      //   localStorage.getItem("user"),
-      //   localStorage.getItem("currentResumeId"),
-      //   "lastname",
-      //   values.lastname
-      // );
-    }
-    if (
-      currentResume.email !== values.email ||
-      currentResume.email === undefined
-    ) {
-      // setResumePropertyPerUser(
-      //   localStorage.getItem("user"),
-      //   localStorage.getItem("currentResumeId"),
-      //   "email",
-      //   values.email
-      // );
-    }
-    if (
-      currentResume.phone !== values.phone ||
-      currentResume.phone === undefined
-    ) {
-      // setResumePropertyPerUser(
-      //   localStorage.getItem("user"),
-      //   localStorage.getItem("currentResumeId"),
-      //   "phone",
-      //   values.phone
-      // );
-    }
-    if (
-      currentResume.occupation !== values.occupation ||
-      currentResume.occupation === undefined
-    ) {
-      // setResumePropertyPerUser(
-      //   localStorage.getItem("user"),
-      //   localStorage.getItem("currentResumeId"),
-      //   "occupation",
-      //   values.occupation
-      // );
-    }
-    if (
-      currentResume.country !== values.country ||
-      currentResume.country === undefined
-    ) {
-      // setResumePropertyPerUser(
-      //   localStorage.getItem("user"),
-      //   localStorage.getItem("currentResumeId"),
-      //   "country",
-      //   values.country
-      // );
-    }
-    if (currentResume.city !== values.city || currentResume.city === undefined) {
-      // setResumePropertyPerUser(
-      //   localStorage.getItem("user"),
-      //   localStorage.getItem("currentResumeId"),
-      //   "city",
-      //   values.city
-      // );
-    }
-    if (
-      currentResume.address !== values.address ||
-      currentResume.address === undefined
-    ) {
-      // setResumePropertyPerUser(
-      //   localStorage.getItem("user"),
-      //   localStorage.getItem("currentResumeId"),
-      //   "address",
-      //   values.address
-      // );
-    }
-    if (
-      currentResume.postalcode !== values.postalcode ||
-      currentResume.postalcode === undefined
-    ) {
-      // setResumePropertyPerUser(
-      //   localStorage.getItem("user"),
-      //   localStorage.getItem("currentResumeId"),
-      //   "postalcode",
-      //   values.postalcode
-      // );
-    }
-    if (
-      currentResume.dateofbirth !== values.dateofbirth ||
-      currentResume.dateofbirth === undefined
-    ) {
-      // setResumePropertyPerUser(
-      //   localStorage.getItem("user"),
-      //   localStorage.getItem("currentResumeId"),
-      //   "dateofbirth",
-      //   values.dateofbirth
-      // );
-    }
-    if (
-      currentResume.drivinglicense !== values.drivinglicense ||
-      currentResume.drivinglicense === undefined
-    ) {
-      // setResumePropertyPerUser(
-      //   localStorage.getItem("user"),
-      //   localStorage.getItem("currentResumeId"),
-      //   "drivinglicense",
-      //   values.drivinglicense
-      // );
-    }
-    if (
-      currentResume.nationality !== values.nationality ||
-      currentResume.nationality === undefined
-    ) {
-      // setResumePropertyPerUser(
-      //   localStorage.getItem("user"),
-      //   localStorage.getItem("currentResumeId"),
-      //   "nationality",
-      //   values.nationality
-      // );
-    }
-    if (
-      currentResume.summary !== values.summary ||
-      currentResume.summary === undefined
-    ) {
-      // setResumePropertyPerUser(
-      //   localStorage.getItem("user"),
-      //   localStorage.getItem("currentResumeId"),
-      //   "summary",
-      //   values.summary
-      // );
-    }
-    // Adding employments
-    // addEmployments(
-    //   localStorage.getItem("user"),
-    //   localStorage.getItem("currentResumeId"),
-    //   values.employments
-    // );
-    // adding educations if presented
-    // addEducations(
-    //   localStorage.getItem("user"),
-    //   localStorage.getItem("currentResumeId"),
-    //   values.educations
-    // );
-    // adding skills if presented
-    // addSkills(
-    //   localStorage.getItem("user"),
-    //   localStorage.getItem("currentResumeId"),
-    //   values.skills
-    // );
-    ShowToast("Success");
-  };
+
  
   const AddPlantillas=(Plantilla)=>{
     // setTimeout(() => {

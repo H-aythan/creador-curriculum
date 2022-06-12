@@ -7,9 +7,9 @@ import downloadImage from "../../../assets/download.png";
 //import { getStats } from "../../../firestore/dbOperations";
 
 function Stats() {
-  const [numberOfUsers, setnumberOfUsers] = useState("");
-  const [numberOfResumes, setnumberOfResumes] = useState("");
-  const [numberOfDowloads, setnumberOfDowloads] = useState("");
+  const [numberOfUsers] = useState("");
+  const [numberOfResumes] = useState("");
+  const [numberOfDowloads] = useState("");
 
   useEffect(() => {
     // getStats().then((value) => {

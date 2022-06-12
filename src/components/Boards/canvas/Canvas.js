@@ -3,11 +3,8 @@
      In order to build templates fast we used KonvaJS Library.
      Please take a look in their documentation where you will understand all the code bellow and how the templates are made
 */
-import React,{useEffect} from "react";
+import React from "react";
 import { useForm } from "../../../hooks/useForm";
-
-
-
 import Assets,{Cv1,Cv2,Cv3,Cv4}from './resumes/ExportsCvs';
 import {Text,View,StyleSheet,Image}from 'react-native-web'
 
@@ -21,10 +18,9 @@ function Canvas({
   triggerDownload,
   values,
   initialisePages,
-  setPla
+  
 }) {
   const [form] = useForm();
- 
   
   return (
     <>

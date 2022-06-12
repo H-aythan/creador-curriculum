@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 const Cv4=({form,Text,View,StyleSheet,web})=>{
   const {firstName,lastName,address,phone,email,languages,
     skills,professionalSummary,employmentHistory,educations,occupation}=form;
@@ -10,7 +10,7 @@ const Cv4=({form,Text,View,StyleSheet,web})=>{
     names:{width:"100%",backgroundColor:"rgba(61,62,65,255)",height:"15%",alignItems:"center",paddingTop:"20px",
       marginBottom:"10px",
     },
-    borders:{borderBottom:"2px solid white",width:"20%",height:"0.1px",backgroundColor:"white",marginTop:"5px",marginBottom:"2px"},
+    borders:{border:"1px solid white",width:"20%",height:"0.1px",backgroundColor:"white",marginTop:"5px",marginBottom:"2px"},
     aside:{width:"30%",height:"80%"},
     info:{width:"65%",height:"80%",paddingLeft:"5px",paddingRight:"5px"},
     genericsDetails:{fontSize:"8px",textAlign:"left",opacity:"0.7",marginTop:"2px",marginBottom:"2px"

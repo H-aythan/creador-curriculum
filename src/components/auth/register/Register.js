@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import "./Register.scss";
-import {createUserWithEmailAndPassword,sendSignInLinkToEmail}from 'firebase/auth'
+import {createUserWithEmailAndPassword}from 'firebase/auth'
 import { auth} from "../../../conf/fire";
 import InputAuth from "../InputAuth";
 
@@ -46,6 +46,7 @@ function Register({ closeModal, throwError, handleNavigationClick }) {
           case "Firebase: Password should be at least 6 characters (auth/weak-password).":
             throwError("Password should be at least 6 characters")
           break;
+          default: break;
         }
       
       }

@@ -4,7 +4,7 @@ import ImageUploader from "react-images-upload";
 import { useForm } from "../../../hooks/useForm";
 function ImgUploadInput({ handleInputs, title }) {
   
-  const [form,{setForm}]=useForm()
+  const [,{setForm}]=useForm()
   
   const onDrop = (pictureFiles, pictureDataURL) => {
     setForm({img:pictureDataURL[pictureDataURL.length - 1],cargado:true},"photo");

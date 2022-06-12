@@ -11,14 +11,14 @@ import ProfileDropDown from "../ProfileDropdown/ProfileDropdown";
 import Settings from "../Settings/Settings";
 import userImage from "../../../assets/user.png";
 import arrow from "../../../assets/arrow.png";
-//import { getFullName, getAds } from "../../../firestore/dbOperations";
+
 import { motion, AnimatePresence } from "framer-motion";
 
 function DashboardMain() {
-  const [user, setuser] = useState(null);
-  const [role, setrole] = useState("user");
-  const [firstname, setfirstname] = useState("");
-  const [lastname, setlastname] = useState("");
+  const [user] = useState(null);
+  const [role] = useState("user");
+  const [firstname] = useState("");
+  const [lastname] = useState("");
   const [isDeleteToastShowed, setisDeleteToastShowed] = useState(false);
   const [isDropdownShowed, setisDropdownShowed] = useState(false);
   const [isCommingSoonShowed, setisCommingSoonShowed] = useState(false);
@@ -29,23 +29,7 @@ function DashboardMain() {
   }, []);
 
   const authListener = () => {
-    // fire.auth().onAuthStateChanged((user) => {
-    //   if (user) {
-    //     setuser(user.uid);
-    //     getFullName(user.uid).then((value) => {
-    //       value !== undefined && setfirstname(value.firstname);
-    //       value !== undefined && setlastname(value.lastname);
-    //     });
-    //     localStorage.setItem("user", user.uid);
-    //     if (user.email === conf.adminEmail) {
-    //       setrole("admin");
-    //       getAds();
-    //     }
-    //   } else {
-    //     setuser(null);
-    //     localStorage.removeItem("user");
-    //   }
-    // });
+   
   };
 
   const dropdownHandler = () => setisDropdownShowed(!isDropdownShowed);
@@ -88,7 +72,7 @@ function DashboardMain() {
         {/* Website Logo */}
         <div className="brand">
           {conf.brand.useImg ? (
-            <img src={logo} />
+            <img src={logo} alt=""/>
           ) : (
             <span> {conf.brand.name} </span>
           )}
@@ -133,9 +117,9 @@ function DashboardMain() {
           <img
             className="dashboarProfileImage"
             src={userImage}
-            alt="profile Image"
+            alt=""
           />
-          <a className="dashboarProfileName">
+          <a className="dashboarProfileName" href="/#">
             {firstname === "" ||
             lastname === "" ||
             lastname === undefined ||

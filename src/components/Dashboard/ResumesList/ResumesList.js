@@ -1,25 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from "react";
-// import addResume, {
-//   getResumes,
-//   removeResume,
-// } from "../../../firestore/dbOperations";
+import React, { useState } from "react";
+
 import { Link } from "react-router-dom";
-//import addResumesImage from "../../../assets/undraw_add_document_0hek.svg";
-//import fire from "../../../conf/fire";
+
 
 function ResumesList({ showDeletedToast }) {
-  const [resumes, setresumes] = useState(null);
-
-  useEffect(() => {
-    // fire.auth().onAuthStateChanged((user) => {
-    //   if (user) {
-    //     let resumes;
-    //     resumes = getResumes(user.uid);
-    //     resumes.then(setresumes);
-    //   }
-    // });
-  }, []);
+  const [resumes] = useState(null);
 
   const deleteResume = (userId, resumeId, indexInState) => {
     // removeResume(userId, resumeId);

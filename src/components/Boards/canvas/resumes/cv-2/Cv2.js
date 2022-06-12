@@ -1,15 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 
 const Cv2 =({form,Text,View,StyleSheet,web,Image,imgs})=>{
-  const {firstName,lastName,address,phone,email,languages,
+  const {firstName,lastName,address,phone,email,
     skills,professionalSummary,employmentHistory,educations,occupation}=form;
     
-  
   const styles = StyleSheet.create({
     page:{height:"100%",color:"black",padding:"15px 0px 15px",flexDirection:"column",alignItems:"center",
     overflow:"hidden",
     },
-    sectionNames:{width:"90%",height:"18%",lineHeight:"1",textAlign:"justify",textAlign:"justify",
+    sectionNames:{width:"90%",height:"18%",lineHeight:"1",textAlign:"justify",
       fontSize:"20px",display:"flex",paddingTop:"20px",marginBottom:"10px",flexWrap:"wrap",
     },
     circle:{width:"130px",height:"130px",backgroundColor:"rgba(240,195,14,255)",borderRadius:"50%",position:"absolute"},
@@ -87,7 +86,7 @@ const Cv2 =({form,Text,View,StyleSheet,web,Image,imgs})=>{
             <View style={{width:"70%"}}>  
               {employmentHistory?.map((item,i)=>{
               return <View key={i} style={{flexDirection:"row",marginTop:"10px",justifyContent:"space-between"}}>
-                  <View style={{justifyContent:"space-between",flexDirection:"column",width:"25%",justifyContent:"flex-start"}}>
+                  <View style={{justifyContent:"flex-start",flexDirection:"column",width:"25%"}}>
                     <Text style={{fontSize:web?"8px":"10px",maxHeight:"25px",overflow:"hidden",marginBottom:"2px"}}>{item.employer}</Text>
                     <Text style={{fontSize:web?"7px":"10px",opacity:"0.8",maxHeight:"10px",overflow:"hidden"}}>{item.begin}-{item.end}</Text>
                   </View>
@@ -103,7 +102,7 @@ const Cv2 =({form,Text,View,StyleSheet,web,Image,imgs})=>{
             <View style={{width:"70%"}}>
               {educations?.map((item,i)=>{
                 return <View key={i} style={{flexDirection:"row",marginTop:"10px",justifyContent:"space-between"}}>
-                  <View style={{justifyContent:"space-between",flexDirection:"column",width:"25%",justifyContent:"flex-start"}}>
+                  <View style={{flexDirection:"column",width:"25%",justifyContent:"flex-start"}}>
                       <Text  style={{fontSize:web?"8px":"10px",maxHeight:"25px",overflow:"hidden"}}>{item.school}</Text>
                       <Text style={{marginRight:"10px",fontSize:web?"7px":"10px",opacity:"0.8",overflow:"hidden",maxHeight:"10px"}}>{item.start}-{item.finish}</Text>
                     </View>

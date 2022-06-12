@@ -7,7 +7,7 @@ const Cv1 =({form,Text,View,StyleSheet,web,Image})=>{
     page:{height:"100%",color:"black",padding:"15px 0px 15px",flexDirection:"column",alignItems:"center",display:"flex"
       
     },
-    sectionNames:{width:"90%",height:"18%",lineHeight:"1",textAlign:"justify",textAlign:"justify",
+    sectionNames:{width:"90%",height:"18%",lineHeight:"1",textAlign:"justify",
       fontSize:"20px",display:"flex",paddingTop:"20px",marginBottom:"10px",flexWrap:"wrap",
     },
     img:{width:"25%",height:"100%"},

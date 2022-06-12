@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./initialisationSetup.scss";
 import Input from "../../Form/simple-input/SimpleInput";
 import conf from "../../../conf/configuration";
-import fire from "../../../conf/fire";
+
 //import addUser, { setA } from "../../../firestore/auth";
 
 function InitialisationSetup() {

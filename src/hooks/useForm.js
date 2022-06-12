@@ -34,7 +34,29 @@ const Store = createStore({
           ...getState,
           [param]: value,
         }):setState(value)
-      },
+      param==="delete"&&setState({
+        userData:{},
+        firstName:"",
+        lastName: "",
+        photo:{},
+        phone: "",
+        email: "",
+        occupation:"",
+        country: "",
+        city: "",
+        address: "",
+        postalCode: "",
+        dateOfBirth: "",
+        drivingLicense: "",
+        nationality: "",
+        professionalSummary:"",
+        employmentHistory:[],
+        languages:[],
+        skills:[],
+        educations:[]
+      },)
+      
+    },
       
     
   },

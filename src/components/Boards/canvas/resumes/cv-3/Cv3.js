@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 import {Font} from "@react-pdf/renderer";
 const Cv3 =({form,Text,View,StyleSheet,web})=>{
-  const {firstName,lastName,address,phone,email,languages,
+  const {firstName,lastName,address,phone,languages,
     skills,professionalSummary,employmentHistory,educations,occupation}=form;
   
   const styles = StyleSheet.create({
     page:{height:"100%",color:"black",flexDirection:"column",alignItems:"center",
       paddingTop:"30px",fontFamily:"Georgia",overflow:"hidden",
     },
-    sectionNames:{width:"90%",height:"18%",lineHeight:"1",textAlign:"justify",textAlign:"justify",
+    sectionNames:{width:"90%",height:"18%",lineHeight:"1",textAlign:"justify",
       fontSize:"20px",display:"flex",paddingTop:"20px",marginBottom:"10px",flexWrap:"wrap",border:"2px solid black"
     },
     occupation:{height:web?"25px":"18px",fontSize:web?"13px":"10px",
@@ -16,7 +16,7 @@ const Cv3 =({form,Text,View,StyleSheet,web})=>{
     },
     names:{overflow:"hidden",width:"85%",flexWrap:"wrap",textAlign:"left",marginBottom:"10px"
     },
-    borders:{borderBottom:"1px solid black",width:"85%",borderRadius:"10px",height:"0.1px",backgroundColor:"black",marginTop:"10px",opacity:"0.5",marginBottom:"15px"},
+    borders:{border:"0.5px solid black",width:"85%",borderRadius:"10px",backgroundColor:"black",marginTop:"10px",opacity:"0.2",marginBottom:"15px"},
     generics:{width:"85%",flexWrap:"wrap",flexDirection:"row",justifyContent:"space-between",textAlign:"left",
       alignItems:"flex-start",paddingTop:"10px",
     },
@@ -50,16 +50,16 @@ const Cv3 =({form,Text,View,StyleSheet,web})=>{
           {employmentHistory?.map((item,i)=>{
                 return <View key={i} style={{flexDirection:"column",marginBottom:"10px"}}>
                     <View style={{justifyContent:"space-between",flexDirection:"row",width:"100%"}}>
-                      <Text style={{fontSize:web?"9px":"8px",height:web?"8px":"12px",overflow:"hidden",marginBottom:"2px",fontFamily:"Georgia",maxWidth:"50%",fontFamily:"Georgia"}}>
+                      <Text style={{fontSize:web?"9px":"8px",height:web?"8px":"12px",overflow:"hidden",marginBottom:"2px",fontFamily:"Georgia",maxWidth:"50%"}}>
                         {item.employer}
                       </Text>
-                      <Text style={{fontSize:web?"8px":"7px",height:web?"9px":"12px",opacity:"0.8",overflow:"hidden",fontFamily:"Georgia",maxWidth:"45%",fontFamily:"Georgia"}}>
+                      <Text style={{fontSize:web?"8px":"7px",height:web?"9px":"12px",opacity:"0.8",overflow:"hidden",maxWidth:"45%",fontFamily:"Georgia"}}>
                         {item.begin}-{item.end}
                       </Text>
                     </View>
                     <View style={{flexDirection:"",width:"70%",opacity:web?"0.9":"0.7"}}>
                       <Text style={{fontSize:web?"7px":"8px",height:web?"8px":"12px",maxWidth:"70%",fontFamily:"Georgia"}}>{item.jobTitle}</Text>
-                      <Text style={{fontSize:web?"7px":"8px",marginTop:"2px",fontFamily:"Georgia",marginTop:"5px"}}>{item.description}</Text>
+                      <Text style={{fontSize:web?"7px":"8px",fontFamily:"Georgia",marginTop:"5px"}}>{item.description}</Text>
                     </View>
                 </View>
                 })}
@@ -73,7 +73,7 @@ const Cv3 =({form,Text,View,StyleSheet,web})=>{
                   return <View key={i} style={{flexDirection:"row",justifyContent:"space-between",flexWrap:"wrap",marginBottom:"10px"}}>
                     <View style={{justifyContent:"space-between",flexDirection:"row",width:"100%"}}>
                         <Text  style={{fontSize:web?"8px":"10px",maxWidth:"60%",maxHeight:"12px",overflow:"hidden",fontFamily:"Georgia"}}>{item.school},{item.degree}</Text>
-                        <Text style={{fontSize:web?"7px":"10px",height:"8px",opacity:"0.8",overflow:"hidden",fontFamily:"Georgia",maxWidth:"25%",fontFamily:"Georgia"}}>{item.start}-{item.finish}</Text>
+                        <Text style={{fontSize:web?"7px":"10px",height:"8px",opacity:"0.8",overflow:"hidden",maxWidth:"25%",fontFamily:"Georgia"}}>{item.start}-{item.finish}</Text>
                       </View>
                       <View style={{fontSize:"9px",width:"100%",marginTop:"5px"}}>
                         <Text style={{fontSize:"7px",opacity:"0.7"}}>{item.description}</Text>

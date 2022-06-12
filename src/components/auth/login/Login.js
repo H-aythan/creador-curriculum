@@ -1,67 +1,65 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import React, { useEffect, useState } from "react";
+import React  from "react";
 import "./Login.scss";
 import GoogleImage from "../../../assets/google.png";
-import FacebookImage from "../../../assets/facebook.png";
-import Input from "../../Form/simple-input/SimpleInput";
-import {onAuthStateChanged,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup}from 'firebase/auth'
+//import FacebookImage from "../../../assets/facebook.png";
+//import Input from "../../Form/simple-input/SimpleInput";
+import {GoogleAuthProvider,signInWithPopup}from 'firebase/auth'
 import { auth } from "../../../conf/fire";
-import { useForm } from "../../../hooks/useForm";
-import InputAuth from '../InputAuth';
+//import { useForm } from "../../../hooks/useForm";
+//import InputAuth from '../InputAuth';
 function Login({
   closeModal,
   handleNavigationClick,
   showPasswordRecovery,
   throwError,
 }) {
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
+  // const [email, setemail] = useState("");
+  // const [password, setpassword] = useState("");
 
-  const login = async(event) => {
-    event.preventDefault();
-    try{
-      await signInWithEmailAndPassword(auth,email,password)
-    }catch(error){
-      console.log(error);
-      switch(error.message){
-        case "Firebase: Error (auth/user-not-found).":
-          throwError("user not found")  
-        break;
-        case "Firebase: Error (auth/wrong-password).":
-          throwError("wrong password")
-        break;
-        case "Firebase: Error (auth/invalid-email).":
-          throwError("invalid email")  
-        break;
-      }
+  // const login = async(event) => {
+  //   event.preventDefault();
+  //   try{
+  //     await signInWithEmailAndPassword(auth,email,password)
+  //   }catch(error){
+  //     console.log(error);
+  //     switch(error.message){
+  //       case "Firebase: Error (auth/user-not-found).":
+  //         throwError("user not found")  
+  //       break;
+  //       case "Firebase: Error (auth/wrong-password).":
+  //         throwError("wrong password")
+  //       break;
+  //       case "Firebase: Error (auth/invalid-email).":
+  //         throwError("invalid email")  
+  //       break;
+  //     }
       
-      if(error.message===""){
-        
-      }
-    }
-  };
+  //   }
+  // };
   
   const signInWithGoogle = async() => {
     const providerGoogle =new GoogleAuthProvider();
     try{
-      await signInWithPopup(auth,providerGoogle);    
+      await signInWithPopup(auth,providerGoogle); 
+      closeModal(true)   
     }catch(error){
       console.log(error);
     }
 
     
   };
-  const signInWithFacebook = () => {
-    //var providerFacebook = new firebase.auth.FacebookAuthProvider();
-    // fire
-    //   .auth()
-    //   .signInWithPopup(providerFacebook)
-    //   .then((result) => addUser(result.user.uid, "Welcome", "back"))
-    //   .catch((error) => {});
-    //closeModal();
-  };
+  // const signInWithFacebook = () => {
+  //   var providerFacebook = new firebase.auth.FacebookAuthProvider();
+  //   fire
+  //     .auth()
+  //     .signInWithPopup(providerFacebook)
+  //     .then((result) => addUser(result.user.uid, "Welcome", "back"))
+  //     .catch((error) => {});
+  //   closeModal();
+  // };
 
   return (
     <>
@@ -81,7 +79,7 @@ function Login({
             <img src={GoogleImage} />
             <span>Login with Google</span>
           </div>
-          <div
+          {/* <div
             onClick={() => {
               signInWithFacebook();
             }}
@@ -89,7 +87,7 @@ function Login({
           >
             <img src={FacebookImage} />
             <span>Login with Facebook</span>
-          </div>
+          </div> */}
           {/* <div className="devider">
             <hr />
             <span>Or</span>
