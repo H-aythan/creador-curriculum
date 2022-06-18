@@ -5,24 +5,26 @@ import "./index.scss";
 import Welcome from "./components/welcome/Welcome";
 import Dashboard from "./components/Dashboard/DashboardMain/DashboardMain";
 import * as serviceWorker from "./serviceWorker";
-import { Helmet } from "react-helmet";
+import { Helmet,HelmetProvider } from "react-helmet-async";
 import conf from "./conf/configuration";
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <Helmet>
-    </Helmet> */}
-      <meta charSet="utf-8" />
-      <title>{conf.meta.title}</title>
-      
-      <link rel="canonical" href={window.location.href} />
-      <meta name="description" content={conf.meta.description} />
-      <meta name="keywords" content={conf.meta.keywords} />
-    <Router>
-      <Route exact path="/" component={Welcome} />
-      <Route exact path="/dashboard" component={Dashboard} />
-      <Route exact path="/resume/:step" component={Welcome} />
-    </Router>
+    <HelmetProvider>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{conf.meta.title}</title>
+        
+        <link rel="canonical" href={window.location.href} />
+        <meta name="description" content={conf.meta.description} />
+        <meta name="keywords" content={conf.meta.keywords} />
+      </Helmet>
+      <Router>
+        <Route exact path="/" component={Welcome} />
+        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/resume/:step" component={Welcome} />
+      </Router>
+    </HelmetProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

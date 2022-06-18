@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./BoardSelection.scss";
 import { CSSTransition } from "react-transition-group";
 
 function BoardSelection({ nextStep, changeResumeName }) {
+  const nodeRef =useRef(null)
   const handleResumeClick = (resumeName) => {
     changeResumeName(resumeName);
     nextStep();
@@ -11,7 +12,7 @@ function BoardSelection({ nextStep, changeResumeName }) {
 
   return (
     <div className="board">
-      <CSSTransition appear={true} in={true} classNames="fade" timeout={1000}>
+      <CSSTransition nodeRef={nodeRef} appear={true} in={true} classNames="fade" timeout={1000}>
         <div className="templateSelection">
           <h3>Templates</h3>
           <div className="templatesList">

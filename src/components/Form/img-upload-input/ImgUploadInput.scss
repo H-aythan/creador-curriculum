@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     
+    height: 150px;
+    
     .imageInputTitle{
         margin: 5px 0px;
         color: #98A1B3;
@@ -9,16 +11,17 @@
     }
     
     .iconContainer{
-        padding: 20px;
-        background-color:#F8FAFE ;
-        align-self: flex-end;
+        padding: 8px 20px;
+        background-color:rgba(30, 19, 83, 0.8);
+        align-self: center;
         margin-right: 20px;
-        border-radius: 10px;
+        border-radius: 15px;
+        font-size: 14px;
     }
     a{
         align-self: center;
         margin-top: 8px;
         cursor: pointer;
-        color: #1A66FC !important;
+        color: #ffffff !important;
     }
 }

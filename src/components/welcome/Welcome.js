@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import "./Welcome.scss";
 import Board from "../Boards/board/board";
 import Action from "../Actions/action/Action";
@@ -17,7 +17,7 @@ import InitialisationWrapper from "../initailisation/initialisationWrapper/initi
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "../../hooks/useForm";
 import {onAuthStateChanged}from 'firebase/auth'
-import { auth,db,getDoc,doc,setDoc} from "../../conf/fire";
+import { auth} from "../../conf/fire";
 
 const checkForNullsInArray = (array, elem) => {
   if (!array) {
@@ -34,6 +34,7 @@ const checkForNullsInArray = (array, elem) => {
 function Welcome(props) {
   const steps = ["Introduction", "Template Selection", "Adding Data"];
   const [form,{setForm}] = useForm();
+  const nodeRef =useRef(null)
   
   useEffect(()=>{
     const onSuscribe=onAuthStateChanged(auth,user=>{
@@ -41,10 +42,7 @@ function Welcome(props) {
       if(user){
         setForm({name:user.displayName,email:user.email},"userData")
         
-        verifyUser(user.email)
-          .then(result=>{
-            !result&&createDataUser(user.email)
-          })
+       
         
       }else{
         setForm(null,"delete")
@@ -54,19 +52,7 @@ function Welcome(props) {
     
     return onSuscribe;
   },[])  
-  const createDataUser=async(uid)=>{
-    const docRef=doc(db,"users",uid)
-    console.log("cuenta creada")
-    await setDoc(docRef,{})
-  }
   
-  const verifyUser=async(uid)=>{
-    const docRef=doc(db,"users",uid);
-    let userExist;
-    userExist=await getDoc(docRef).then(docSnap=>docSnap);
-    
-    return userExist.exists();
-  } 
   
   let currentResumeNotState = JSON.parse(
     localStorage.getItem("currentResumeItem")
@@ -198,31 +184,15 @@ function Welcome(props) {
   );
   
   useEffect(() => {
-    authListener();
-    
-    // InitialisationCheck().then((value) => {
-    //   if (value === "none" || value === undefined) {
-    //     setisInitialisationShowed(true);
-    //   }
-    // });
-
+   
+  
     /// check if the user comming from dashboard with specefic resume click
     props.match !== undefined &&
       props.match.params.step !== undefined &&
       setcurrentStep(steps[2]);
   }, []);
 
-  const authListener = () => {
-    // fire.auth().onAuthStateChanged((user) => {
-    //   if (user) {
-    //     setuser(user);
-    //     localStorage.setItem("user", user.uid);
-    //   } else {
-    //     setuser(null);
-    //     localStorage.removeItem("user");
-    //   }
-    // });
-  };
+ 
 
   const logout = () => {
     fire.auth().signOut();
@@ -252,6 +222,7 @@ function Welcome(props) {
     setstepIndex(stepIndex - 1);
     setcurrentStep(steps[stepIndex - 1]);
     setmobilePreviewOn(true);
+    //setForm({url:""},'photo')
   };
 
   const createNewEmploymentObject = (id) => {
@@ -663,7 +634,7 @@ function Welcome(props) {
 
   return (
     <div className="wrapper" >
-       <div style={{background:"white",position:"fixed",top:"10px",right:"20px",padding:"5px 5px"}}>
+       <div style={{background:"white",position:"fixed",top:"10px",right:"20px",padding:"5px 5px",borderRadius:"5px"}}>
          <span >{form.userData.name||form.userData.email}</span>
        </div>
       <AnimatePresence>
@@ -722,28 +693,6 @@ function Welcome(props) {
           stepBack={stepBack}
           changeResumeName={changeSelectedResume}
           currentResumeName={resumeName}
-          values={{
-            resumeName: resumeName,
-            title: title,
-            firstname: firstname ,
-            lastname: lastname,
-            summary: summary,
-            occupation: occupation,
-            address: address,
-            postalcode: postalcode,
-            country: country,
-            city: city,
-            dateofbirth: dateofbirth,
-            drivinglicense: drivinglicense,
-            email: email,
-            nationality: nationality,
-            phone: phone,
-            employments: form.employmentHistory,
-            educations: educations,
-            languages: languages,
-            skills: skills,
-            photo: photo,
-          }}
           currentStep={currentStep}
         />
       </div>
@@ -752,6 +701,7 @@ function Welcome(props) {
         in={true}
         timeout={100}
         classNames="previewfade"
+        nodeRef={nodeRef}
       >
         {isMobileTogglerShowed ? (
           <div onClick={handlePreviewToggle} className="previewButton">

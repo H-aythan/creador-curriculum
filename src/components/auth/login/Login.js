@@ -4,8 +4,7 @@
 import React  from "react";
 import "./Login.scss";
 import GoogleImage from "../../../assets/google.png";
-//import FacebookImage from "../../../assets/facebook.png";
-//import Input from "../../Form/simple-input/SimpleInput";
+
 import {GoogleAuthProvider,signInWithPopup}from 'firebase/auth'
 import { auth } from "../../../conf/fire";
 //import { useForm } from "../../../hooks/useForm";
@@ -40,15 +39,15 @@ function Login({
   //   }
   // };
   
-  const signInWithGoogle = async() => {
-    const providerGoogle =new GoogleAuthProvider();
-    try{
-      await signInWithPopup(auth,providerGoogle); 
+  const signInWithGoogle =() => {
+    
+      const providerGoogle =new GoogleAuthProvider();
+      signInWithPopup(auth,providerGoogle)
+      .catch((error) => {
+        console.log()
+      }); 
       closeModal(true)   
-    }catch(error){
-      console.log(error);
-    }
-
+   
     
   };
   // const signInWithFacebook = () => {

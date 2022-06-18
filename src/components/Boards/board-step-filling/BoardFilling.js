@@ -10,7 +10,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import {PDFDownloadLink,Text,View,StyleSheet,Image,Document,Page}from '@react-pdf/renderer'
 import { useForm } from "../../../hooks/useForm";
 import Assets,{Cv1,Cv2,Cv3,Cv4} from "../canvas/resumes/ExportsCvs";
-import { db ,setDoc,doc,getDoc} from "../../../conf/fire";
+import { db ,setDoc,doc,getDoc,getStorage,ref,uploadString,getDownloadURL} from "../../../conf/fire";
+
+
+
 
 
 function BoardFilling({ values, stepBack, currentResumeName }) {
@@ -24,23 +27,34 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
   const nextPage = () => setcurrentPage(currentPage + 1);
   const previousPage = () => setcurrentPage(currentPage - 1);
   const [data,setData]=useState({})
-  const [save,setSave]=useState(false)
- 
+  const [save,setSave]=useState(true)
   const downloadEnded = () => {
-    
     // IncrementDownloads();
     settriggerDownload(false);
   };
   useEffect(()=>{
-   getData()
-      
+    form.userData.email&&getData()
+   
   },[])
-  const getData=async()=>{
-    const docRef=doc(db,`users/${form.userData.email}`)  
+  useEffect(()=>{
     
+  },[form])
+  const getData=async()=>{
+    const docRef=doc(db,`users/data-${form.userData.email}`)  
+    const storage=getStorage()
+   
     try{
+      let img="";
       const info= await getDoc(docRef)
-      setForm(info.data(),"all")
+      //console.log(info.data().photo)
+
+      if(info.data().photo){
+        img=await getDownloadURL(ref(storage,`files-${info.data().userData.email}/${info.data().photo.name}`))
+      }
+     
+     setForm({...info.data(),photo:{url:img}},"all")
+      //setData({photo:{url:res}});
+    console.log(form);
       
     }catch(error){
       console.log(error)
@@ -55,7 +69,8 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
     //   setisSuccessToastVisible(!isSuccessToastVisible);
     // }
     if (type === "Download") {    
-      
+      //setData(form)
+      console.log(form);
       setTimeout(() => {
         // setisDownloadToastVisible(!isDownloadToastVisible);
         // settriggerDownload(true);
@@ -63,15 +78,19 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
       }, 1000);
       //setisDownloadToastVisible(!isDownloadToastVisible);
     }
-    setData(form)
+  
     if (type === "Save") {
       if(form.userData.email){
-        const docRef=doc(db,"users",form.userData.email)
+        const docRef=doc(db,`users/data-${form.userData.email}`)
+        const storage=getStorage()
+        const reference=ref(storage,`files-${form.userData.email}/${form.photo.name}`)
+        console.log(form.photo)
         try{
           await setDoc(docRef,{
             firstName:form.firstName,
+            userData:form.userData,
             lastName:form.lastName,
-            photo:form.photo,
+            photo:{name:form.photo.name?form.photo.name:""},
             phone: form.phone,
             email: form.email,
             occupation:form.occupation,
@@ -87,12 +106,11 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
             languages:form.languages,
             skills:form.skills,
             educations:form.educations
-        })
-        }catch(error){
+          })
+          form.photo.url&&await uploadString(reference,form.photo.url.split(',')[1],'base64')
+       }catch(error){
           console.log(error)
         }
-      }else{
-        console.log("not user")
       }
      
       setTimeout(() => {
@@ -103,14 +121,12 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
   };
   
 
- 
+  //console.log(form)
   const AddPlantillas=(Plantilla)=>{
-    // setTimeout(() => {
-         
-    // }, 3000);
+    
    return <Document>
       <Page>
-        <Plantilla form={data} Text={Text} Image={Image} StyleSheet={StyleSheet} View={View} imgs={Assets.imgsCv2}/>
+        <Plantilla form={form} Text={Text} Image={Image} StyleSheet={StyleSheet} View={View} imgs={Assets.imgsCv2}/>
   
       </Page>
     </Document>
@@ -120,6 +136,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
   
   return (
     <div className="board" >
+      
     <AnimatePresence>
         {isSuccessToastVisible && (
           <motion.div
@@ -178,7 +195,7 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
                   Save as draft
                 </button>
               )} */}
-                  {save?<PDFDownloadLink fileName="Resume.pdf" document={
+                  <PDFDownloadLink fileName="Resume.pdf" document={
                     currentResumeName==="Cv1"?
                       AddPlantillas(Cv1) 
                     :currentResumeName==="Cv2"?
@@ -198,14 +215,14 @@ function BoardFilling({ values, stepBack, currentResumeName }) {
                         Download
                       </button>
                     </PDFDownloadLink>
-                  :<button
+                  <button
                       onClick={() => ShowToast("Save")}
                       style={{ fontSize: "15px" }}
                       className="btn-default"
                       >
                         save
                     </button>
-                 }
+                 
             </div>
           </div>
         </div>

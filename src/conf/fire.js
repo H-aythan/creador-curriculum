@@ -1,6 +1,8 @@
 import { initializeApp} from 'firebase/app';
 import {getAuth}from 'firebase/auth'
 import {getFirestore,doc,setDoc,getDoc,collection,getDocs}from 'firebase/firestore'
+import {getStorage,ref,uploadString,getDownloadURL}from 'firebase/storage'
+
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
@@ -14,5 +16,5 @@ const config = {
 const fire =initializeApp(config);
 const auth =getAuth(fire)
 const db=getFirestore(fire)
-export {db,auth,doc,setDoc,getDoc,collection,getDocs}
+export {db,auth,doc,setDoc,getDoc,collection,getDocs,uploadString,ref,getStorage,getDownloadURL}
 export default fire;

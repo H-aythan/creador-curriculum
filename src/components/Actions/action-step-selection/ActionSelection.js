@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect } from "react";
+import React, { useEffect,useRef } from "react";
 import "./ActionSelection.scss";
 import { CSSTransition } from "react-transition-group";
 import conf from "../../../conf/configuration";
@@ -18,6 +18,7 @@ const ActionSelection = ({
   logout,
   handlePreviewToggle,
 }) => {
+  const nodeRef =useRef(null)
   useEffect(() => {
     var AnalyticsObject = Analytics;
     AnalyticsObject("Template-selection");
@@ -60,7 +61,7 @@ const ActionSelection = ({
             
           </div>
         </div>
-        <CSSTransition appear={true} in={true} classNames="fade" timeout={1000}>
+        <CSSTransition nodeRef={nodeRef} appear={true} in={true} classNames="fade" timeout={1000}>
           <div className="body">
             <h1>
               Select a <span> template </span> from the list.

@@ -1,8 +1,9 @@
 import React from "react";
-
+console.reportErrorsAsExceptions = false;
 const Cv1 =({form,Text,View,StyleSheet,web,Image})=>{
   const {firstName,lastName,address,phone,email,languages,
     skills,professionalSummary,employmentHistory,educations,occupation,photo}=form;
+    
   const styles = StyleSheet.create({
     page:{height:"100%",color:"black",padding:"15px 0px 15px",flexDirection:"column",alignItems:"center",display:"flex"
       
@@ -22,14 +23,13 @@ const Cv1 =({form,Text,View,StyleSheet,web,Image})=>{
     }
     
   });
-  
   return( 
     
 <View style={styles.page}>
         <View style={styles.sectionNames}>
         {/* firstname lastName photo occupation*/}
           <View style={styles.img}>
-            {photo?.cargado&&<Image source={photo.img}  style={{with:"100%",height:"100%",objectFit:"cover"}}/>}
+            {photo?.url?<Image source={photo.url}  style={{with:"100%",height:"100%",objectFit:"cover"}}/>:<Text></Text>}
           </View>
          
           <View style={styles.names}>
@@ -62,8 +62,8 @@ const Cv1 =({form,Text,View,StyleSheet,web,Image})=>{
             <View style={{width:"100%"}}>
               {languages?.map((item,i)=>{
                 return<View key={i} style={{justifyContent:"space-between",marginTop:"5px",marginBottom:"5px" ,flexDirection:"row",opacity:"0.8"}}>
-                  <Text style={{fontSize:web?"9px":"10px",width:"45%"}}>{item.language}</Text>
-                  <Text style={{fontSize:web?"9px":"10px"}}>{item.rating}</Text>  
+                  <Text style={{fontSize:web?"7px":"9px",width:"45%"}}>{item.language}</Text>
+                  <Text style={{fontSize:web?"7px":"9px"}}>{item.rating}</Text>  
                 </View>
               })}
             </View>
